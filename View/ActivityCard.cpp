@@ -1,4 +1,6 @@
 #include "ActivityCard.h"
+#include "ActivityCardVisitor.h"
+
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -35,35 +37,18 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
     leftLayout->addWidget(title);
     leftLayout->addWidget(description);
 
-    if (auto* e = dynamic_cast<const Todo::Event*>(activity)) {
+    // =====================
+    // VISITOR 
+    // =====================
+    ActivityCardVisitor visitor;
+    activity->accept(visitor);
 
-    auto start = QDateTime::fromSecsSinceEpoch(
-        std::chrono::duration_cast<std::chrono::seconds>(
-            e->getStart().time_since_epoch()
-        ).count()
-    );
+    for (const QString& line : visitor.detailsLines) {
+        auto* lbl = new QLabel(line, this);
+        lbl->setStyleSheet("color: #777; font-size: 12px;");
+        leftLayout->addWidget(lbl);
+    }
 
-    auto end = QDateTime::fromSecsSinceEpoch(
-        std::chrono::duration_cast<std::chrono::seconds>(
-            e->getEnd().time_since_epoch()
-        ).count()
-    );
-
-    leftLayout->addWidget(
-        new QLabel(
-            QString("Da %1 a %2")
-                .arg(start.toString("dd/MM/yyyy hh:mm"))
-                .arg(end.toString("dd/MM/yyyy hh:mm")),
-            this
-        )
-    );
-
-    leftLayout->addWidget(
-        new QLabel(e->getLocation(), this)
-    );
-}
-
-    // leftLayout->addStretch();
 
     // =====================
     // DESTRA: AZIONI

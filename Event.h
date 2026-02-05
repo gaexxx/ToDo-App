@@ -22,19 +22,22 @@ public:
     const TimePoint& getStart() const;
     const TimePoint& getEnd() const;
     const QString& getLocation() const;
-    bool getIsAccepted() const;
+    bool isAccepted() const;
 
     // --- setter ---
     void setStart(const TimePoint& s);
     void setEnd(const TimePoint& e);
     void setLocation(const QString& l);
-    void setIsAccepted(bool a);
+    void setAccepted(bool a);
+
+    // visitor
+    void accept(ActivityVisitor& v) const override;
 
 private:
     TimePoint start;
     TimePoint end;
     QString location;
-    bool isAccepted;
+    bool accepted;
 };
 
 } // namespace Todo

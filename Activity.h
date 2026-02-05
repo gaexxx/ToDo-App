@@ -1,7 +1,11 @@
-#pragma once
+#ifndef ACTIVITY_H
+#define ACTIVITY_H
+
 #include <QString>
 #include <QJsonObject>
 #include <memory>
+
+#include "ActivityVisitor.h"
 
 namespace Todo {
 
@@ -23,6 +27,9 @@ public:
     void setTitle(const QString& t);
     void setDescription(const QString& d);
 
+    // VISITOR
+    virtual void accept(ActivityVisitor& v) const = 0;
+
 protected:
     QString title;
     QString description;
@@ -32,4 +39,6 @@ protected:
     static void readCommon(const QJsonObject& o, QString& title, QString& description);
 };
 
-} // namespace Todo
+} 
+
+#endif

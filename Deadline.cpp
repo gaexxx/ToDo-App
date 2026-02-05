@@ -19,6 +19,11 @@ bool Deadline::isCompleted() const { return completed; }
 void Deadline::setEnd(const TimePoint& e) { end = e; }
 void Deadline::setCompleted(bool c) { completed = c; }
 
+// visitor
+void Deadline::accept(ActivityVisitor& v) const {
+    v.visit(*this);
+}
+
 // ---------- JSON ----------
 QJsonObject Deadline::toJson() const {
     QJsonObject o;
@@ -40,4 +45,4 @@ std::unique_ptr<Deadline> Deadline::fromJson(const QJsonObject& o) {
     );
 }
 
-} // namespace Todo
+}

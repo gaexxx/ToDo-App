@@ -1,4 +1,6 @@
-#pragma once
+#ifndef DEADLINE_H
+#define DEADLINE_H
+
 #include "Activity.h"
 #include "TimeUtils.h"
 
@@ -24,9 +26,14 @@ public:
     void setEnd(const TimePoint& e);
     void setCompleted(bool c);
 
+    // visitor
+    void accept(ActivityVisitor& v) const override;
+
 private:
     TimePoint end;
     bool completed;
 };
 
 } // namespace Todo
+
+#endif
