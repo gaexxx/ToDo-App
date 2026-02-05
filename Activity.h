@@ -1,38 +1,35 @@
-#ifndef ACTIVITY_H
-#define ACTIVITY_H
-
-#include <string>
+#pragma once
+#include <QString>
 #include <QJsonObject>
 #include <memory>
 
 namespace Todo {
 
 class Activity {
-private:
-    std::string title;
-    std::string description;
-    bool completed = false;
-    // std::vector<ActivityObserver*> observers;
+public:
+    Activity(QString title, QString description);
+    virtual ~Activity();
+
+    // --- polimorfismo ---
+    virtual QString typeName() const = 0;
+    virtual QJsonObject toJson() const = 0;
+    static std::unique_ptr<Activity> fromJson(const QJsonObject& obj);
+
+    // --- getter ---
+    const QString& getTitle() const;
+    const QString& getDescription() const;
+
+    // --- setter ---
+    void setTitle(const QString& t);
+    void setDescription(const QString& d);
 
 protected:
-    Activity(
-        const std::string title, 
-        const std::string description
-    );
-    // void notify() const;
+    QString title;
+    QString description;
 
-public:
-    virtual ~Activity();
-    const std::string& getTitle() const;
-    Activity& setTitle(const std::string title);
-    const std::string& getDescription() const;
-    Activity& setDescription(const std::string description);
-    bool isCompleted() const;
-    void markCompleted(bool completed);
-
-    // void addObserver(ActivityObserver* o) { observers.push_back(o); }
-    // virtual void accept(ActivityVisitor&) const = 0;
-
+    // supporto JSON
+    static void putCommon(QJsonObject& o, const Activity& a);
+    static void readCommon(const QJsonObject& o, QString& title, QString& description);
 };
-}
-#endif
+
+} // namespace Todo

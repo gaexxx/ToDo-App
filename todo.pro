@@ -7,11 +7,13 @@ HEADERS += \
     Event.h \
     Deadline.h \
     View/MainWindow.h \
-    View/EventPanel.h \
     View/Info.h \
     View/Sidebar.h \
     View/ActivityList.h \
-    View/ActivityCard.h
+    View/ActivityCard.h \
+    View/AddEventView.h \
+    JsonStorage.h \
+    TimeUtils.h 
 
 
 SOURCES += \
@@ -20,10 +22,11 @@ SOURCES += \
     Event.cpp \
     Deadline.cpp \
     View/MainWindow.cpp \
-    View/EventPanel.cpp \
     View/Info.cpp \
     View/Sidebar.cpp \
     View/ActivityList.cpp \
-    View/ActivityCard.cpp
+    View/ActivityCard.cpp \
+    View/AddEventView.cpp \
+
 
 

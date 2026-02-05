@@ -18,6 +18,8 @@ ActivityList::ActivityList(QWidget* parent) : QWidget(parent) {
     header->setStyleSheet("font-weight: bold; font-size: 18px;");
 
     auto* addBtn = new QPushButton("+ Aggiungi attività", this);
+    connect(addBtn, &QPushButton::clicked,
+        this, &ActivityList::addActivityRequested);
 
     auto* container = new QWidget(this);
     auto* cardsLayout = new QVBoxLayout(container);

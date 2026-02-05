@@ -1,16 +1,11 @@
 #include "MainWindow.h"
-
+#include "AddEventView.h"
 #include <QApplication>
-#include <QSplitter>
-#include <QStackedWidget>
-
-
 
 namespace View {
-    
-MainWindow::MainWindow(Todo::Activity& activity, QWidget* parent)
-    : QMainWindow(parent),
-      activity(activity)
+
+MainWindow::MainWindow(QWidget* parent)
+    : QMainWindow(parent)
 {
     central = new QWidget(this);
     setCentralWidget(central);
@@ -20,10 +15,28 @@ MainWindow::MainWindow(Todo::Activity& activity, QWidget* parent)
     sidebar = new Sidebar(central);
     activityList = new ActivityList(central);
 
-    mainLayout->addWidget(sidebar, 1);       // sinistra
-    mainLayout->addWidget(activityList, 3);  // centro
+    // stacked widget per la parte centrale
+    stackedWidget = new QStackedWidget(central);
+    stackedWidget->addWidget(activityList);
+
+    // per ora è nullptr, la aggiungerai dopo
+    addEventView = nullptr;
+
+    // layout principale
+    mainLayout->addWidget(sidebar, 1);
+    mainLayout->addWidget(stackedWidget, 4);
+
+    // collegamento 
+    connect(activityList, &ActivityList::addActivityRequested,
+            this, &MainWindow::showAddEventView);
 }
 
-
+void MainWindow::showAddEventView() {
+    if (!addEventView) {
+        addEventView = new AddEventView(central);
+        stackedWidget->addWidget(addEventView);
+    }
+    stackedWidget->setCurrentWidget(addEventView);
+}
 
 }

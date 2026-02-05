@@ -26,8 +26,9 @@ Info::Info(Todo::Activity& activity, QWidget* parent)
 }
 
 void Info::show() {
-    title_label->setText(QString::fromStdString(activity.getTitle()));
-    description_label->setText( QString::fromStdString(activity.getDescription()));
+    title_label->setText(activity.getTitle());
+    description_label->setText(activity.getDescription());
+
 }
 
 // void Info::notify(Character& character) {

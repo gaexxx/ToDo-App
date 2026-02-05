@@ -10,7 +10,10 @@ class ActivityList : public QWidget {
 public:
     explicit ActivityList(QWidget* parent = nullptr);
 
-    void addActivityCard(QWidget* card);
+    signals:
+    void addActivityRequested();
+
+    // void addActivityCard(QWidget* card);
 };
 }
 

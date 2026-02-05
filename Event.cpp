@@ -2,51 +2,53 @@
 
 namespace Todo {
 
-Event::Event(
-    std::string title,
-    std::string description,
-    TimePoint start,
-    TimePoint end,
-    std::string location,
-    bool accepted
-)
+Event::Event(QString title, QString description, TimePoint start,
+             TimePoint end, QString location, bool isAccepted)
     : Activity(std::move(title), std::move(description)),
-    start(start),
-    end(end),
-    location(std::move(location)),
-    accepted(accepted)
-{}
+      start(start),
+      end(end),
+      location(std::move(location)),
+      isAccepted(isAccepted) {}
 
-const TimePoint& Event::getStart() const { return start;}
-const TimePoint& Event::getEnd() const { return end;}    
-const std::string& Event::getLocation() const { return location;}
-bool Event::isAccepted() const { return accepted;}
-
-
-void Event::setStart(const TimePoint& s) {
-    start = s;
-    // notify();
+QString Event::typeName() const {
+    return "Event";
 }
 
-void Event::setEnd(const TimePoint& e) {
-    end = e;
-    // notify();
+// ---------- getter ----------
+const TimePoint& Event::getStart() const { return start; }
+const TimePoint& Event::getEnd() const { return end; }
+const QString& Event::getLocation() const { return location; }
+bool Event::getIsAccepted() const { return isAccepted; }
+
+// ---------- setter ----------
+void Event::setStart(const TimePoint& s) { start = s; }
+void Event::setEnd(const TimePoint& e) { end = e; }
+void Event::setLocation(const QString& l) { location = l; }
+void Event::setIsAccepted(bool a) { isAccepted = a; }
+
+// ---------- JSON ----------
+QJsonObject Event::toJson() const {
+    QJsonObject o;
+    putCommon(o, *this);
+    o["start"] = timePointToIso(start);
+    o["end"] = timePointToIso(end);
+    o["location"] = location;
+    o["isAccepted"] = isAccepted;
+    return o;
 }
 
-void Event::setLocation(const std::string& loc) {
-    location = loc;
-    // notify();
+std::unique_ptr<Event> Event::fromJson(const QJsonObject& o) {
+    QString t, d;
+    readCommon(o, t, d);
+
+    return std::make_unique<Event>(
+        t,
+        d,
+        isoToTimePoint(o.value("start").toString()),
+        isoToTimePoint(o.value("end").toString()),
+        o.value("location").toString(),
+        o.value("isAccepted").toBool()
+    );
 }
 
-void Event::setAccepted(const bool a) {
-    accepted = a;
-    // notify();
-}
-
-
-// visitor
-// void Event::accept(ActivityVisitor& v) const {
-//     v.visit(*this);
-// }
-
-}
+} // namespace Todo

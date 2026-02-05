@@ -1,34 +1,32 @@
-#ifndef DEADLINE_H
-#define DEADLINE_H
-
+#pragma once
 #include "Activity.h"
-// #include "ActivityVisitor.h"
-
-#include <chrono>
-
-using TimePoint = std::chrono::system_clock::time_point;
+#include "TimeUtils.h"
 
 namespace Todo {
 
-    class Deadline : public Activity {
-    private:
-    TimePoint end;
-    bool completed;
-    
-    public:
-    Deadline(std::string title,
-          std::string description,
-          TimePoint end,
-          bool completed);
+class Deadline : public Activity {
+public:
+    Deadline(QString title,
+             QString description,
+             TimePoint end,
+             bool completed);
 
+    QString typeName() const override;
+    QJsonObject toJson() const override;
+
+    static std::unique_ptr<Deadline> fromJson(const QJsonObject& o);
+
+    // --- getter ---
     const TimePoint& getEnd() const;
     bool isCompleted() const;
 
-    void setEnd(const TimePoint& end);
-    void setCompleted(const bool completed);
+    // --- setter ---
+    void setEnd(const TimePoint& e);
+    void setCompleted(bool c);
 
-    // void accept(ActivityVisitor& v) const override;
+private:
+    TimePoint end;
+    bool completed;
 };
-}
 
-#endif 
+} // namespace Todo

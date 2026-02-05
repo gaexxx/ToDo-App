@@ -37,7 +37,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = todo1.0.0
-DISTDIR = /home/gae/folder/universita/pao/progetto/.tmp/todo1.0.0
+DISTDIR = /home/gae/folder/universita/pao/ToDo-App/.tmp/todo1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1 -Wl,-rpath-link,/usr/lib/x86_64-linux-gnu
 LIBS          = $(SUBLIBS) /usr/lib/x86_64-linux-gnu/libQt6Widgets.so /usr/lib/x86_64-linux-gnu/libQt6Gui.so /usr/lib/x86_64-linux-gnu/libGLX.so /usr/lib/x86_64-linux-gnu/libOpenGL.so /usr/lib/x86_64-linux-gnu/libQt6Core.so -lpthread -lGLX -lOpenGL   
@@ -57,32 +57,32 @@ SOURCES       = main.cpp \
 		Event.cpp \
 		Deadline.cpp \
 		View/MainWindow.cpp \
-		View/EventPanel.cpp \
 		View/Info.cpp \
 		View/Sidebar.cpp \
 		View/ActivityList.cpp \
-		View/ActivityCard.cpp moc_MainWindow.cpp \
-		moc_EventPanel.cpp \
+		View/ActivityCard.cpp \
+		View/AddEventView.cpp moc_MainWindow.cpp \
 		moc_Info.cpp \
 		moc_Sidebar.cpp \
 		moc_ActivityList.cpp \
-		moc_ActivityCard.cpp
+		moc_ActivityCard.cpp \
+		moc_AddEventView.cpp
 OBJECTS       = main.o \
 		Activity.o \
 		Event.o \
 		Deadline.o \
 		MainWindow.o \
-		EventPanel.o \
 		Info.o \
 		Sidebar.o \
 		ActivityList.o \
 		ActivityCard.o \
+		AddEventView.o \
 		moc_MainWindow.o \
-		moc_EventPanel.o \
 		moc_Info.o \
 		moc_Sidebar.o \
 		moc_ActivityList.o \
-		moc_ActivityCard.o
+		moc_ActivityCard.o \
+		moc_AddEventView.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/common/linux.conf \
@@ -128,6 +128,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/default_pre.prf \
@@ -151,20 +152,22 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
 		Event.h \
 		Deadline.h \
 		View/MainWindow.h \
-		View/EventPanel.h \
 		View/Info.h \
 		View/Sidebar.h \
 		View/ActivityList.h \
-		View/ActivityCard.h main.cpp \
+		View/ActivityCard.h \
+		View/AddEventView.h \
+		JsonStorage.h \
+		TimeUtils.h main.cpp \
 		Activity.cpp \
 		Event.cpp \
 		Deadline.cpp \
 		View/MainWindow.cpp \
-		View/EventPanel.cpp \
 		View/Info.cpp \
 		View/Sidebar.cpp \
 		View/ActivityList.cpp \
-		View/ActivityCard.cpp
+		View/ActivityCard.cpp \
+		View/AddEventView.cpp
 QMAKE_TARGET  = todo
 DESTDIR       = 
 TARGET        = todo
@@ -221,6 +224,7 @@ Makefile: todo.pro /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++/qmake.conf /u
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/default_pre.prf \
@@ -290,6 +294,7 @@ Makefile: todo.pro /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++/qmake.conf /u
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/qt_config.prf:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++/qmake.conf:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/exclusive_builds.prf:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/toolchain.prf:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/default_pre.prf:
@@ -328,8 +333,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents Activity.h Event.h Deadline.h View/MainWindow.h View/EventPanel.h View/Info.h View/Sidebar.h View/ActivityList.h View/ActivityCard.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp Activity.cpp Event.cpp Deadline.cpp View/MainWindow.cpp View/EventPanel.cpp View/Info.cpp View/Sidebar.cpp View/ActivityList.cpp View/ActivityCard.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents Activity.h Event.h Deadline.h View/MainWindow.h View/Info.h View/Sidebar.h View/ActivityList.h View/ActivityCard.h View/AddEventView.h JsonStorage.h TimeUtils.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp Activity.cpp Event.cpp Deadline.cpp View/MainWindow.cpp View/Info.cpp View/Sidebar.cpp View/ActivityList.cpp View/ActivityCard.cpp View/AddEventView.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -361,46 +366,41 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_MainWindow.cpp moc_EventPanel.cpp moc_Info.cpp moc_Sidebar.cpp moc_ActivityList.cpp moc_ActivityCard.cpp
+compiler_moc_header_make_all: moc_MainWindow.cpp moc_Info.cpp moc_Sidebar.cpp moc_ActivityList.cpp moc_ActivityCard.cpp moc_AddEventView.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_MainWindow.cpp moc_EventPanel.cpp moc_Info.cpp moc_Sidebar.cpp moc_ActivityList.cpp moc_ActivityCard.cpp
+	-$(DEL_FILE) moc_MainWindow.cpp moc_Info.cpp moc_Sidebar.cpp moc_ActivityList.cpp moc_ActivityCard.cpp moc_AddEventView.cpp
 moc_MainWindow.cpp: View/MainWindow.h \
-		Event.h \
-		Activity.h \
 		View/Sidebar.h \
 		View/ActivityList.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/progetto/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/progetto -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/MainWindow.h -o moc_MainWindow.cpp
-
-moc_EventPanel.cpp: View/EventPanel.h \
-		Event.h \
-		Activity.h \
-		View/Info.h \
-		moc_predefs.h \
-		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/progetto/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/progetto -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/EventPanel.h -o moc_EventPanel.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/ToDo-App/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/ToDo-App -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/MainWindow.h -o moc_MainWindow.cpp
 
 moc_Info.cpp: View/Info.h \
 		Activity.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/progetto/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/progetto -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/Info.h -o moc_Info.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/ToDo-App/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/ToDo-App -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/Info.h -o moc_Info.cpp
 
 moc_Sidebar.cpp: View/Sidebar.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/progetto/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/progetto -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/Sidebar.h -o moc_Sidebar.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/ToDo-App/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/ToDo-App -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/Sidebar.h -o moc_Sidebar.cpp
 
 moc_ActivityList.cpp: View/ActivityList.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/progetto/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/progetto -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/ActivityList.h -o moc_ActivityList.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/ToDo-App/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/ToDo-App -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/ActivityList.h -o moc_ActivityList.cpp
 
 moc_ActivityCard.cpp: View/ActivityCard.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/progetto/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/progetto -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/ActivityCard.h -o moc_ActivityCard.cpp
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/ToDo-App/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/ToDo-App -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/ActivityCard.h -o moc_ActivityCard.cpp
+
+moc_AddEventView.cpp: View/AddEventView.h \
+		moc_predefs.h \
+		/usr/lib/qt6/libexec/moc
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/ToDo-App/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/ToDo-App -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/AddEventView.h -o moc_AddEventView.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -419,35 +419,34 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 ####### Compile
 
 main.o: main.cpp View/MainWindow.h \
+		View/Sidebar.h \
+		View/ActivityList.h \
 		Event.h \
 		Activity.h \
-		View/Sidebar.h \
-		View/ActivityList.h
+		TimeUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
-Activity.o: Activity.cpp Activity.h
+Activity.o: Activity.cpp Activity.h \
+		Event.h \
+		TimeUtils.h \
+		Deadline.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Activity.o Activity.cpp
 
 Event.o: Event.cpp Event.h \
-		Activity.h
+		Activity.h \
+		TimeUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Event.o Event.cpp
 
 Deadline.o: Deadline.cpp Deadline.h \
-		Activity.h
+		Activity.h \
+		TimeUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Deadline.o Deadline.cpp
 
 MainWindow.o: View/MainWindow.cpp View/MainWindow.h \
-		Event.h \
-		Activity.h \
 		View/Sidebar.h \
-		View/ActivityList.h
+		View/ActivityList.h \
+		View/AddEventView.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MainWindow.o View/MainWindow.cpp
-
-EventPanel.o: View/EventPanel.cpp View/EventPanel.h \
-		Event.h \
-		Activity.h \
-		View/Info.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o EventPanel.o View/EventPanel.cpp
 
 Info.o: View/Info.cpp View/Info.h \
 		Activity.h
@@ -462,11 +461,11 @@ ActivityList.o: View/ActivityList.cpp View/ActivityList.h
 ActivityCard.o: View/ActivityCard.cpp View/ActivityCard.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ActivityCard.o View/ActivityCard.cpp
 
+AddEventView.o: View/AddEventView.cpp View/AddEventView.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o AddEventView.o View/AddEventView.cpp
+
 moc_MainWindow.o: moc_MainWindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_MainWindow.o moc_MainWindow.cpp
-
-moc_EventPanel.o: moc_EventPanel.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_EventPanel.o moc_EventPanel.cpp
 
 moc_Info.o: moc_Info.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Info.o moc_Info.cpp
@@ -479,6 +478,9 @@ moc_ActivityList.o: moc_ActivityList.cpp
 
 moc_ActivityCard.o: moc_ActivityCard.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_ActivityCard.o moc_ActivityCard.cpp
+
+moc_AddEventView.o: moc_AddEventView.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_AddEventView.o moc_AddEventView.cpp
 
 ####### Install
 
