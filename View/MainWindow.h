@@ -8,12 +8,10 @@
 
 #include "Sidebar.h"
 #include "ActivityList.h"
+#include "AddEventView.h"
 
 namespace View {
-    
-// forward declaration (la implementerai dopo)
-class AddEventView;
-    
+
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
@@ -22,6 +20,8 @@ public:
 
 private slots:
     void showAddEventView();
+    void onActivityCreated(Todo::Activity* activity);
+    void onAddCanceled();
 
 private:
     QWidget* central;
@@ -31,7 +31,7 @@ private:
     ActivityList* activityList;
 
     QStackedWidget* stackedWidget;
-    AddEventView* addEventView;   // vista di creazione attività
+    AddEventView* addEventView;
 };
 
 }

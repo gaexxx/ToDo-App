@@ -26,7 +26,7 @@ SOURCES += \
     View/Sidebar.cpp \
     View/ActivityList.cpp \
     View/ActivityCard.cpp \
-    View/AddEventView.cpp \
+    View/AddEventView.cpp 
 
 
 

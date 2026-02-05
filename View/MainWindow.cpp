@@ -1,11 +1,10 @@
 #include "MainWindow.h"
-#include "AddEventView.h"
-#include <QApplication>
 
 namespace View {
 
 MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent)
+    : QMainWindow(parent),
+      addEventView(nullptr)
 {
     central = new QWidget(this);
     setCentralWidget(central);
@@ -15,18 +14,14 @@ MainWindow::MainWindow(QWidget* parent)
     sidebar = new Sidebar(central);
     activityList = new ActivityList(central);
 
-    // stacked widget per la parte centrale
+    // stacked widget centrale
     stackedWidget = new QStackedWidget(central);
     stackedWidget->addWidget(activityList);
 
-    // per ora è nullptr, la aggiungerai dopo
-    addEventView = nullptr;
-
-    // layout principale
     mainLayout->addWidget(sidebar, 1);
     mainLayout->addWidget(stackedWidget, 4);
 
-    // collegamento 
+    // click su "Aggiungi attività"
     connect(activityList, &ActivityList::addActivityRequested,
             this, &MainWindow::showAddEventView);
 }
@@ -35,8 +30,34 @@ void MainWindow::showAddEventView() {
     if (!addEventView) {
         addEventView = new AddEventView(central);
         stackedWidget->addWidget(addEventView);
+
+        // aggiunge attivita'
+        connect(addEventView, &AddEventView::activityCreated,
+                this, &MainWindow::onActivityCreated);
+        
+        // annulla aggiunta attivita'
+        connect(addEventView, &AddEventView::canceled,
+                this, &MainWindow::onAddCanceled);
+
     }
+
     stackedWidget->setCurrentWidget(addEventView);
 }
+
+void MainWindow::onActivityCreated(Todo::Activity* activity) {
+    // qui in futuro: model.addActivity(std::move(activity));
+
+   
+    addEventView->reset();
+
+    // ritorna alla lista
+    stackedWidget->setCurrentWidget(activityList);
+}
+
+void MainWindow::onAddCanceled() {
+    addEventView->reset();
+    stackedWidget->setCurrentWidget(activityList);
+}
+
 
 }

@@ -372,6 +372,8 @@ compiler_moc_header_clean:
 moc_MainWindow.cpp: View/MainWindow.h \
 		View/Sidebar.h \
 		View/ActivityList.h \
+		View/AddEventView.h \
+		Activity.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
 	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/ToDo-App/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/ToDo-App -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/MainWindow.h -o moc_MainWindow.cpp
@@ -398,6 +400,7 @@ moc_ActivityCard.cpp: View/ActivityCard.h \
 	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/ToDo-App/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/ToDo-App -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/ActivityCard.h -o moc_ActivityCard.cpp
 
 moc_AddEventView.cpp: View/AddEventView.h \
+		Activity.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
 	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/ToDo-App/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/ToDo-App -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/AddEventView.h -o moc_AddEventView.cpp
@@ -421,8 +424,9 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 main.o: main.cpp View/MainWindow.h \
 		View/Sidebar.h \
 		View/ActivityList.h \
-		Event.h \
+		View/AddEventView.h \
 		Activity.h \
+		Event.h \
 		TimeUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
@@ -445,7 +449,8 @@ Deadline.o: Deadline.cpp Deadline.h \
 MainWindow.o: View/MainWindow.cpp View/MainWindow.h \
 		View/Sidebar.h \
 		View/ActivityList.h \
-		View/AddEventView.h
+		View/AddEventView.h \
+		Activity.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MainWindow.o View/MainWindow.cpp
 
 Info.o: View/Info.cpp View/Info.h \
@@ -461,7 +466,11 @@ ActivityList.o: View/ActivityList.cpp View/ActivityList.h
 ActivityCard.o: View/ActivityCard.cpp View/ActivityCard.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ActivityCard.o View/ActivityCard.cpp
 
-AddEventView.o: View/AddEventView.cpp View/AddEventView.h
+AddEventView.o: View/AddEventView.cpp View/AddEventView.h \
+		Activity.h \
+		Event.h \
+		TimeUtils.h \
+		Deadline.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o AddEventView.o View/AddEventView.cpp
 
 moc_MainWindow.o: moc_MainWindow.cpp 
