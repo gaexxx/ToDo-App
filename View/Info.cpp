@@ -5,16 +5,19 @@
 
 namespace View {
 
-Info::Info(Todo::Activity& activity, QWidget* parent)
-    : QWidget(parent), activity(activity)
+Info::Info(QWidget* parent)
+    : QWidget(parent),
+      activity(nullptr),
+      layout(new QVBoxLayout(this)),
+      title_label(new QLabel(this)),
+      description_label(new QLabel(this))
 {
-    QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    
-    title_label = new QLabel();
-    layout->addWidget(title_label);
 
-    description_label = new QLabel();
+    title_label->setStyleSheet("font-weight: bold; font-size: 16px;");
+    description_label->setWordWrap(true);
+
+    layout->addWidget(title_label);
     layout->addWidget(description_label);
 
 
@@ -25,10 +28,17 @@ Info::Info(Todo::Activity& activity, QWidget* parent)
     // character.registerObserver(this);
 }
 
-void Info::show() {
-    title_label->setText(activity.getTitle());
-    description_label->setText(activity.getDescription());
 
+void Info::showActivity(const Todo::Activity* activity)
+{
+    if (!activity) {
+        title_label->setText("");
+        description_label->setText("");
+        return;
+    }
+
+    title_label->setText(activity->getTitle());
+    description_label->setText(activity->getDescription());
 }
 
 // void Info::notify(Character& character) {

@@ -1,37 +1,65 @@
 #include "ActivityList.h"
+#include "ActivityCard.h"
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <QScrollArea>
 #include <QDateTime>
 
-using Clock = std::chrono::system_clock;
 namespace View {
 
 
-ActivityList::ActivityList(QWidget* parent) : QWidget(parent) {
-    auto* layout = new QVBoxLayout(this);
-
+ActivityList::ActivityList(QWidget* parent) 
+    : QWidget(parent), 
+    mainLayout(new QVBoxLayout(this)),
+    cardsContainer(new QWidget(this)),
+    cardsLayout(new QVBoxLayout(cardsContainer))  
+{
     auto* header = new QLabel("Oggi - " + 
         QDateTime::currentDateTime().toString("dd/MM/yyyy"), 
         this);
     header->setStyleSheet("font-weight: bold; font-size: 18px;");
 
+    // Bottone aggiunta attivita'
     auto* addBtn = new QPushButton("+ Aggiungi attività", this);
     connect(addBtn, &QPushButton::clicked,
         this, &ActivityList::addActivityRequested);
 
-    auto* container = new QWidget(this);
-    auto* cardsLayout = new QVBoxLayout(container);
+     // Layout delle card
     cardsLayout->setAlignment(Qt::AlignTop);
 
+    // Scroll area
     auto* scroll = new QScrollArea(this);
     scroll->setWidgetResizable(true);
-    scroll->setWidget(container);
+    scroll->setWidget(cardsContainer);
 
-    layout->addWidget(header);
-    layout->addWidget(addBtn);
-    layout->addWidget(scroll, 1);
+    // composizione layout principale
+    mainLayout->addWidget(header);
+    mainLayout->addWidget(addBtn);
+    mainLayout->addWidget(scroll, 1);
+}
+
+void ActivityList::setActivities(const std::vector<Todo::Activity*>& activities)
+{
+    // Pulizia card precedenti
+    QLayoutItem* item;
+    while ((item = cardsLayout->takeAt(0)) != nullptr) {
+        delete item->widget();
+        delete item;
+    }
+
+    // Creazione nuove card
+    for (const Todo::Activity* a : activities) {
+        auto* card = new ActivityCard(a, cardsContainer);
+        cardsLayout->addWidget(card);
+
+        connect(card, &ActivityCard::clicked,
+                this, [this, a]() {
+                    emit activitySelected(a);
+                });
+    }
+
+    cardsLayout->addStretch();
 }
 
 }

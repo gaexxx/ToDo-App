@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QLabel>
+#include <QVBoxLayout>
 #include "../Activity.h"
 // #include "../ActivityObserverInterface.h"
 
@@ -11,15 +12,21 @@ namespace View {
   // da aggiungere seconda classe base public ActivityObserverInterface 
 class Info: public QWidget {
     Q_OBJECT
-  private:
-    Todo::Activity& activity;
+private:
+    const Todo::Activity* activity;
+    QVBoxLayout* layout;
     QLabel* title_label;
     QLabel* description_label;
 
-  public:
-    Info(Todo::Activity& activity, QWidget* parent = 0);
-    void show();
+public:
+    explicit Info(QWidget* parent = nullptr);
+
+    // Info(Todo::Activity& activity, QWidget* parent = 0);
+    // void show();
     // virtual void notify(Activity& activity);
+
+public slots:
+    void showActivity(const Todo::Activity* activity);
 };
 
 }

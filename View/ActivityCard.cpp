@@ -1,33 +1,97 @@
 #include "ActivityCard.h"
 #include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QDateTime>
+#include <Event.h>
 
 namespace View {
 
-ActivityCard::ActivityCard(const QString& title,
-                           const QString& type,
-                           QWidget* parent)
-    : QWidget(parent)
+ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
+    : QFrame(parent), activity(activity)
 {
-    auto* layout = new QHBoxLayout(this);
+    setFrameShape(QFrame::StyledPanel);
+    setFrameShadow(QFrame::Raised);
 
-    auto* titleLabel = new QLabel(title, this);
-    auto* typeLabel = new QLabel(type, this);
+    auto* mainLayout = new QHBoxLayout(this);
+    mainLayout->setContentsMargins(12, 8, 12, 8);
+    mainLayout->setSpacing(10);
 
-    auto* doneBtn = new QPushButton("✔", this);
-    auto* editBtn = new QPushButton("✏", this);
-    auto* delBtn  = new QPushButton("🗑", this);
+    // =====================
+    // SINISTRA: TESTO
+    // =====================
+    auto* leftWidget = new QWidget(this);
+    auto* leftLayout = new QVBoxLayout(leftWidget);
+    leftLayout->setSpacing(4);
 
-    layout->addWidget(titleLabel, 3);
-    layout->addWidget(typeLabel);
-    layout->addWidget(doneBtn);
-    layout->addWidget(editBtn);
-    layout->addWidget(delBtn);
+    auto* title = new QLabel(activity->getTitle(), this);
+    title->setStyleSheet("font-weight: bold; font-size: 14px;");
 
-    setStyleSheet(
-        "QWidget { border: 1px solid #ccc; border-radius: 6px; padding: 6px; }"
+    auto* description = new QLabel(activity->getDescription(), this);
+    description->setWordWrap(true);
+    description->setStyleSheet("color: #555;");
+
+    leftLayout->addWidget(title);
+    leftLayout->addWidget(description);
+
+    if (auto* e = dynamic_cast<const Todo::Event*>(activity)) {
+
+    auto start = QDateTime::fromSecsSinceEpoch(
+        std::chrono::duration_cast<std::chrono::seconds>(
+            e->getStart().time_since_epoch()
+        ).count()
     );
+
+    auto end = QDateTime::fromSecsSinceEpoch(
+        std::chrono::duration_cast<std::chrono::seconds>(
+            e->getEnd().time_since_epoch()
+        ).count()
+    );
+
+    leftLayout->addWidget(
+        new QLabel(
+            QString("Da %1 a %2")
+                .arg(start.toString("dd/MM/yyyy hh:mm"))
+                .arg(end.toString("dd/MM/yyyy hh:mm")),
+            this
+        )
+    );
+
+    leftLayout->addWidget(
+        new QLabel(e->getLocation(), this)
+    );
+}
+
+    // leftLayout->addStretch();
+
+    // =====================
+    // DESTRA: AZIONI
+    // =====================
+    auto* rightWidget = new QWidget(this);
+    auto* rightLayout = new QHBoxLayout(rightWidget);
+    rightLayout->setAlignment(Qt::AlignTop);
+    rightLayout->setSpacing(6);
+
+    auto* doneBtn   = new QPushButton("✓", this);
+    auto* editBtn   = new QPushButton("✎", this);
+    auto* deleteBtn = new QPushButton("🗑", this);
+
+    doneBtn->setFixedSize(28, 28);
+    editBtn->setFixedSize(28, 28);
+    deleteBtn->setFixedSize(28, 28);
+
+    rightLayout->addWidget(doneBtn);
+    rightLayout->addWidget(editBtn);
+    rightLayout->addWidget(deleteBtn);
+
+    // =====================
+    // COMPOSIZIONE
+    // =====================
+    mainLayout->addWidget(leftWidget, 1);
+    mainLayout->addWidget(rightWidget, 0);
+
+   
 }
 
 }

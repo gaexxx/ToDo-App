@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "Info.h"
 
 namespace View {
 
@@ -14,9 +15,14 @@ MainWindow::MainWindow(QWidget* parent)
     sidebar = new Sidebar(central);
     activityList = new ActivityList(central);
 
+    // vista info (dettaglio attività)
+    infoView = new Info(central);
+
+
     // stacked widget centrale
     stackedWidget = new QStackedWidget(central);
     stackedWidget->addWidget(activityList);
+    stackedWidget->addWidget(infoView); 
 
     mainLayout->addWidget(sidebar, 1);
     mainLayout->addWidget(stackedWidget, 4);
@@ -24,6 +30,14 @@ MainWindow::MainWindow(QWidget* parent)
     // click su "Aggiungi attività"
     connect(activityList, &ActivityList::addActivityRequested,
             this, &MainWindow::showAddEventView);
+
+    // selezione di un'attività dalla lista
+    connect(activityList, &ActivityList::activitySelected,
+            this, [this](const Todo::Activity* activity) {
+                infoView->showActivity(activity);
+                stackedWidget->setCurrentWidget(infoView);
+            });
+
 }
 
 void MainWindow::showAddEventView() {
@@ -45,13 +59,11 @@ void MainWindow::showAddEventView() {
 }
 
 void MainWindow::onActivityCreated(Todo::Activity* activity) {
-    // qui in futuro: model.addActivity(std::move(activity));
-
-   
-    addEventView->reset();
-
-    // ritorna alla lista
-    stackedWidget->setCurrentWidget(activityList);
+    
+    activities.push_back(activity); // salva nel "model"
+    activityList->setActivities(activities); // aggiorna la lista
+    addEventView->reset(); // reset vista di aggiunta
+    stackedWidget->setCurrentWidget(activityList); // ritorna alla lista
 }
 
 void MainWindow::onAddCanceled() {

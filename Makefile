@@ -450,7 +450,8 @@ MainWindow.o: View/MainWindow.cpp View/MainWindow.h \
 		View/Sidebar.h \
 		View/ActivityList.h \
 		View/AddEventView.h \
-		Activity.h
+		Activity.h \
+		View/Info.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MainWindow.o View/MainWindow.cpp
 
 Info.o: View/Info.cpp View/Info.h \

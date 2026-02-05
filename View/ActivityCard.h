@@ -2,16 +2,36 @@
 #define VIEW_ACTIVITYCARD_H
 
 #include <QWidget>
-
+#include <QFrame>
+#include <QPushButton>
+#include "Activity.h"
 
 namespace View {
-    class ActivityCard : public QWidget {
+
+class ActivityCard : public QFrame {
     Q_OBJECT
+
 public:
-    explicit ActivityCard(const QString& title,
-                          const QString& type,
+    explicit ActivityCard(const Todo::Activity* activity,
                           QWidget* parent = nullptr);
+
+signals:
+    void clicked();
+    // void editRequested();                 // ✎
+    // void deleteRequested();               // 🗑
+    // void completedToggled();              // ✓
+
+protected:
+    // void mousePressEvent(QMouseEvent*) override;
+
+private:
+    const Todo::Activity* activity;
+
+    QPushButton* doneBtn;
+    QPushButton* editBtn;
+    QPushButton* deleteBtn;
 };
+
 
 }
 
