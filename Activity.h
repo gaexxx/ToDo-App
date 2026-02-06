@@ -3,21 +3,19 @@
 
 #include <QString>
 #include <QJsonObject>
-#include <memory>
 
 #include "ActivityVisitor.h"
 
 namespace Todo {
 
 class Activity {
-public:
+protected:
     Activity(QString title, QString description);
+public:
     virtual ~Activity();
 
-    // --- polimorfismo ---
-    virtual QString typeName() const = 0;
+    // --- persistenza dati ---
     virtual QJsonObject toJson() const = 0;
-    static std::unique_ptr<Activity> fromJson(const QJsonObject& obj);
 
     // --- getter ---
     const QString& getTitle() const;
@@ -34,7 +32,7 @@ protected:
     QString title;
     QString description;
 
-    // supporto JSON
+    // supporto JSON per campi comuni
     static void putCommon(QJsonObject& o, const Activity& a);
     static void readCommon(const QJsonObject& o, QString& title, QString& description);
 };

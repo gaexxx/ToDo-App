@@ -6,11 +6,14 @@
 #include <QHBoxLayout>
 #include <QStackedWidget>
 
+#include <vector>
+#include <memory>
+
 #include "Sidebar.h"
 #include "ActivityList.h"
 #include "AddEventView.h"
 #include "Info.h"
-#include "Activity.h"
+#include "../Activity.h"
 
 namespace View {
 
@@ -26,17 +29,20 @@ private slots:
     void onAddCanceled();
 
 private:
-    std::vector<Todo::Activity*> activities;
-
     QWidget* central;
     QHBoxLayout* mainLayout;
-
-    Info* infoView;
     Sidebar* sidebar;
     ActivityList* activityList;
-
+    Info* infoView;
     QStackedWidget* stackedWidget;
     AddEventView* addEventView;
+
+    // MODEL
+    std::vector<std::unique_ptr<Todo::Activity>> activities;
+
+    // helper
+    void refreshActivityList();
+
 };
 
 }

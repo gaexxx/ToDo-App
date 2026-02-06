@@ -1,6 +1,18 @@
 #include "Event.h"
+#include "ActivityFactory.h"
 
 namespace Todo {
+
+// registrazione factory 
+namespace {
+const bool registered = ActivityFactory::registerType(
+    "event",
+    [](const QJsonObject& data) {
+        return Event::fromJson(data);
+    }
+);
+}
+
 
 Event::Event(QString title, QString description, TimePoint start,
              TimePoint end, QString location, bool accepted)
@@ -9,10 +21,6 @@ Event::Event(QString title, QString description, TimePoint start,
       end(end),
       location(std::move(location)),
       accepted(accepted) {}
-
-QString Event::typeName() const {
-    return "Event";
-}
 
 // ---------- getter ----------
 const TimePoint& Event::getStart() const { return start; }
@@ -33,27 +41,31 @@ void Event::accept(ActivityVisitor& v) const {
 
 // ---------- JSON ----------
 QJsonObject Event::toJson() const {
-    QJsonObject o;
-    putCommon(o, *this);
-    o["start"] = timePointToIso(start);
-    o["end"] = timePointToIso(end);
-    o["location"] = location;
-    o["accepted"] = accepted;
-    return o;
+    QJsonObject data;
+    putCommon(data, *this);
+    data["start"] = timePointToIso(start);
+    data["end"] = timePointToIso(end);
+    data["location"] = location;
+    data["accepted"] = accepted;
+
+    QJsonObject obj;
+    obj["type"] = "event";
+    obj["data"] = data;
+    return obj;
 }
 
-std::unique_ptr<Event> Event::fromJson(const QJsonObject& o) {
+std::unique_ptr<Event> Event::fromJson(const QJsonObject& data) {
     QString t, d;
-    readCommon(o, t, d);
+    readCommon(data, t, d);
 
     return std::make_unique<Event>(
         t,
         d,
-        isoToTimePoint(o.value("start").toString()),
-        isoToTimePoint(o.value("end").toString()),
-        o.value("location").toString(),
-        o.value("accepted").toBool()
+        isoToTimePoint(data.value("start").toString()),
+        isoToTimePoint(data.value("end").toString()),
+        data.value("location").toString(),
+        data.value("accepted").toBool()
     );
 }
 
-} // namespace Todo
+} 

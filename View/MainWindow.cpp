@@ -1,7 +1,22 @@
 #include "MainWindow.h"
-#include "Info.h"
+#include "../JsonStorage.h"
+
+#include <QStandardPaths>
+#include <QDir>
+
 
 namespace View {
+
+// percorso JSON
+static QString storagePath()
+{
+    QString dir = QStandardPaths::writableLocation(
+        QStandardPaths::AppDataLocation
+    );
+
+    QDir().mkpath(dir);
+    return dir + "/activities.json";
+}
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent),
@@ -14,8 +29,6 @@ MainWindow::MainWindow(QWidget* parent)
 
     sidebar = new Sidebar(central);
     activityList = new ActivityList(central);
-
-    // vista info (dettaglio attività)
     infoView = new Info(central);
 
     // stacked widget centrale
@@ -25,6 +38,10 @@ MainWindow::MainWindow(QWidget* parent)
 
     mainLayout->addWidget(sidebar, 1);
     mainLayout->addWidget(stackedWidget, 4);
+
+    // LOAD 
+    activities = Todo::JsonStorage::load(storagePath());
+    refreshActivityList();
 
     // click su "Aggiungi attività"
     connect(activityList, &ActivityList::addActivityRequested,
@@ -45,6 +62,19 @@ MainWindow::MainWindow(QWidget* parent)
 
 }
 
+// helpers 
+void MainWindow::refreshActivityList()
+{
+    std::vector<Todo::Activity*> raw;
+    raw.reserve(activities.size());
+
+    for (const auto& a : activities)
+        raw.push_back(a.get());
+
+    activityList->setActivities(raw);
+}
+
+// Add view
 void MainWindow::showAddEventView() {
     if (!addEventView) {
         addEventView = new AddEventView(central);
@@ -65,8 +95,10 @@ void MainWindow::showAddEventView() {
 
 void MainWindow::onActivityCreated(Todo::Activity* activity) {
     
-    activities.push_back(activity); // salva nel "model"
-    activityList->setActivities(activities); // aggiorna la lista
+    activities.emplace_back(activity);    // ownership acquisita
+    refreshActivityList();                        // adattatore View
+    Todo::JsonStorage::save(storagePath(), activities); // persistenza
+
     addEventView->reset(); // reset vista di aggiunta
     stackedWidget->setCurrentWidget(activityList); // ritorna alla lista
 }

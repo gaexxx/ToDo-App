@@ -33,15 +33,15 @@ void ActivityCardVisitor::visit(const Todo::Event& e) {
 }
 
 void ActivityCardVisitor::visit(const Todo::Deadline& d) {
-    auto end = QDateTime::fromSecsSinceEpoch(
+    auto due = QDateTime::fromSecsSinceEpoch(
         std::chrono::duration_cast<std::chrono::seconds>(
-            d.getEnd().time_since_epoch()
+            d.getDue().time_since_epoch()
         ).count()
     );
 
     detailsLines.append(
         QString("Scadenza: %1")
-            .arg(end.toString("dd/MM/yyyy hh:mm"))
+            .arg(due.toString("dd/MM/yyyy hh:mm"))
     );
 
     detailsLines.append(

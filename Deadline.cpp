@@ -1,22 +1,29 @@
 #include "Deadline.h"
+#include "ActivityFactory.h"
 
 namespace Todo {
 
-Deadline::Deadline(QString title, QString description, TimePoint end, bool completed)
-    : Activity(std::move(title), std::move(description)),
-      end(end),
-      completed(completed) {}
-
-QString Deadline::typeName() const {
-    return "Deadline";
+ // registrazione factory 
+namespace {
+const bool registered = ActivityFactory::registerType(
+    "deadline",
+    [](const QJsonObject& data) {
+        return Deadline::fromJson(data);
+    }
+);
 }
 
+Deadline::Deadline(QString title, QString description, TimePoint due, bool completed)
+    : Activity(std::move(title), std::move(description)),
+      due(due),
+      completed(completed) {}
+
 // ---------- getter ----------
-const TimePoint& Deadline::getEnd() const { return end; }
+const TimePoint& Deadline::getDue() const { return due; }
 bool Deadline::isCompleted() const { return completed; }
 
 // ---------- setter ----------
-void Deadline::setEnd(const TimePoint& e) { end = e; }
+void Deadline::setDue(const TimePoint& d) { due = d; }
 void Deadline::setCompleted(bool c) { completed = c; }
 
 // visitor
@@ -26,23 +33,27 @@ void Deadline::accept(ActivityVisitor& v) const {
 
 // ---------- JSON ----------
 QJsonObject Deadline::toJson() const {
-    QJsonObject o;
-    putCommon(o, *this);
-    o["end"] = timePointToIso(end);
-    o["completed"] = completed;
-    return o;
+    QJsonObject data;
+    putCommon(data, *this);
+    data["due"] = timePointToIso(due);
+
+    QJsonObject obj;
+    obj["type"] = "deadline";
+    obj["data"] = data;
+    return obj;
 }
 
-std::unique_ptr<Deadline> Deadline::fromJson(const QJsonObject& o) {
+std::unique_ptr<Deadline> Deadline::fromJson(const QJsonObject& data) {
     QString t, d;
-    readCommon(o, t, d);
+    readCommon(data, t, d);
 
     return std::make_unique<Deadline>(
         t,
         d,
-        isoToTimePoint(o.value("end").toString()),
-        o.value("completed").toBool()
+        isoToTimePoint(data.value("due").toString()),
+        data.value("completed").toBool()
     );
 }
+
 
 }

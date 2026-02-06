@@ -10,30 +10,28 @@ class Deadline : public Activity {
 public:
     Deadline(QString title,
              QString description,
-             TimePoint end,
+             TimePoint due,
              bool completed);
 
-    QString typeName() const override;
     QJsonObject toJson() const override;
-
     static std::unique_ptr<Deadline> fromJson(const QJsonObject& o);
 
     // --- getter ---
-    const TimePoint& getEnd() const;
+    const TimePoint& getDue() const;
     bool isCompleted() const;
 
     // --- setter ---
-    void setEnd(const TimePoint& e);
+    void setDue(const TimePoint& e);
     void setCompleted(bool c);
 
     // visitor
     void accept(ActivityVisitor& v) const override;
 
 private:
-    TimePoint end;
+    TimePoint due;
     bool completed;
 };
 
-} // namespace Todo
+} 
 
 #endif

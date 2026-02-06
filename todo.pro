@@ -7,15 +7,16 @@ HEADERS += \
     Event.h \
     Deadline.h \
     ActivityVisitor.h \
+    JsonStorage.h \
+    ActivityFactory.h \
+    TimeUtils.h \
     View/MainWindow.h \
     View/Info.h \
     View/Sidebar.h \
     View/ActivityList.h \
     View/ActivityCard.h \
     View/AddEventView.h \
-    View/ActivityCardVisitor.h \
-    JsonStorage.h \
-    TimeUtils.h 
+    View/ActivityCardVisitor.h 
 
 
 SOURCES += \
@@ -23,6 +24,8 @@ SOURCES += \
     Activity.cpp \
     Event.cpp \
     Deadline.cpp \
+    JsonStorage.cpp \
+    ActivityFactory.cpp \
     View/MainWindow.cpp \
     View/Info.cpp \
     View/Sidebar.cpp \

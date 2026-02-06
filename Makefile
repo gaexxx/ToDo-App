@@ -56,6 +56,8 @@ SOURCES       = main.cpp \
 		Activity.cpp \
 		Event.cpp \
 		Deadline.cpp \
+		JsonStorage.cpp \
+		ActivityFactory.cpp \
 		View/MainWindow.cpp \
 		View/Info.cpp \
 		View/Sidebar.cpp \
@@ -72,6 +74,8 @@ OBJECTS       = main.o \
 		Activity.o \
 		Event.o \
 		Deadline.o \
+		JsonStorage.o \
+		ActivityFactory.o \
 		MainWindow.o \
 		Info.o \
 		Sidebar.o \
@@ -154,18 +158,21 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
 		Event.h \
 		Deadline.h \
 		ActivityVisitor.h \
+		JsonStorage.h \
+		ActivityFactory.h \
+		TimeUtils.h \
 		View/MainWindow.h \
 		View/Info.h \
 		View/Sidebar.h \
 		View/ActivityList.h \
 		View/ActivityCard.h \
 		View/AddEventView.h \
-		View/ActivityCardVisitor.h \
-		JsonStorage.h \
-		TimeUtils.h main.cpp \
+		View/ActivityCardVisitor.h main.cpp \
 		Activity.cpp \
 		Event.cpp \
 		Deadline.cpp \
+		JsonStorage.cpp \
+		ActivityFactory.cpp \
 		View/MainWindow.cpp \
 		View/Info.cpp \
 		View/Sidebar.cpp \
@@ -338,8 +345,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents Activity.h Event.h Deadline.h ActivityVisitor.h View/MainWindow.h View/Info.h View/Sidebar.h View/ActivityList.h View/ActivityCard.h View/AddEventView.h View/ActivityCardVisitor.h JsonStorage.h TimeUtils.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp Activity.cpp Event.cpp Deadline.cpp View/MainWindow.cpp View/Info.cpp View/Sidebar.cpp View/ActivityList.cpp View/ActivityCard.cpp View/AddEventView.cpp View/ActivityCardVisitor.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents Activity.h Event.h Deadline.h ActivityVisitor.h JsonStorage.h ActivityFactory.h TimeUtils.h View/MainWindow.h View/Info.h View/Sidebar.h View/ActivityList.h View/ActivityCard.h View/AddEventView.h View/ActivityCardVisitor.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp Activity.cpp Event.cpp Deadline.cpp JsonStorage.cpp ActivityFactory.cpp View/MainWindow.cpp View/Info.cpp View/Sidebar.cpp View/ActivityList.cpp View/ActivityCard.cpp View/AddEventView.cpp View/ActivityCardVisitor.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -455,14 +462,27 @@ Activity.o: Activity.cpp Activity.h \
 Event.o: Event.cpp Event.h \
 		Activity.h \
 		ActivityVisitor.h \
-		TimeUtils.h
+		TimeUtils.h \
+		ActivityFactory.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Event.o Event.cpp
 
 Deadline.o: Deadline.cpp Deadline.h \
 		Activity.h \
 		ActivityVisitor.h \
-		TimeUtils.h
+		TimeUtils.h \
+		ActivityFactory.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Deadline.o Deadline.cpp
+
+JsonStorage.o: JsonStorage.cpp JsonStorage.h \
+		Activity.h \
+		ActivityVisitor.h \
+		ActivityFactory.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o JsonStorage.o JsonStorage.cpp
+
+ActivityFactory.o: ActivityFactory.cpp ActivityFactory.h \
+		Activity.h \
+		ActivityVisitor.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ActivityFactory.o ActivityFactory.cpp
 
 MainWindow.o: View/MainWindow.cpp View/MainWindow.h \
 		View/Sidebar.h \
@@ -470,12 +490,14 @@ MainWindow.o: View/MainWindow.cpp View/MainWindow.h \
 		Activity.h \
 		ActivityVisitor.h \
 		View/AddEventView.h \
-		View/Info.h
+		View/Info.h \
+		JsonStorage.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MainWindow.o View/MainWindow.cpp
 
 Info.o: View/Info.cpp View/Info.h \
 		Activity.h \
-		ActivityVisitor.h
+		ActivityVisitor.h \
+		View/ActivityCardVisitor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Info.o View/Info.cpp
 
 Sidebar.o: View/Sidebar.cpp View/Sidebar.h
