@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QScrollArea>
 #include <QDateTime>
+#include <algorithm>
 
 namespace View {
 
@@ -51,27 +52,40 @@ ActivityList::ActivityList(QWidget* parent)
     mainLayout->addWidget(scroll, 1);
 }
 
-void ActivityList::setActivities(const std::vector<Todo::Activity*>& activities)
-{
-    // Pulizia card precedenti
-    QLayoutItem* item;
-    while ((item = cardsLayout->takeAt(0)) != nullptr) {
-        delete item->widget();
-        delete item;
-    }
+// ricostruisce la lista di card a partire dal modello
+void ActivityList::setActivities(const std::vector<Todo::Activity*>& acts) {
+    activities = acts;
 
-    // Creazione nuove card
-    for (const Todo::Activity* a : activities) {
-        auto* card = new ActivityCard(a, cardsContainer);
+    // pulizia precedente
+    qDeleteAll(cards);
+    cards.clear();
+
+    for (auto* a : activities) {
+        auto* card = new ActivityCard(a, this);
         cardsLayout->addWidget(card);
+        cards.push_back(card);
 
-        connect(card, &ActivityCard::clicked,
-                this, [this](const Todo::Activity* act) {
-                    emit activitySelected(act);
-                });
+        connect(card, &ActivityCard::deleteRequested,
+                this, &ActivityList::deleteActivity);
+    }
+}
+
+void ActivityList::deleteActivity(const Todo::Activity* activity) {
+    // rimuovi card
+    auto cardIt = std::find_if(cards.begin(), cards.end(),
+        [&](ActivityCard* c) { return c->getActivity() == activity; });
+
+    if (cardIt != cards.end()) {
+        delete *cardIt;
+        cards.erase(cardIt);
     }
 
-    cardsLayout->addStretch();
+    // rimuovi modello
+    auto actIt = std::find(activities.begin(), activities.end(), activity);
+    if (actIt != activities.end()) {
+        delete *actIt;              
+        activities.erase(actIt);
+    }
 }
 
 }

@@ -15,11 +15,12 @@ class ActivityCard : public QFrame {
 public:
     explicit ActivityCard(const Todo::Activity* activity,
                           QWidget* parent = nullptr);
+    const Todo::Activity* getActivity() const;
 
 signals:
     void clicked(const Todo::Activity* activity);
     // void editRequested();                 // ✎
-    // void deleteRequested();               // 🗑
+    void deleteRequested(const Todo::Activity* activity);               // 🗑
     // void completedToggled();              // ✓
 
 protected:

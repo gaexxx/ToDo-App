@@ -5,8 +5,11 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include "../Activity.h"
+#include "ActivityCard.h"
 
 namespace View {
+
+class ActivityCard;
 
 class ActivityList : public QWidget {
     Q_OBJECT
@@ -19,9 +22,14 @@ public:
     void activitySelected(const Todo::Activity*);
 
 private:
+    std::vector<Todo::Activity*> activities;
+    std::vector<ActivityCard*> cards;
     QVBoxLayout* mainLayout;
     QWidget* cardsContainer;
     QVBoxLayout* cardsLayout;
+    
+private slots:
+    void deleteActivity(const Todo::Activity* activity);
 };
 }
 

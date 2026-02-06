@@ -70,6 +70,10 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
     editBtn->setFixedSize(28, 28);
     deleteBtn->setFixedSize(28, 28);
 
+    connect(deleteBtn, &QPushButton::clicked, this, [this]() {
+        emit deleteRequested(this->activity);
+    });
+
     rightLayout->addWidget(doneBtn);
     rightLayout->addWidget(editBtn);
     rightLayout->addWidget(deleteBtn);
@@ -99,5 +103,8 @@ void ActivityCard::mousePressEvent(QMouseEvent* event)
     QFrame::mousePressEvent(event);
 }
 
+const Todo::Activity* ActivityCard::getActivity() const {
+    return activity;
+}
 
 }
