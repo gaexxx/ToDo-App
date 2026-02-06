@@ -30,7 +30,10 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
     auto* title = new QLabel(activity->getTitle(), this);
     title->setStyleSheet("font-weight: bold; font-size: 14px;");
 
-    auto* description = new QLabel(activity->getDescription(), this);
+    QString text = activity->getDescription();
+    if (text.size() > 100) text = text.left(100).trimmed() + "...";
+
+    auto* description = new QLabel(text, this);
     description->setWordWrap(true);
     description->setStyleSheet("color: #555;");
 
