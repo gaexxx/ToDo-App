@@ -65,6 +65,11 @@ void ActivityList::setActivities(const std::vector<Todo::Activity*>& acts) {
         cardsLayout->addWidget(card);
         cards.push_back(card);
 
+        // selezione dettaglio attivita'
+        connect(card, &ActivityCard::clicked,
+                this, &ActivityList::activitySelected);
+
+        // rimozione singola        
         connect(card, &ActivityCard::deleteRequested,
                 this, &ActivityList::deleteActivity);
     }
