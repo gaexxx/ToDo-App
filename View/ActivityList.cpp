@@ -1,5 +1,6 @@
 #include "ActivityList.h"
 #include "ActivityCard.h"
+#include "../JsonStorage.h"
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
@@ -37,6 +38,9 @@ ActivityList::ActivityList(QWidget* parent)
 
     connect(addBtn, &QPushButton::clicked,
         this, &ActivityList::addActivityRequested);
+    
+    connect(delBtn, &QPushButton::clicked,
+            this, &ActivityList::removeVisibleActivitiesRequested);
 
      // Layout delle card
     cardsLayout->setAlignment(Qt::AlignTop);
@@ -50,6 +54,12 @@ ActivityList::ActivityList(QWidget* parent)
     mainLayout->addWidget(header);
     mainLayout->addWidget(topButtWidget);
     mainLayout->addWidget(scroll, 1);
+}
+
+// restituisce le attivita' visibili
+const std::vector<Todo::Activity*>& ActivityList::getVisibleActivities() const
+{
+    return activities;
 }
 
 // ricostruisce la lista di card a partire dal modello
@@ -79,5 +89,6 @@ void ActivityList::setActivities(const std::vector<Todo::Activity*>& acts) {
 void ActivityList::deleteActivity(const Todo::Activity* activity) {
    emit deleteRequested(activity);
 }
+
 
 }

@@ -17,6 +17,7 @@
 
 namespace View {
 
+class ActivityList;
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
@@ -28,6 +29,7 @@ private slots:
     void onActivityCreated(Todo::Activity* activity);
     void onAddCanceled(); // annulla se non si salva l'attivita'
     void onDeleteActivity(const Todo::Activity* activity); // richiesta di cancellazione
+    void removeVisibleActivities();
 
 private:
     QWidget* central;

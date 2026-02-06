@@ -1,9 +1,11 @@
 #include "MainWindow.h"
+#include "ActivityList.h"
 #include "../JsonStorage.h"
 
 #include <QStandardPaths>
 #include <QDir>
 #include <QMessageBox>
+#include <algorithm>
 
 namespace View {
 
@@ -67,6 +69,13 @@ MainWindow::MainWindow(QWidget* parent)
     // rimozione singola        
     connect(activityList, &ActivityList::activityDeleted,
         this, &MainWindow::onDeleteActivity);
+
+    // rimozione di tutte le attivita' visibili    
+    connect(activityList,
+        &View::ActivityList::removeVisibleActivitiesRequested,
+        this,
+        &View::MainWindow::removeVisibleActivities);
+
 
 
 }
@@ -146,6 +155,43 @@ void MainWindow::onDeleteActivity(const Todo::Activity* activity) {
     if (!storagePath().isEmpty()) {
         Todo::JsonStorage::save(storagePath(), activities);
     }
+}
+
+// eliminazione di tutte e sole le attivita' visibili
+void MainWindow::removeVisibleActivities()
+{
+
+    const auto& visible = activityList->getVisibleActivities();
+
+    if (visible.empty())
+        return;
+
+    // popup di conferma eliminazione
+    QMessageBox msg(this);
+    msg.setWindowTitle("Conferma eliminazione");
+    msg.setText("Vuoi davvero eliminare tutte le attività di questa scheda?");
+
+    QPushButton* yesBtn = msg.addButton("Sì", QMessageBox::AcceptRole);
+    msg.addButton("No", QMessageBox::RejectRole);
+    msg.exec();
+
+    if (msg.clickedButton() != yesBtn)
+        return; // non fa la rimozione
+
+
+    activities.erase(
+        std::remove_if(activities.begin(), activities.end(),
+            [&](const std::unique_ptr<Todo::Activity>& a) {
+                return std::find(visible.begin(), visible.end(), a.get()) != visible.end();
+            }),
+        activities.end()
+    );
+
+    // aggiorna JSON
+    Todo::JsonStorage::save(storagePath(), activities);
+
+    // aggiorna vista 
+    activityList->setActivities({});
 }
 
 

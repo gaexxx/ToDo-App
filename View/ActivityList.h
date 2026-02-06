@@ -15,13 +15,19 @@ class ActivityList : public QWidget {
     Q_OBJECT
 public:
     explicit ActivityList(QWidget* parent = nullptr);
+
+    // imposta le attivita' visibili
     void setActivities(const std::vector<Todo::Activity*>& acts);
+
+    // Getter delle attività visibili 
+    const std::vector<Todo::Activity*>& getVisibleActivities() const;
 
     signals:
     void addActivityRequested();  // per scheda aggiungi attivita'
     void activitySelected(const Todo::Activity*);
     void deleteRequested(const Todo::Activity* activity); // richiede rimozione
     void activityDeleted(const Todo::Activity* activity); // rimozione
+    void removeVisibleActivitiesRequested(); // rimuove tutte le attivita' visibili
 
 
 private:
