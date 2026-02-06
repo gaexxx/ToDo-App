@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QFrame>
 #include <QPushButton>
+#include <QMouseEvent>
 #include "Activity.h"
 
 namespace View {
@@ -16,13 +17,13 @@ public:
                           QWidget* parent = nullptr);
 
 signals:
-    void clicked();
+    void clicked(const Todo::Activity* activity);
     // void editRequested();                 // ✎
     // void deleteRequested();               // 🗑
     // void completedToggled();              // ✓
 
 protected:
-    // void mousePressEvent(QMouseEvent*) override;
+    void mousePressEvent(QMouseEvent*) override;
 
 private:
     const Todo::Activity* activity;

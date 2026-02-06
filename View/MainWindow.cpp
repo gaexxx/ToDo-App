@@ -18,7 +18,6 @@ MainWindow::MainWindow(QWidget* parent)
     // vista info (dettaglio attività)
     infoView = new Info(central);
 
-
     // stacked widget centrale
     stackedWidget = new QStackedWidget(central);
     stackedWidget->addWidget(activityList);
@@ -36,6 +35,12 @@ MainWindow::MainWindow(QWidget* parent)
             this, [this](const Todo::Activity* activity) {
                 infoView->showActivity(activity);
                 stackedWidget->setCurrentWidget(infoView);
+            });
+
+    // ritorno dalla vista dettaglio
+    connect(infoView, &Info::backRequested,
+            this, [this]() {
+                stackedWidget->setCurrentWidget(activityList);
             });
 
 }

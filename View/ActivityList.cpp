@@ -54,8 +54,8 @@ void ActivityList::setActivities(const std::vector<Todo::Activity*>& activities)
         cardsLayout->addWidget(card);
 
         connect(card, &ActivityCard::clicked,
-                this, [this, a]() {
-                    emit activitySelected(a);
+                this, [this](const Todo::Activity* act) {
+                    emit activitySelected(act);
                 });
     }
 

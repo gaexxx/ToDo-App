@@ -15,6 +15,7 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
 {
     setFrameShape(QFrame::StyledPanel);
     setFrameShadow(QFrame::Raised);
+    setCursor(Qt::PointingHandCursor);
 
     auto* mainLayout = new QHBoxLayout(this);
     mainLayout->setContentsMargins(12, 8, 12, 8);
@@ -61,9 +62,9 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
     rightLayout->setAlignment(Qt::AlignTop);
     rightLayout->setSpacing(6);
 
-    auto* doneBtn   = new QPushButton("✓", this);
-    auto* editBtn   = new QPushButton("✎", this);
-    auto* deleteBtn = new QPushButton("🗑", this);
+    doneBtn   = new QPushButton("✓", this);
+    editBtn   = new QPushButton("✎", this);
+    deleteBtn = new QPushButton("🗑", this);
 
     doneBtn->setFixedSize(28, 28);
     editBtn->setFixedSize(28, 28);
@@ -81,5 +82,22 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
 
    
 }
+
+void ActivityCard::mousePressEvent(QMouseEvent* event)
+{
+    // Se si clicca su un bottone dentro la card, si lascia gestire al bottone.
+    QWidget* child = childAt(event->pos());
+    if (child && qobject_cast<QPushButton*>(child)) {
+        QFrame::mousePressEvent(event);
+        return;
+    }
+
+    if (event->button() == Qt::LeftButton) {
+        emit clicked(activity);
+    }
+
+    QFrame::mousePressEvent(event);
+}
+
 
 }
