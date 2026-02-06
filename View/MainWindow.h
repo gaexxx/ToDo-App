@@ -26,7 +26,8 @@ public:
 private slots:
     void showAddEventView();
     void onActivityCreated(Todo::Activity* activity);
-    void onAddCanceled();
+    void onAddCanceled(); // annulla se non si salva l'attivita'
+    void onDeleteActivity(const Todo::Activity* activity); // richiesta di cancellazione
 
 private:
     QWidget* central;

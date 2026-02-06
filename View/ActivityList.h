@@ -20,6 +20,9 @@ public:
     signals:
     void addActivityRequested();  // per scheda aggiungi attivita'
     void activitySelected(const Todo::Activity*);
+    void deleteRequested(const Todo::Activity* activity); // richiede rimozione
+    void activityDeleted(const Todo::Activity* activity); // rimozione
+
 
 private:
     std::vector<Todo::Activity*> activities;

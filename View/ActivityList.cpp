@@ -70,22 +70,9 @@ void ActivityList::setActivities(const std::vector<Todo::Activity*>& acts) {
     }
 }
 
+// richiede eliminazione singola attivita'
 void ActivityList::deleteActivity(const Todo::Activity* activity) {
-    // rimuovi card
-    auto cardIt = std::find_if(cards.begin(), cards.end(),
-        [&](ActivityCard* c) { return c->getActivity() == activity; });
-
-    if (cardIt != cards.end()) {
-        delete *cardIt;
-        cards.erase(cardIt);
-    }
-
-    // rimuovi modello
-    auto actIt = std::find(activities.begin(), activities.end(), activity);
-    if (actIt != activities.end()) {
-        delete *actIt;              
-        activities.erase(actIt);
-    }
+   emit deleteRequested(activity);
 }
 
 }

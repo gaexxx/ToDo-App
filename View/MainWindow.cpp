@@ -3,7 +3,7 @@
 
 #include <QStandardPaths>
 #include <QDir>
-
+#include <QMessageBox>
 
 namespace View {
 
@@ -60,6 +60,15 @@ MainWindow::MainWindow(QWidget* parent)
                 stackedWidget->setCurrentWidget(activityList);
             });
 
+    // richiesta rimozione singola        
+    connect(activityList, &ActivityList::deleteRequested,
+        this, &MainWindow::onDeleteActivity);
+
+    // rimozione singola        
+    connect(activityList, &ActivityList::activityDeleted,
+        this, &MainWindow::onDeleteActivity);
+
+
 }
 
 // helpers 
@@ -107,6 +116,38 @@ void MainWindow::onAddCanceled() {
     addEventView->reset();
     stackedWidget->setCurrentWidget(activityList);
 }
+
+// eliminazione singola attivita'
+void MainWindow::onDeleteActivity(const Todo::Activity* activity) {
+    QMessageBox msg(this);
+    msg.setWindowTitle("Conferma eliminazione");
+    msg.setText("Vuoi davvero eliminare questa attività?");
+
+    QPushButton* yesBtn = msg.addButton("Sì", QMessageBox::AcceptRole);
+    msg.addButton("No", QMessageBox::RejectRole);
+    msg.exec();
+
+    if (msg.clickedButton() != yesBtn)
+        return; // non fa la rimozione
+
+    // rimuovi dal modello 
+    auto it = std::find_if(activities.begin(), activities.end(),
+        [&](const std::unique_ptr<Todo::Activity>& ptr) {
+            return ptr.get() == activity;
+        });
+
+    if (it != activities.end()) {
+        activities.erase(it);   
+    }
+
+    refreshActivityList(); // aggiorna la GUI dopo aver rimosso l'attivita'
+
+    // salva su JSON
+    if (!storagePath().isEmpty()) {
+        Todo::JsonStorage::save(storagePath(), activities);
+    }
+}
+
 
 
 }
