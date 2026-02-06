@@ -23,10 +23,7 @@ Sidebar::Sidebar(QWidget* parent) : QWidget(parent) {
         "Cestino"
     });
 
-    auto* importBtn = new QPushButton("Importa attività", this);
-
     layout->addWidget(search);
     layout->addWidget(filters, 1);
-    layout->addWidget(importBtn);
 }
 }

@@ -20,8 +20,20 @@ ActivityList::ActivityList(QWidget* parent)
         this);
     header->setStyleSheet("font-weight: bold; font-size: 18px;");
 
-    // Bottone aggiunta attivita'
-    auto* addBtn = new QPushButton("+ Aggiungi attività", this);
+    auto* topButtWidget = new QWidget(this);
+    auto* topButtLayout = new QHBoxLayout(topButtWidget);
+
+    auto* addBtn = new QPushButton("Aggiungi attività", this);
+    auto* delBtn = new QPushButton("Rimuovi attività", this);
+    auto* impBtn = new QPushButton("Importa attività", this);
+    auto* expBtn = new QPushButton("Esporta attività", this);
+
+    topButtLayout->addWidget(addBtn);
+    topButtLayout->addWidget(delBtn);
+    topButtLayout->addWidget(impBtn);
+    topButtLayout->addWidget(expBtn);
+    topButtLayout->addStretch();
+
     connect(addBtn, &QPushButton::clicked,
         this, &ActivityList::addActivityRequested);
 
@@ -35,7 +47,7 @@ ActivityList::ActivityList(QWidget* parent)
 
     // composizione layout principale
     mainLayout->addWidget(header);
-    mainLayout->addWidget(addBtn);
+    mainLayout->addWidget(topButtWidget);
     mainLayout->addWidget(scroll, 1);
 }
 
