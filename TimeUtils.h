@@ -1,5 +1,6 @@
-// TimeUtils.h
-#pragma once
+#ifndef TIMEUTILS_H
+#define TIMEUTILS_H
+
 #include <chrono>
 #include <QDateTime>
 
@@ -30,3 +31,5 @@ inline TimePoint isoToTimePoint(const QString& s) {
 }
 
 } 
+
+#endif

@@ -9,8 +9,6 @@
 namespace Todo {
 
 class Activity {
-protected:
-    Activity(QString title, QString description);
 public:
     virtual ~Activity();
 
@@ -29,6 +27,7 @@ public:
     virtual void accept(ActivityVisitor& v) const = 0;
 
 protected:
+    Activity(QString title, QString description);
     QString title;
     QString description;
 
