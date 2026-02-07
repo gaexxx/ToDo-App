@@ -3,6 +3,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QFormLayout>
+#include <QMessageBox>
 
 
 namespace View {
@@ -89,6 +90,17 @@ EditEventView::EditEventView(Todo::Activity* activity, QWidget* parent)
 
 
 void EditEventView::onSaveClicked() {
+
+     // campo title obbligatorio
+    if (titleEdit->text().trimmed().isEmpty()) {
+        QMessageBox::warning(
+            this,
+            "Campo obbligatorio",
+            "Il nome dell'attività è obbligatorio."
+        );
+        return;
+    }
+
     activity->setTitle(titleEdit->text());
     activity->setDescription(descriptionEdit->toPlainText());
 

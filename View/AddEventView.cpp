@@ -3,6 +3,7 @@
 #include <QVBoxLayout>
 #include <QFormLayout>
 #include <QLabel>
+#include <QMessageBox>
 
 #include "../Event.h"
 #include "../Deadline.h"
@@ -66,7 +67,7 @@ AddEventView::AddEventView(QWidget* parent)
 
     mainLayout->addWidget(formStack);
 
-    // SALVA e ANNULLA
+    // pulsanti SALVA e ANNULLA
     saveButton = new QPushButton("Salva", this);
     cancelButton = new QPushButton("Annulla", this);
     auto* buttonsLayout = new QHBoxLayout;
@@ -93,7 +94,17 @@ void AddEventView::onTypeChanged(int index) {
 
 void AddEventView::onSaveClicked() {
 
-   Todo::Activity* activity = nullptr;
+    // campo title obbligatorio
+    if (titleEdit->text().trimmed().isEmpty()) {
+        QMessageBox::warning(
+            this,
+            "Campo obbligatorio",
+            "Il nome dell'attività è obbligatorio."
+        );
+        return;
+    }
+
+    Todo::Activity* activity = nullptr;
 
     if (typeSelector->currentIndex() == 0) {
         activity = new Todo::Event(
