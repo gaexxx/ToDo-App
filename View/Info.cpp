@@ -1,9 +1,7 @@
 #include "Info.h"
 #include "ActivityCardVisitor.h"
-#include <QVBoxLayout>
 #include <QString>
-// #include "CharacterInfoVisitor.h"
-
+#include <QScrollArea>
 namespace View {
 
 Info::Info(QWidget* parent)
@@ -24,16 +22,37 @@ Info::Info(QWidget* parent)
     title_label->setStyleSheet("font-weight: bold; font-size: 16px;");
     description_label->setWordWrap(true);
 
+    description_label->setWordWrap(true);
+    description_label->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+    description_label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+
+    // --- contenitore scrollabile ---
+    QWidget* scrollContent = new QWidget(this);
+    scrollContent->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    scrollLayout = new QVBoxLayout(scrollContent);
+    scrollLayout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+    scrollLayout->setContentsMargins(0, 0, 0, 0);
+
+    scrollLayout->addWidget(description_label);
+
+    QScrollArea* scroll = new QScrollArea(this);
+    scroll->setWidgetResizable(true);
+    scroll->setWidget(scrollContent);
+    scroll->setMinimumHeight(200);
+    scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     layout->addWidget(backBtn);
     layout->addWidget(title_label);
-    layout->addWidget(description_label);
+    // layout->addWidget(description_label);
+    layout->addWidget(scroll);
+    scrollLayout->addStretch();
 
+    // senza bordo
+    scroll->setFrameShape(QFrame::NoFrame);
+    scroll->setStyleSheet(
+        "QScrollArea { border: none; }"
+    );
 
-    // CharacterInfoVisitor visitor;
-    // character.accept(visitor);
-    // layout->addWidget(visitor.getWidget());
-
-    // character.registerObserver(this);
 }
 
 
@@ -65,8 +84,5 @@ void Info::showActivity(const Todo::Activity* activity)
         layout->addWidget(lbl);
     }
 }
-
-// void Info::notify(Character& character) {
-//     hit_points_label->setText("HP: " + QString::number(character.getHitPoints()) + "/" + QString::number(character.getMaxHitPoints()));
 
 }
