@@ -43,7 +43,8 @@ MainWindow::MainWindow(QWidget* parent)
     mainLayout->addWidget(stackedWidget, 4);
 
     // LOAD 
-    activities = Todo::JsonStorage::load(storagePath());
+    Todo::JsonStorage storage;
+    activities = storage.load(storagePath());
     refreshActivityList();
 
     // click su "Aggiungi attività"
@@ -127,7 +128,8 @@ void MainWindow::onActivityCreated(Todo::Activity* activity) {
     
     activities.emplace_back(activity);    // ownership acquisita
     refreshActivityList();                        // adattatore View
-    Todo::JsonStorage::save(storagePath(), activities); // persistenza
+    Todo::JsonStorage storage;
+    storage.save(storagePath(), activities);
 
     addEventView->reset(); // reset vista di aggiunta
     stackedWidget->setCurrentWidget(activityList); // ritorna alla lista
@@ -165,7 +167,8 @@ void MainWindow::onDeleteActivity(const Todo::Activity* activity) {
 
     // salva su JSON
     if (!storagePath().isEmpty()) {
-        Todo::JsonStorage::save(storagePath(), activities);
+        Todo::JsonStorage storage;
+        storage.save(storagePath(), activities);
     }
 }
 
@@ -200,7 +203,8 @@ void MainWindow::removeVisibleActivities()
     );
 
     // aggiorna JSON
-    Todo::JsonStorage::save(storagePath(), activities);
+    Todo::JsonStorage storage;
+    storage.save(storagePath(), activities);
 
     // aggiorna vista 
     activityList->setActivities({});
@@ -220,7 +224,8 @@ void View::MainWindow::onImportActivities() {
         return;
 
     try {
-        auto imported = Todo::JsonStorage::loadFromFile(path);
+        Todo::JsonStorage storage;
+        auto imported = storage.load(path);
 
         for (auto& act : imported) {
             activities.push_back(std::move(act));

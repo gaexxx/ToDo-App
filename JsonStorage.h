@@ -13,19 +13,20 @@ class Activity;
 class JsonStorage {
 public:
     // carica tutte le attività dal file JSON
-    static std::vector<std::unique_ptr<Activity>>
-    load(const QString& path);
+    std::vector<std::unique_ptr<Activity>>
+    load(const QString& path) const;
 
-    // salva tutte le attività nel file JSON
-    static void save(const QString& path,
-            const std::vector<std::unique_ptr<Activity>>& activities);
-
-    // salva solo attivita' visibili
+    // salva tutte le attività nel file JSON (ownership)
     void save(const QString& path,
-            const std::vector<Activity*>& activities) const;
+        const std::vector<std::unique_ptr<Activity>>& activities) const;
+
+    // salva solo attivita' visibili (non owning)
+    void save(const QString& path,
+        const std::vector<Activity*>& activities) const;
 
     // importa attivita'                  
-    static std::vector<std::unique_ptr<Activity>> loadFromFile(const QString& path);
+    std::vector<std::unique_ptr<Activity>> 
+    loadFromFile(const QString& path) const;
 };
 
 } 
