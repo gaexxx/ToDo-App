@@ -21,9 +21,7 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
     mainLayout->setContentsMargins(12, 8, 12, 8);
     mainLayout->setSpacing(10);
 
-    // =====================
     // SINISTRA: TESTO
-    // =====================
     auto* leftWidget = new QWidget(this);
     auto* leftLayout = new QVBoxLayout(leftWidget);
     leftLayout->setSpacing(4);
@@ -41,9 +39,7 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
     leftLayout->addWidget(title);
     leftLayout->addWidget(description);
 
-    // =====================
     // VISITOR 
-    // =====================
     ActivityCardVisitor visitor;
     activity->accept(visitor);
 
@@ -54,9 +50,7 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
     }
 
 
-    // =====================
     // DESTRA: AZIONI
-    // =====================
     auto* rightWidget = new QWidget(this);
     auto* rightLayout = new QHBoxLayout(rightWidget);
     rightLayout->setAlignment(Qt::AlignTop);
@@ -83,9 +77,7 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
     rightLayout->addWidget(editBtn);
     rightLayout->addWidget(deleteBtn);
 
-    // =====================
     // COMPOSIZIONE
-    // =====================
     mainLayout->addWidget(leftWidget, 1);
     mainLayout->addWidget(rightWidget, 0);
 

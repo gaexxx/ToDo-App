@@ -26,7 +26,7 @@ Info::Info(QWidget* parent)
     description_label->setAlignment(Qt::AlignTop | Qt::AlignLeft);
     description_label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
-    // --- contenitore scrollabile ---
+    // contenitore scrollabile
     QWidget* scrollContent = new QWidget(this);
     scrollContent->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     scrollLayout = new QVBoxLayout(scrollContent);
@@ -43,7 +43,6 @@ Info::Info(QWidget* parent)
 
     layout->addWidget(backBtn);
     layout->addWidget(title_label);
-    // layout->addWidget(description_label);
     layout->addWidget(scroll);
     scrollLayout->addStretch();
 
@@ -53,7 +52,7 @@ Info::Info(QWidget* parent)
         "QScrollArea { border: none; }"
     );
 
-    //  pulsanti in basso a destra 
+    // pulsanti in basso a destra 
     editBtn = new QPushButton("Modifica", this);
     deleteBtn = new QPushButton("Elimina", this);
 

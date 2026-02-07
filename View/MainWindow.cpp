@@ -104,8 +104,6 @@ MainWindow::MainWindow(QWidget* parent)
         this,
         &MainWindow::onExportVisibleActivities
     );
-
-
 }
 
 // helpers 
@@ -133,7 +131,6 @@ void MainWindow::showAddEventView() {
         // annulla aggiunta attivita'
         connect(addEventView, &AddEventView::canceled,
                 this, &MainWindow::onAddCanceled);
-
     }
 
     stackedWidget->setCurrentWidget(addEventView);
@@ -226,7 +223,7 @@ void MainWindow::onActivityUpdated()
     Todo::JsonStorage storage;
     storage.save(storagePath(), activities);
 
-    // 3. torna alla vista principale
+    // torna alla vista principale
     stackedWidget->setCurrentWidget(activityList);
 }
 

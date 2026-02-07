@@ -16,11 +16,11 @@ public:
     QJsonObject toJson() const override;
     static std::unique_ptr<Deadline> fromJson(const QJsonObject& o);
 
-    // --- getter ---
+    // getter
     const TimePoint& getDue() const;
     bool isCompleted() const;
 
-    // --- setter ---
+    // setter
     void setDue(const TimePoint& e);
     void setCompleted(bool c);
 

@@ -14,14 +14,14 @@ protected:
 public:
     virtual ~Activity();
 
-    // --- persistenza dati ---
+    // persistenza dati
     virtual QJsonObject toJson() const = 0;
 
-    // --- getter ---
+    // getter
     const QString& getTitle() const;
     const QString& getDescription() const;
 
-    // --- setter ---
+    // setter
     void setTitle(const QString& t);
     void setDescription(const QString& d);
 

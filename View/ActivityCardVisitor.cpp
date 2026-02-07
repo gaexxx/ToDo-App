@@ -27,7 +27,7 @@ void ActivityCardVisitor::visit(const Todo::Event& e) {
     );
 
     detailsLines.append(
-        QString("📍 %1")
+        QString("Icona luogo %1")
             .arg(e.getLocation())
     );
 }
@@ -45,7 +45,7 @@ void ActivityCardVisitor::visit(const Todo::Deadline& d) {
     );
 
     detailsLines.append(
-        d.isCompleted() ? "✅ Completata" : "❌ Da fare"
+        d.isCompleted() ? "Completata" : "Da fare"
     );
 }
 

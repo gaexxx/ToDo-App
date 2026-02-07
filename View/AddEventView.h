@@ -40,13 +40,13 @@ private:
     QLineEdit* titleEdit;
     QTextEdit* descriptionEdit;
 
-    // ===== EVENTO =====
+    // EVENTO 
     QWidget* eventForm;
     QDateTimeEdit* startEdit;
     QDateTimeEdit* endEdit;
     QLineEdit* locationEdit;
 
-    // ===== DEADLINE =====
+    // DEADLINE 
     QWidget* deadlineForm;
     QDateTimeEdit* deadlineEndEdit;
 

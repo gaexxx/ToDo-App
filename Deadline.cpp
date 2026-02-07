@@ -18,11 +18,11 @@ Deadline::Deadline(QString title, QString description, TimePoint due, bool compl
       due(due),
       completed(completed) {}
 
-// ---------- getter ----------
+// getter
 const TimePoint& Deadline::getDue() const { return due; }
 bool Deadline::isCompleted() const { return completed; }
 
-// ---------- setter ----------
+// setter
 void Deadline::setDue(const TimePoint& d) { due = d; }
 void Deadline::setCompleted(bool c) { completed = c; }
 
@@ -31,7 +31,7 @@ void Deadline::accept(ActivityVisitor& v) const {
     v.visit(*this);
 }
 
-// ---------- JSON ----------
+// JSON
 QJsonObject Deadline::toJson() const {
     QJsonObject data;
     putCommon(data, *this);

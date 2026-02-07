@@ -22,13 +22,13 @@ Event::Event(QString title, QString description, TimePoint start,
       location(std::move(location)),
       accepted(accepted) {}
 
-// ---------- getter ----------
+// getter
 const TimePoint& Event::getStart() const { return start; }
 const TimePoint& Event::getEnd() const { return end; }
 const QString& Event::getLocation() const { return location; }
 bool Event::isAccepted() const { return accepted; }
 
-// ---------- setter ----------
+// setter
 void Event::setStart(const TimePoint& s) { start = s; }
 void Event::setEnd(const TimePoint& e) { end = e; }
 void Event::setLocation(const QString& l) { location = l; }
@@ -39,7 +39,7 @@ void Event::accept(ActivityVisitor& v) const {
     v.visit(*this);
 }
 
-// ---------- JSON ----------
+// JSON
 QJsonObject Event::toJson() const {
     QJsonObject data;
     putCommon(data, *this);

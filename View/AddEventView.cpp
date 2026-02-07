@@ -15,7 +15,7 @@ AddEventView::AddEventView(QWidget* parent)
 {
     auto* mainLayout = new QVBoxLayout(this);
 
-    // ===== tipo =====
+    // tipo 
     typeSelector = new QComboBox(this);
     typeSelector->addItem("Evento");
     typeSelector->addItem("Scadenza");
@@ -23,7 +23,7 @@ AddEventView::AddEventView(QWidget* parent)
     mainLayout->addWidget(new QLabel("Tipo attività", this));
     mainLayout->addWidget(typeSelector);
 
-    // ===== campi comuni =====
+    // campi comuni
     titleEdit = new QLineEdit(this);
     descriptionEdit = new QTextEdit(this);
 
@@ -33,10 +33,10 @@ AddEventView::AddEventView(QWidget* parent)
 
     mainLayout->addLayout(commonForm);
 
-    // ===== STACK FORM =====
+    // STACK FORM
     formStack = new QStackedWidget(this);
 
-    // ---------- EVENTO ----------
+    // EVENTO 
     eventForm = new QWidget(this);
     auto* eventLayout = new QFormLayout(eventForm);
 
@@ -53,7 +53,7 @@ AddEventView::AddEventView(QWidget* parent)
 
     formStack->addWidget(eventForm);
 
-    // ---------- DEADLINE ----------
+    // DEADLINE 
     deadlineForm = new QWidget(this);
     auto* deadlineLayout = new QFormLayout(deadlineForm);
 
@@ -76,7 +76,7 @@ AddEventView::AddEventView(QWidget* parent)
 
     mainLayout->addLayout(buttonsLayout);
 
-    // ===== CONNECT =====
+    // CONNECT 
     connect(typeSelector, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &AddEventView::onTypeChanged);
 

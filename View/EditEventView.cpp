@@ -12,7 +12,7 @@ EditEventView::EditEventView(Todo::Activity* activity, QWidget* parent)
 {
     auto* mainLayout = new QVBoxLayout(this);
 
-    // ===== campi comuni =====
+    // campi comuni 
     titleEdit = new QLineEdit(this);
     descriptionEdit = new QTextEdit(this);
 
@@ -21,10 +21,10 @@ EditEventView::EditEventView(Todo::Activity* activity, QWidget* parent)
     commonForm->addRow("Descrizione", descriptionEdit);
     mainLayout->addLayout(commonForm);
 
-    // ===== STACK FORM =====
+    // STACK FORM
     formStack = new QStackedWidget(this);
 
-    // ---------- EVENT ----------
+    // EVENT
     eventForm = new QWidget(this);
     auto* eventLayout = new QFormLayout(eventForm);
 
@@ -41,7 +41,7 @@ EditEventView::EditEventView(Todo::Activity* activity, QWidget* parent)
 
     formStack->addWidget(eventForm);
 
-    // ---------- DEADLINE ----------
+    // DEADLINE
     deadlineForm = new QWidget(this);
     auto* deadlineLayout = new QFormLayout(deadlineForm);
 
@@ -54,7 +54,7 @@ EditEventView::EditEventView(Todo::Activity* activity, QWidget* parent)
 
     mainLayout->addWidget(formStack);
 
-    // ===== BOTTONI =====
+    // BOTTONI
     auto* buttons = new QHBoxLayout;
     auto* saveBtn = new QPushButton("Salva modifiche", this);
     auto* cancelBtn = new QPushButton("Annulla", this);
@@ -64,7 +64,7 @@ EditEventView::EditEventView(Todo::Activity* activity, QWidget* parent)
     buttons->addWidget(saveBtn);
     mainLayout->addLayout(buttons);
 
-    // ===== POPOLA CAMPI =====
+    // POPOLA CAMPI
     titleEdit->setText(activity->getTitle());
     descriptionEdit->setText(activity->getDescription());
 
@@ -79,7 +79,7 @@ EditEventView::EditEventView(Todo::Activity* activity, QWidget* parent)
         formStack->setCurrentIndex(1);
     }
 
-    // ===== CONNECT =====
+    // CONNECT
     connect(saveBtn, &QPushButton::clicked,
             this, &EditEventView::onSaveClicked);
 
