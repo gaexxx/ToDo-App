@@ -31,6 +31,7 @@ private slots:
     void onDeleteActivity(const Todo::Activity* activity); // richiesta di cancellazione
     void removeVisibleActivities();
     void onImportActivities();
+    void onExportVisibleActivities(const std::vector<Todo::Activity*>& activites);
 
 private:
     QWidget* central;

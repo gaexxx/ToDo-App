@@ -45,6 +45,9 @@ ActivityList::ActivityList(QWidget* parent)
     connect(impBtn, &QPushButton::clicked,
         this, &ActivityList::importActivitiesRequested);
 
+    connect(expBtn, &QPushButton::clicked,
+            this, &ActivityList::onExportClicked);
+
      // Layout delle card
     cardsLayout->setAlignment(Qt::AlignTop);
 
@@ -91,6 +94,12 @@ void ActivityList::setActivities(const std::vector<Todo::Activity*>& acts) {
 // richiede eliminazione singola attivita'
 void ActivityList::deleteActivity(const Todo::Activity* activity) {
    emit deleteRequested(activity);
+}
+
+// richiede export attivita' visibili
+void ActivityList::onExportClicked() {
+    auto visible = getVisibleActivities();
+    emit exportVisibleActivitiesRequested(visible);
 }
 
 

@@ -29,7 +29,9 @@ public:
     void activityDeleted(const Todo::Activity* activity); // rimozione
     void removeVisibleActivitiesRequested(); // rimuove tutte le attivita' visibili
     void importActivitiesRequested(); // richiede import attivita'
-
+    void exportVisibleActivitiesRequested( // export attivita' visibili
+        const std::vector<Todo::Activity*>& activities
+    );
 
 private:
     std::vector<Todo::Activity*> activities;
@@ -40,6 +42,7 @@ private:
     
 private slots:
     void deleteActivity(const Todo::Activity* activity);
+    void onExportClicked();
 };
 }
 

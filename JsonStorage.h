@@ -18,7 +18,11 @@ public:
 
     // salva tutte le attività nel file JSON
     static void save(const QString& path,
-                     const std::vector<std::unique_ptr<Activity>>& activities);
+            const std::vector<std::unique_ptr<Activity>>& activities);
+
+    // salva solo attivita' visibili
+    void save(const QString& path,
+            const std::vector<Activity*>& activities) const;
 
     // importa attivita'                  
     static std::vector<std::unique_ptr<Activity>> loadFromFile(const QString& path);

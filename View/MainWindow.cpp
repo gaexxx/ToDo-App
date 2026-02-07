@@ -81,6 +81,15 @@ MainWindow::MainWindow(QWidget* parent)
     connect(activityList, &ActivityList::importActivitiesRequested,
         this, &MainWindow::onImportActivities);
 
+    // export attivita' visibili
+    connect(
+        activityList,
+        &View::ActivityList::exportVisibleActivitiesRequested,
+        this,
+        &MainWindow::onExportVisibleActivities
+    );
+
+
 }
 
 // helpers 
@@ -229,6 +238,28 @@ void View::MainWindow::onImportActivities() {
         QMessageBox::critical(this, "Errore importazione", e.what());
     }
 }
+
+// EXPORT
+void MainWindow::onExportVisibleActivities(
+    const std::vector<Todo::Activity*>& activities)
+{
+    if (activities.empty())
+        return;
+
+    QString fileName = QFileDialog::getSaveFileName(
+        this,
+        "Esporta attività visibili",
+        "attivita.json",
+        "JSON (*.json)"
+    );
+
+    if (fileName.isEmpty())
+        return;
+
+    Todo::JsonStorage storage;
+    storage.save(fileName, activities);
+}
+
 
 
 }

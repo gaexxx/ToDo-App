@@ -65,6 +65,27 @@ void JsonStorage::save(const QString& path,
     file.close();
 }
 
+// SAVE (non owning, per export)
+void JsonStorage::save(const QString& path,
+                       const std::vector<Activity*>& activities) const
+{
+    QJsonArray array;
+
+    for (const auto* a : activities) {
+        if (a)
+            array.append(a->toJson());
+    }
+
+    QJsonDocument doc(array);
+
+    QFile file(path);
+    if (!file.open(QIODevice::WriteOnly))
+        return;
+
+    file.write(doc.toJson(QJsonDocument::Indented));
+    file.close();
+}
+
 //IMPORT
 std::vector<std::unique_ptr<Activity>>
 JsonStorage::loadFromFile(const QString& path) {
@@ -93,5 +114,8 @@ JsonStorage::loadFromFile(const QString& path) {
 
     return activities;
 }
+
+
+
 
 } 
