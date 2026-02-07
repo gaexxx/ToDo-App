@@ -238,6 +238,7 @@ void View::MainWindow::onImportActivities() {
             rawPtrs.push_back(a.get());
 
         activityList->setActivities(rawPtrs);
+        storage.save(storagePath(), activities);
 
     } catch (const std::exception& e) {
         QMessageBox::critical(this, "Errore importazione", e.what());
