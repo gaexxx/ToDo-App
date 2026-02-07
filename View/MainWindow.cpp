@@ -172,13 +172,28 @@ void MainWindow::onEditRequested(const Todo::Activity* activity) {
 
     editEventView = new View::EditEventView(editable, this);
 
+    // salva modifica
     connect(editEventView, &View::EditEventView::activityUpdated,
-            this, &MainWindow::onActivityUpdated);
-
-    connect(editEventView, &View::EditEventView::editCanceled,
             this,
             [this, returnView, returnActivity]() {
 
+                refreshActivityList();
+
+                // torna alla vista di origine
+                if (returnView == infoView && returnActivity) {
+                    infoView->showActivity(returnActivity);
+                    stackedWidget->setCurrentWidget(infoView);
+                } else {
+                    stackedWidget->setCurrentWidget(activityList);
+                }
+            });
+
+    // annulla modifica
+    connect(editEventView, &View::EditEventView::editCanceled,
+            this,
+            [this, returnView, returnActivity]() {
+                // se si annulla la modifica nel dettaglio si
+                // torna al dettaglio, altrimenti alla lista attivita'
                 if (returnView == infoView && returnActivity) {
                     infoView->showActivity(returnActivity);
                     stackedWidget->setCurrentWidget(infoView);
