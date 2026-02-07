@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QPushButton>
 #include <QVector>
 #include "../Activity.h"
@@ -22,9 +23,14 @@ private:
 
 public:
     explicit Info(QWidget* parent = nullptr);
+    QPushButton* editBtn;
+    QPushButton* deleteBtn;
+
 
 signals:
     void backRequested();
+    void editRequested(const Todo::Activity* activity);
+    void deleteRequested(const Todo::Activity* activity);
 
 public slots:
     void showActivity(const Todo::Activity* activity);

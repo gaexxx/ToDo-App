@@ -24,7 +24,8 @@ static QString storagePath()
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent),
       addEventView(nullptr),
-      editEventView(nullptr)
+      editEventView(nullptr),
+      lastInfoActivity(nullptr)
 {
     central = new QWidget(this);
     setCentralWidget(central);
@@ -64,6 +65,15 @@ MainWindow::MainWindow(QWidget* parent)
             this, [this]() {
                 stackedWidget->setCurrentWidget(activityList);
             });
+
+    // modifica nel dettaglio dell attivita'        
+    connect(infoView, &Info::editRequested,
+        this, &MainWindow::onEditRequested);
+
+    // elimina nel dettaglio dell attivita'        
+    connect(infoView, &Info::deleteRequested,
+        this, &MainWindow::onDeleteActivity);
+
 
     // richiesta rimozione singola        
     connect(activityList, &ActivityList::deleteRequested,
@@ -147,6 +157,12 @@ void MainWindow::onAddCanceled() {
 
 // alla richiesta di modifica
 void MainWindow::onEditRequested(const Todo::Activity* activity) {
+    if (!activity) return;
+
+    // salva il contesto di ritorno
+    QWidget* returnView = stackedWidget->currentWidget();
+    const Todo::Activity* returnActivity = activity;
+
     auto* editable = const_cast<Todo::Activity*>(activity);
 
     if (editEventView) {
@@ -160,12 +176,30 @@ void MainWindow::onEditRequested(const Todo::Activity* activity) {
             this, &MainWindow::onActivityUpdated);
 
     connect(editEventView, &View::EditEventView::editCanceled,
-            this, [this]() {
-                stackedWidget->setCurrentWidget(activityList);
+            this,
+            [this, returnView, returnActivity]() {
+
+                if (returnView == infoView && returnActivity) {
+                    infoView->showActivity(returnActivity);
+                    stackedWidget->setCurrentWidget(infoView);
+                } else {
+                    stackedWidget->setCurrentWidget(activityList);
+                }
             });
 
     stackedWidget->addWidget(editEventView);
     stackedWidget->setCurrentWidget(editEventView);
+}
+
+// all'annullamento della modifica
+void MainWindow::onEditCanceled()
+{
+    if (lastInfoActivity) {
+        infoView->showActivity(lastInfoActivity);
+        stackedWidget->setCurrentWidget(infoView);
+    } else {
+        stackedWidget->setCurrentWidget(activityList);
+    }
 }
 
 void MainWindow::onActivityUpdated()
@@ -211,6 +245,8 @@ void MainWindow::onDeleteActivity(const Todo::Activity* activity) {
         Todo::JsonStorage storage;
         storage.save(storagePath(), activities);
     }
+
+    stackedWidget->setCurrentWidget(activityList);
 }
 
 // eliminazione di tutte e sole le attivita' visibili

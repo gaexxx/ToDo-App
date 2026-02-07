@@ -30,6 +30,7 @@ private slots:
     void onActivityCreated(Todo::Activity* activity);
     void onAddCanceled(); // annulla se non si salva l'attivita'
     void onEditRequested(const Todo::Activity* activity);
+    void onEditCanceled();
     void onActivityUpdated(); // alla modifica di un'attivita'
     void onDeleteActivity(const Todo::Activity* activity); // alla cancellazione
     void removeVisibleActivities();
@@ -45,6 +46,7 @@ private:
     QStackedWidget* stackedWidget;
     AddEventView* addEventView;
     EditEventView* editEventView;
+    const Todo::Activity* lastInfoActivity;
 
     // MODEL
     std::vector<std::unique_ptr<Todo::Activity>> activities;

@@ -53,11 +53,41 @@ Info::Info(QWidget* parent)
         "QScrollArea { border: none; }"
     );
 
+    //  pulsanti in basso a destra 
+    editBtn = new QPushButton("Modifica", this);
+    deleteBtn = new QPushButton("Elimina", this);
+
+    editBtn->setCursor(Qt::PointingHandCursor);
+    deleteBtn->setCursor(Qt::PointingHandCursor);
+
+    deleteBtn->setStyleSheet("color: #b00020; font-weight: 600;");
+
+    editBtn->hide();
+    deleteBtn->hide();
+
+    connect(editBtn, &QPushButton::clicked, this, [this]() {
+        emit editRequested(activity);
+    });
+
+    connect(deleteBtn, &QPushButton::clicked, this, [this]() {
+        emit deleteRequested(activity);
+    });
+
+    // layout pulsanti
+    auto* btnLayout = new QHBoxLayout();
+    btnLayout->addStretch();
+    btnLayout->addWidget(editBtn);
+    btnLayout->addWidget(deleteBtn);
+
+    layout->addLayout(btnLayout);
+
 }
 
 
 void Info::showActivity(const Todo::Activity* activity)
 {
+    this->activity = activity;
+    
     // pulizia dettagli precedenti
     for (QLabel* lbl : detailLabels) {
         layout->removeWidget(lbl);
@@ -68,20 +98,27 @@ void Info::showActivity(const Todo::Activity* activity)
     if (!activity) {
         title_label->setText("");
         description_label->setText("");
+        editBtn->hide();
+        deleteBtn->hide();
         return;
     }
 
     title_label->setText(activity->getTitle());
     description_label->setText(activity->getDescription());
 
+    editBtn->show();
+    deleteBtn->show();
+
     // dettagli specifici, visitor
     ActivityCardVisitor visitor;
     activity->accept(visitor);
     for (const QString& line : visitor.detailsLines) {
         auto* lbl = new QLabel(line, this);
+        lbl->setWordWrap(true);
+        lbl->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
         lbl->setStyleSheet("color: #555; font-size: 13px;");
+        scrollLayout->addWidget(lbl);
         detailLabels.push_back(lbl);
-        layout->addWidget(lbl);
     }
 }
 
