@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QMessageBox>
 #include <algorithm>
+#include <QFileDialog>
 
 namespace View {
 
@@ -76,7 +77,9 @@ MainWindow::MainWindow(QWidget* parent)
         this,
         &View::MainWindow::removeVisibleActivities);
 
-
+    // import attivita'
+    connect(activityList, &ActivityList::importActivitiesRequested,
+        this, &MainWindow::onImportActivities);
 
 }
 
@@ -194,6 +197,38 @@ void MainWindow::removeVisibleActivities()
     activityList->setActivities({});
 }
 
+// IMPORT
+void View::MainWindow::onImportActivities() {
+
+    QString path = QFileDialog::getOpenFileName(
+        this,
+        "Importa attività",
+        "",
+        "File JSON (*.json)"
+    );
+
+    if (path.isEmpty())
+        return;
+
+    try {
+        auto imported = Todo::JsonStorage::loadFromFile(path);
+
+        for (auto& act : imported) {
+            activities.push_back(std::move(act));
+        }
+
+     std::vector<Todo::Activity*> rawPtrs;
+        rawPtrs.reserve(activities.size());
+
+        for (const auto& a : activities)
+            rawPtrs.push_back(a.get());
+
+        activityList->setActivities(rawPtrs);
+
+    } catch (const std::exception& e) {
+        QMessageBox::critical(this, "Errore importazione", e.what());
+    }
+}
 
 
 }

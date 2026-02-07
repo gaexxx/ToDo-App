@@ -30,6 +30,7 @@ private slots:
     void onAddCanceled(); // annulla se non si salva l'attivita'
     void onDeleteActivity(const Todo::Activity* activity); // richiesta di cancellazione
     void removeVisibleActivities();
+    void onImportActivities();
 
 private:
     QWidget* central;

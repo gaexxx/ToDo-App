@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <QString>
+#include "Activity.h"
 
 namespace Todo {
 
@@ -18,6 +19,9 @@ public:
     // salva tutte le attività nel file JSON
     static void save(const QString& path,
                      const std::vector<std::unique_ptr<Activity>>& activities);
+
+    // importa attivita'                  
+    static std::vector<std::unique_ptr<Activity>> loadFromFile(const QString& path);
 };
 
 } 

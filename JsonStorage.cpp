@@ -1,10 +1,12 @@
 #include "JsonStorage.h"
 #include "ActivityFactory.h"
-#include "Activity.h"
 
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <stdexcept>
 
 namespace Todo {
 
@@ -61,6 +63,35 @@ void JsonStorage::save(const QString& path,
 
     file.write(doc.toJson(QJsonDocument::Indented));
     file.close();
+}
+
+//IMPORT
+std::vector<std::unique_ptr<Activity>>
+JsonStorage::loadFromFile(const QString& path) {
+
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly))
+        throw std::runtime_error("Impossibile aprire il file JSON");
+
+    QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+    file.close();
+
+    if (!doc.isArray())
+        throw std::runtime_error("Formato JSON non valido");
+
+    QJsonArray array = doc.array();
+    std::vector<std::unique_ptr<Activity>> activities;
+
+    for (const QJsonValue& v : array) {
+        if (!v.isObject())
+            continue;
+
+        auto act = ActivityFactory::create(v.toObject());
+        if (act)
+            activities.push_back(std::move(act));
+    }
+
+    return activities;
 }
 
 } 

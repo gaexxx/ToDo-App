@@ -42,6 +42,9 @@ ActivityList::ActivityList(QWidget* parent)
     connect(delBtn, &QPushButton::clicked,
             this, &ActivityList::removeVisibleActivitiesRequested);
 
+    connect(impBtn, &QPushButton::clicked,
+        this, &ActivityList::importActivitiesRequested);
+
      // Layout delle card
     cardsLayout->setAlignment(Qt::AlignTop);
 

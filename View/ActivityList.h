@@ -28,6 +28,7 @@ public:
     void deleteRequested(const Todo::Activity* activity); // richiede rimozione
     void activityDeleted(const Todo::Activity* activity); // rimozione
     void removeVisibleActivitiesRequested(); // rimuove tutte le attivita' visibili
+    void importActivitiesRequested(); // richiede import attivita'
 
 
 private:

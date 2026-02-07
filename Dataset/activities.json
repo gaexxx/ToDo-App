@@ -1,0 +1,21 @@
+[
+    {
+        "data": {
+            "accepted": false,
+            "description": "Portare il costume per festa in piscina",
+            "end": "2026-02-06T17:04:45.367Z",
+            "location": "Brescia",
+            "start": "2026-02-06T15:04:45.346Z",
+            "title": "Compleanno Gianni"
+        },
+        "type": "event"
+    },
+    {
+        "data": {
+            "description": "Fare attenzione ai ratei e risconti",
+            "due": "2026-02-16T15:05:17.518Z",
+            "title": "Consegna bilancio"
+        },
+        "type": "deadline"
+    }
+]
