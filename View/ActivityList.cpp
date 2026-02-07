@@ -2,6 +2,7 @@
 #include "ActivityCard.h"
 #include "../JsonStorage.h"
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <QScrollArea>
@@ -84,6 +85,10 @@ void ActivityList::setActivities(const std::vector<Todo::Activity*>& acts) {
         // selezione dettaglio attivita'
         connect(card, &ActivityCard::clicked,
                 this, &ActivityList::activitySelected);
+
+        // modifica singola
+        connect(card, &ActivityCard::editRequested,
+                this, &ActivityList::editRequested);
 
         // rimozione singola        
         connect(card, &ActivityCard::deleteRequested,

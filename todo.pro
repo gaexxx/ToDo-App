@@ -16,6 +16,7 @@ HEADERS += \
     View/ActivityList.h \
     View/ActivityCard.h \
     View/AddEventView.h \
+    View/EditEventView.h \
     View/ActivityCardVisitor.h 
 
 
@@ -32,6 +33,7 @@ SOURCES += \
     View/ActivityList.cpp \
     View/ActivityCard.cpp \
     View/AddEventView.cpp \
+    View/EditEventView.cpp \
     View/ActivityCardVisitor.cpp
 
 

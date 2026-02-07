@@ -23,7 +23,8 @@ static QString storagePath()
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent),
-      addEventView(nullptr)
+      addEventView(nullptr),
+      editEventView(nullptr)
 {
     central = new QWidget(this);
     setCentralWidget(central);
@@ -78,6 +79,10 @@ MainWindow::MainWindow(QWidget* parent)
         this,
         &View::MainWindow::removeVisibleActivities);
 
+    // modifica attivita'    
+    connect(activityList, &ActivityList::editRequested,
+        this, &MainWindow::onEditRequested);
+
     // import attivita'
     connect(activityList, &ActivityList::importActivitiesRequested,
         this, &MainWindow::onImportActivities);
@@ -127,7 +132,7 @@ void MainWindow::showAddEventView() {
 void MainWindow::onActivityCreated(Todo::Activity* activity) {
     
     activities.emplace_back(activity);    // ownership acquisita
-    refreshActivityList();                        // adattatore View
+    refreshActivityList();                // aggiorna gui
     Todo::JsonStorage storage;
     storage.save(storagePath(), activities);
 
@@ -137,6 +142,42 @@ void MainWindow::onActivityCreated(Todo::Activity* activity) {
 
 void MainWindow::onAddCanceled() {
     addEventView->reset();
+    stackedWidget->setCurrentWidget(activityList);
+}
+
+// alla richiesta di modifica
+void MainWindow::onEditRequested(const Todo::Activity* activity) {
+    auto* editable = const_cast<Todo::Activity*>(activity);
+
+    if (editEventView) {
+        stackedWidget->removeWidget(editEventView);
+        delete editEventView;
+    }
+
+    editEventView = new View::EditEventView(editable, this);
+
+    connect(editEventView, &View::EditEventView::activityUpdated,
+            this, &MainWindow::onActivityUpdated);
+
+    connect(editEventView, &View::EditEventView::editCanceled,
+            this, [this]() {
+                stackedWidget->setCurrentWidget(activityList);
+            });
+
+    stackedWidget->addWidget(editEventView);
+    stackedWidget->setCurrentWidget(editEventView);
+}
+
+void MainWindow::onActivityUpdated()
+{
+    // aggiorna la UI
+    refreshActivityList();
+
+    // salva su JSON
+    Todo::JsonStorage storage;
+    storage.save(storagePath(), activities);
+
+    // 3. torna alla vista principale
     stackedWidget->setCurrentWidget(activityList);
 }
 

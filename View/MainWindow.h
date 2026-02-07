@@ -12,6 +12,7 @@
 #include "Sidebar.h"
 #include "ActivityList.h"
 #include "AddEventView.h"
+#include "EditEventView.h"
 #include "Info.h"
 #include "../Activity.h"
 
@@ -28,7 +29,9 @@ private slots:
     void showAddEventView();
     void onActivityCreated(Todo::Activity* activity);
     void onAddCanceled(); // annulla se non si salva l'attivita'
-    void onDeleteActivity(const Todo::Activity* activity); // richiesta di cancellazione
+    void onEditRequested(const Todo::Activity* activity);
+    void onActivityUpdated(); // alla modifica di un'attivita'
+    void onDeleteActivity(const Todo::Activity* activity); // alla cancellazione
     void removeVisibleActivities();
     void onImportActivities();
     void onExportVisibleActivities(const std::vector<Todo::Activity*>& activites);
@@ -41,6 +44,7 @@ private:
     Info* infoView;
     QStackedWidget* stackedWidget;
     AddEventView* addEventView;
+    EditEventView* editEventView;
 
     // MODEL
     std::vector<std::unique_ptr<Todo::Activity>> activities;

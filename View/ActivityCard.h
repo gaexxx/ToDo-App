@@ -19,7 +19,7 @@ public:
 
 signals:
     void clicked(const Todo::Activity* activity);
-    // void editRequested();                 // ✎
+    void editRequested(const Todo::Activity* activity);     
     void deleteRequested(const Todo::Activity* activity);               // 🗑
     // void completedToggled();              // ✓
 

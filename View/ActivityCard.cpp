@@ -74,6 +74,11 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
         emit deleteRequested(this->activity);
     });
 
+    connect(editBtn, &QPushButton::clicked, this, [this]() {
+        emit editRequested(this->activity);
+    });
+
+
     rightLayout->addWidget(doneBtn);
     rightLayout->addWidget(editBtn);
     rightLayout->addWidget(deleteBtn);

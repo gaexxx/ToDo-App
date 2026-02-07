@@ -25,6 +25,7 @@ public:
     signals:
     void addActivityRequested();  // per scheda aggiungi attivita'
     void activitySelected(const Todo::Activity*);
+    void editRequested(const Todo::Activity* activity);   // richiede modifica
     void deleteRequested(const Todo::Activity* activity); // richiede rimozione
     void activityDeleted(const Todo::Activity* activity); // rimozione
     void removeVisibleActivitiesRequested(); // rimuove tutte le attivita' visibili
