@@ -358,6 +358,8 @@ void View::MainWindow::onImportActivities() {
     } catch (const std::exception& e) {
         QMessageBox::critical(this, "Errore importazione", e.what());
     }
+
+    activityList->setActivities({});
 }
 
 // EXPORT
