@@ -117,6 +117,14 @@ void AddEventView::onSaveClicked() {
         return;
     }
 
+    auto start = startEdit->dateTime();
+    auto end = endEdit->dateTime();
+
+    if (end < start) {
+        QMessageBox::warning(this, "Data non valida","Inserire una data valida");
+        return;
+    }
+
     Todo::Activity* activity = nullptr;
 
     if (typeSelector->currentIndex() == 0) {

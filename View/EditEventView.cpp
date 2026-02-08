@@ -116,6 +116,14 @@ void EditEventView::onSaveClicked() {
         return;
     }
 
+    auto start = startEdit->dateTime();
+    auto end = endEdit->dateTime();
+
+    if (end < start) {
+        QMessageBox::warning(this, "Data non valida", "Inserire una data valida");
+        return;
+    }
+
     activity->setTitle(titleEdit->text());
     activity->setDescription(descriptionEdit->toPlainText());
 
