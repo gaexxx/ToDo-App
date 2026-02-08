@@ -64,4 +64,13 @@ std::unique_ptr<Reminder> Reminder::fromJson(const QJsonObject& data) {
     );
 }
 
+TimeInterval Reminder::timeInterval() const {
+    return { remindAt, remindAt };
+}
+
+TimePoint Reminder::sortKey() const {
+    return remindAt;
+}
+
+
 } 

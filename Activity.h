@@ -5,6 +5,7 @@
 #include <QJsonObject>
 
 #include "ActivityVisitor.h"
+#include "TimeUtils.h"
 
 namespace Todo {
 
@@ -22,6 +23,14 @@ public:
     // setter
     void setTitle(const QString& t);
     void setDescription(const QString& d);
+
+    // intervallo occupato dall'attività
+    virtual TimeInterval timeInterval() const = 0;
+    // chiave per ordinamento
+    virtual Todo::TimePoint sortKey() const = 0;
+
+    // ricerca testuale
+    bool matches(const QString& text) const;
 
     // VISITOR
     virtual void accept(ActivityVisitor& v) const = 0;

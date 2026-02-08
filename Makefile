@@ -59,6 +59,7 @@ SOURCES       = main.cpp \
 		Reminder.cpp \
 		JsonStorage.cpp \
 		ActivityFactory.cpp \
+		TimeUtils.cpp \
 		View/MainWindow.cpp \
 		View/Info.cpp \
 		View/Sidebar.cpp \
@@ -80,6 +81,7 @@ OBJECTS       = main.o \
 		Reminder.o \
 		JsonStorage.o \
 		ActivityFactory.o \
+		TimeUtils.o \
 		MainWindow.o \
 		Info.o \
 		Sidebar.o \
@@ -182,6 +184,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
 		Reminder.cpp \
 		JsonStorage.cpp \
 		ActivityFactory.cpp \
+		TimeUtils.cpp \
 		View/MainWindow.cpp \
 		View/Info.cpp \
 		View/Sidebar.cpp \
@@ -356,7 +359,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents Activity.h Event.h Deadline.h Reminder.h ActivityVisitor.h JsonStorage.h ActivityFactory.h TimeUtils.h View/MainWindow.h View/Info.h View/Sidebar.h View/ActivityList.h View/ActivityCard.h View/AddEventView.h View/EditEventView.h View/ActivityCardVisitor.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp Activity.cpp Event.cpp Deadline.cpp Reminder.cpp JsonStorage.cpp ActivityFactory.cpp View/MainWindow.cpp View/Info.cpp View/Sidebar.cpp View/ActivityList.cpp View/ActivityCard.cpp View/AddEventView.cpp View/EditEventView.cpp View/ActivityCardVisitor.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp Activity.cpp Event.cpp Deadline.cpp Reminder.cpp JsonStorage.cpp ActivityFactory.cpp TimeUtils.cpp View/MainWindow.cpp View/Info.cpp View/Sidebar.cpp View/ActivityList.cpp View/ActivityCard.cpp View/AddEventView.cpp View/EditEventView.cpp View/ActivityCardVisitor.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -396,12 +399,13 @@ moc_MainWindow.cpp: View/MainWindow.h \
 		View/ActivityList.h \
 		Activity.h \
 		ActivityVisitor.h \
+		TimeUtils.h \
 		View/ActivityCard.h \
 		View/AddEventView.h \
 		View/EditEventView.h \
 		Event.h \
-		TimeUtils.h \
 		Deadline.h \
+		Reminder.h \
 		View/Info.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
@@ -410,6 +414,7 @@ moc_MainWindow.cpp: View/MainWindow.h \
 moc_Info.cpp: View/Info.h \
 		Activity.h \
 		ActivityVisitor.h \
+		TimeUtils.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
 	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/ToDo-App/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/ToDo-App -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/Info.h -o moc_Info.cpp
@@ -422,6 +427,7 @@ moc_Sidebar.cpp: View/Sidebar.h \
 moc_ActivityList.cpp: View/ActivityList.h \
 		Activity.h \
 		ActivityVisitor.h \
+		TimeUtils.h \
 		View/ActivityCard.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
@@ -430,6 +436,7 @@ moc_ActivityList.cpp: View/ActivityList.h \
 moc_ActivityCard.cpp: View/ActivityCard.h \
 		Activity.h \
 		ActivityVisitor.h \
+		TimeUtils.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
 	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/ToDo-App/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/ToDo-App -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/ActivityCard.h -o moc_ActivityCard.cpp
@@ -437,6 +444,7 @@ moc_ActivityCard.cpp: View/ActivityCard.h \
 moc_AddEventView.cpp: View/AddEventView.h \
 		Activity.h \
 		ActivityVisitor.h \
+		TimeUtils.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
 	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/ToDo-App/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/ToDo-App -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/AddEventView.h -o moc_AddEventView.cpp
@@ -444,9 +452,10 @@ moc_AddEventView.cpp: View/AddEventView.h \
 moc_EditEventView.cpp: View/EditEventView.h \
 		Activity.h \
 		ActivityVisitor.h \
-		Event.h \
 		TimeUtils.h \
+		Event.h \
 		Deadline.h \
+		Reminder.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
 	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/gae/folder/universita/pao/ToDo-App/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++ -I/home/gae/folder/universita/pao/ToDo-App -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include View/EditEventView.h -o moc_EditEventView.cpp
@@ -472,19 +481,20 @@ main.o: main.cpp View/MainWindow.h \
 		View/ActivityList.h \
 		Activity.h \
 		ActivityVisitor.h \
+		TimeUtils.h \
 		View/ActivityCard.h \
 		View/AddEventView.h \
 		View/EditEventView.h \
 		Event.h \
-		TimeUtils.h \
 		Deadline.h \
+		Reminder.h \
 		View/Info.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 Activity.o: Activity.cpp Activity.h \
 		ActivityVisitor.h \
-		Event.h \
 		TimeUtils.h \
+		Event.h \
 		Deadline.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Activity.o Activity.cpp
 
@@ -512,25 +522,31 @@ Reminder.o: Reminder.cpp Reminder.h \
 JsonStorage.o: JsonStorage.cpp JsonStorage.h \
 		Activity.h \
 		ActivityVisitor.h \
+		TimeUtils.h \
 		ActivityFactory.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o JsonStorage.o JsonStorage.cpp
 
 ActivityFactory.o: ActivityFactory.cpp ActivityFactory.h \
 		Activity.h \
-		ActivityVisitor.h
+		ActivityVisitor.h \
+		TimeUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ActivityFactory.o ActivityFactory.cpp
+
+TimeUtils.o: TimeUtils.cpp TimeUtils.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TimeUtils.o TimeUtils.cpp
 
 MainWindow.o: View/MainWindow.cpp View/MainWindow.h \
 		View/Sidebar.h \
 		View/ActivityList.h \
 		Activity.h \
 		ActivityVisitor.h \
+		TimeUtils.h \
 		View/ActivityCard.h \
 		View/AddEventView.h \
 		View/EditEventView.h \
 		Event.h \
-		TimeUtils.h \
 		Deadline.h \
+		Reminder.h \
 		View/Info.h \
 		JsonStorage.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MainWindow.o View/MainWindow.cpp
@@ -538,6 +554,7 @@ MainWindow.o: View/MainWindow.cpp View/MainWindow.h \
 Info.o: View/Info.cpp View/Info.h \
 		Activity.h \
 		ActivityVisitor.h \
+		TimeUtils.h \
 		View/ActivityCardVisitor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Info.o View/Info.cpp
 
@@ -547,31 +564,34 @@ Sidebar.o: View/Sidebar.cpp View/Sidebar.h
 ActivityList.o: View/ActivityList.cpp View/ActivityList.h \
 		Activity.h \
 		ActivityVisitor.h \
+		TimeUtils.h \
 		View/ActivityCard.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ActivityList.o View/ActivityList.cpp
 
 ActivityCard.o: View/ActivityCard.cpp View/ActivityCard.h \
 		Activity.h \
 		ActivityVisitor.h \
+		TimeUtils.h \
 		View/ActivityCardVisitor.h \
-		Event.h \
-		TimeUtils.h
+		Event.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ActivityCard.o View/ActivityCard.cpp
 
 AddEventView.o: View/AddEventView.cpp View/AddEventView.h \
 		Activity.h \
 		ActivityVisitor.h \
-		Event.h \
 		TimeUtils.h \
-		Deadline.h
+		Event.h \
+		Deadline.h \
+		Reminder.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o AddEventView.o View/AddEventView.cpp
 
 EditEventView.o: View/EditEventView.cpp View/EditEventView.h \
 		Activity.h \
 		ActivityVisitor.h \
-		Event.h \
 		TimeUtils.h \
-		Deadline.h
+		Event.h \
+		Deadline.h \
+		Reminder.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o EditEventView.o View/EditEventView.cpp
 
 ActivityCardVisitor.o: View/ActivityCardVisitor.cpp View/ActivityCardVisitor.h \
@@ -579,7 +599,8 @@ ActivityCardVisitor.o: View/ActivityCardVisitor.cpp View/ActivityCardVisitor.h \
 		Event.h \
 		Activity.h \
 		TimeUtils.h \
-		Deadline.h
+		Deadline.h \
+		Reminder.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ActivityCardVisitor.o View/ActivityCardVisitor.cpp
 
 moc_MainWindow.o: moc_MainWindow.cpp 

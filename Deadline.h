@@ -24,6 +24,9 @@ public:
     void setDue(const TimePoint& e);
     void setCompleted(bool c);
 
+    TimeInterval timeInterval() const;
+    TimePoint sortKey() const;
+
     // visitor
     void accept(ActivityVisitor& v) const override;
 

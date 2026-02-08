@@ -2,6 +2,7 @@
 #define VIEW_SIDEBAR_H
 
 #include <QWidget>
+#include <QString>
 
 namespace View {
 
@@ -12,7 +13,11 @@ public:
     explicit Sidebar(QWidget* parent = nullptr);
 
 signals:
-    void filterSelected(int id);
+    void todaySelected();
+    void tomorrowSelected();
+    void weekSelected();
+    void allSelected();
+    void searchChanged(const QString& text);
 };
 }
 

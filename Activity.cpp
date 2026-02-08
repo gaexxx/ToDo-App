@@ -46,4 +46,13 @@ void Activity::readCommon(const QJsonObject& obj, QString& title, QString& descr
     description = obj.value("description").toString();
 }
 
+bool Activity::matches(const QString& text) const {
+    if (text.isEmpty())
+        return true;
+
+    const QString q = text.toLower();
+
+    return title.toLower().contains(q)
+        || description.toLower().contains(q);
+}
 } 

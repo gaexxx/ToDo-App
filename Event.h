@@ -30,6 +30,9 @@ public:
     void setLocation(const QString& l);
     void setAccepted(bool a);
 
+    TimeInterval timeInterval() const; 
+    TimePoint sortKey() const; 
+
     // visitor
     void accept(ActivityVisitor& v) const override;
 

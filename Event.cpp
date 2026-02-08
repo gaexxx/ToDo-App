@@ -68,4 +68,13 @@ std::unique_ptr<Event> Event::fromJson(const QJsonObject& data) {
     );
 }
 
+TimeInterval Event::timeInterval() const {
+    return { start, end };
+}
+
+TimePoint Event::sortKey() const {
+    return start;
+}
+
+
 } 

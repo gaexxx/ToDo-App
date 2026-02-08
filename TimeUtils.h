@@ -8,6 +8,10 @@ namespace Todo {
 
 using Clock = std::chrono::system_clock;
 using TimePoint = Clock::time_point;
+struct TimeInterval {
+    TimePoint start;
+    TimePoint end;
+};
 
 inline QDateTime toQDateTime(const TimePoint& tp) {
     using namespace std::chrono;
@@ -29,6 +33,16 @@ inline TimePoint isoToTimePoint(const QString& s) {
     const QDateTime dt = QDateTime::fromString(s, Qt::ISODateWithMs);
     return fromQDateTime(dt);
 }
+
+TimePoint today();
+TimePoint addDays(const TimePoint& tp, int days);
+TimePoint startOfDay(const TimePoint& tp);
+TimePoint endOfDay(const TimePoint& tp);
+
+bool intersects(const TimeInterval& a,
+                const TimeInterval& b);
+
+
 
 } 
 

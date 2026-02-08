@@ -55,5 +55,13 @@ std::unique_ptr<Deadline> Deadline::fromJson(const QJsonObject& data) {
     );
 }
 
+TimeInterval Deadline::timeInterval() const {
+    return { due, due };
+}
+
+TimePoint Deadline::sortKey() const {
+    return due;
+}
+
 
 }

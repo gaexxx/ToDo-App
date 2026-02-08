@@ -20,6 +20,9 @@ public:
     const TimePoint& getRemindAt() const;
     void setRemindAt(const TimePoint& t);
 
+    TimeInterval timeInterval() const;
+    TimePoint sortKey() const; 
+
     // visitor
     void accept(ActivityVisitor& v) const override;
 

@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "ActivityList.h"
 #include "../JsonStorage.h"
+#include "../TimeUtils.h"
 
 #include <QStandardPaths>
 #include <QDir>
@@ -109,18 +110,47 @@ MainWindow::MainWindow(QWidget* parent)
     connect(reminderTimer, &QTimer::timeout,
             this, &MainWindow::checkReminders);
     reminderTimer->start(1000); // ogni secondo
+
+    // FILTRI SIDEBAR
+    connect(sidebar, &View::Sidebar::todaySelected, this, [this]() {
+        currentFilter = FilterMode::Today;
+        refreshActivityList();
+    });
+
+    connect(sidebar, &View::Sidebar::tomorrowSelected, this, [this]() {
+        currentFilter = FilterMode::Tomorrow;
+        refreshActivityList();
+    });
+
+    connect(sidebar, &View::Sidebar::weekSelected, this, [this]() {
+        currentFilter = FilterMode::Week;
+        refreshActivityList();
+    });
+
+    connect(sidebar, &View::Sidebar::allSelected, this, [this]() {
+        currentFilter = FilterMode::All;
+        refreshActivityList();
+    });
+
+    // CERCA (indipendente dal filtro)
+    connect(sidebar, &View::Sidebar::searchChanged,
+            this, [this](const QString& text) {
+                currentSearch = text;
+                refreshActivityList();
+            });
 }
 
 // helper per refresh
 void MainWindow::refreshActivityList()
 {
-    std::vector<Todo::Activity*> raw;
-    raw.reserve(activities.size());
+    if (stackedWidget)
+        stackedWidget->setCurrentWidget(activityList);
 
-    for (const auto& a : activities)
-        raw.push_back(a.get());
-
-    activityList->setActivities(raw);
+    if (!currentSearch.isEmpty()) {
+        activityList->setActivities(applySearch());
+    } else {
+        activityList->setActivities(applyDateFilter());
+    }
 }
 
 // Add view
@@ -366,5 +396,65 @@ void MainWindow::checkReminders() {
         }
     }
 }
+
+std::vector<Todo::Activity*> MainWindow::applyDateFilter() const {
+    std::vector<Todo::Activity*> result;
+
+    auto todayStart = Todo::startOfDay(Todo::today());
+    auto todayEnd   = Todo::endOfDay(Todo::today());
+
+    auto tomorrowStart = Todo::startOfDay(Todo::addDays(Todo::today(), 1));
+    auto tomorrowEnd   = Todo::endOfDay(Todo::addDays(Todo::today(), 1));
+
+    auto weekStart = todayStart;
+    auto weekEnd   = Todo::endOfDay(Todo::addDays(Todo::today(), 7));
+
+    Todo::TimeInterval filterInterval;
+
+    switch (currentFilter) {
+    case FilterMode::Today:
+        filterInterval = { todayStart, todayEnd };
+        break;
+    case FilterMode::Tomorrow:
+        filterInterval = { tomorrowStart, tomorrowEnd };
+        break;
+    case FilterMode::Week:
+        filterInterval = { weekStart, weekEnd };
+        break;
+    case FilterMode::All:
+        filterInterval = { Todo::TimePoint::min(), Todo::TimePoint::max() };
+        break;
+    }
+
+    for (const auto& a : activities) {
+        if (Todo::intersects(a->timeInterval(), filterInterval))
+            result.push_back(a.get());
+    }
+
+    std::sort(result.begin(), result.end(),
+        [](auto* a, auto* b){
+            return a->sortKey() < b->sortKey();
+        });
+
+    return result;
+}
+
+std::vector<Todo::Activity*> MainWindow::applySearch() const {
+    std::vector<Todo::Activity*> result;
+
+    for (const auto& a : activities) {
+        if (a->matches(currentSearch))
+            result.push_back(a.get());
+    }
+
+    std::sort(result.begin(), result.end(),
+        [](const Todo::Activity* a, const Todo::Activity* b) {
+            return a->sortKey() < b->sortKey();
+        }
+    );
+    return result;
+}
+
+
 
 }

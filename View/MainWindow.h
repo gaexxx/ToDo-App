@@ -53,6 +53,21 @@ private:
     // MODEL
     std::vector<std::unique_ptr<Todo::Activity>> activities;
 
+    // stato filtri
+    enum class FilterMode {
+        Today,
+        Tomorrow,
+        Week,
+        All
+    };
+
+    FilterMode currentFilter = FilterMode::Today;
+    QString currentSearch;
+    
+    // filtri
+    std::vector<Todo::Activity*> applyDateFilter() const;
+    std::vector<Todo::Activity*> applySearch() const;
+
     // helper
     void refreshActivityList();
 

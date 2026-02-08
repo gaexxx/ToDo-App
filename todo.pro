@@ -29,6 +29,7 @@ SOURCES += \
     Reminder.cpp \
     JsonStorage.cpp \
     ActivityFactory.cpp \
+    TimeUtils.cpp \
     View/MainWindow.cpp \
     View/Info.cpp \
     View/Sidebar.cpp \
