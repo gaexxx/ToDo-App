@@ -12,12 +12,12 @@ using TimePoint = Clock::time_point;
 inline QDateTime toQDateTime(const TimePoint& tp) {
     using namespace std::chrono;
     const auto ms = duration_cast<milliseconds>(tp.time_since_epoch()).count();
-    return QDateTime::fromMSecsSinceEpoch(ms, Qt::UTC);
+    return QDateTime::fromMSecsSinceEpoch(ms).toLocalTime(); // ora locale
 }
 
 inline TimePoint fromQDateTime(const QDateTime& dt) {
     using namespace std::chrono;
-    const qint64 ms = dt.toUTC().toMSecsSinceEpoch();
+    const qint64 ms = dt.toLocalTime().toMSecsSinceEpoch(); // ora locale
     return TimePoint(milliseconds(ms));
 }
 

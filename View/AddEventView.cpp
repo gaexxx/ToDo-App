@@ -7,6 +7,7 @@
 
 #include "../Event.h"
 #include "../Deadline.h"
+#include "../Reminder.h"
 #include "../TimeUtils.h"
 
 namespace View {
@@ -20,6 +21,7 @@ AddEventView::AddEventView(QWidget* parent)
     typeSelector = new QComboBox(this);
     typeSelector->addItem("Evento");
     typeSelector->addItem("Scadenza");
+    typeSelector->addItem("Promemoria");
 
     mainLayout->addWidget(new QLabel("Tipo attività", this));
     mainLayout->addWidget(typeSelector);
@@ -64,6 +66,17 @@ AddEventView::AddEventView(QWidget* parent)
     deadlineLayout->addRow("Scadenza", deadlineEndEdit);
 
     formStack->addWidget(deadlineForm);
+
+    // REMINDER 
+    reminderForm = new QWidget(this);
+    auto* reminderLayout = new QFormLayout(reminderForm);
+
+    remindAtEdit = new QDateTimeEdit(QDateTime::currentDateTime(), this);
+    remindAtEdit->setCalendarPopup(true);
+
+    reminderLayout->addRow("Data/ora", remindAtEdit);
+
+    formStack->addWidget(reminderForm);
 
     mainLayout->addWidget(formStack);
 
@@ -115,12 +128,18 @@ void AddEventView::onSaveClicked() {
             locationEdit->text(),
             false   
         );
-    } else {
+    } else if (typeSelector->currentIndex() == 1)  {
         activity = new Todo::Deadline(
             titleEdit->text(),
             descriptionEdit->toPlainText(),
             Todo::fromQDateTime(deadlineEndEdit->dateTime()),
             false
+        );
+    } else {
+        activity = new Todo::Reminder(
+            titleEdit->text(),
+            descriptionEdit->toPlainText(),
+            Todo::fromQDateTime(remindAtEdit->dateTime())
         );
     }
 
@@ -134,6 +153,7 @@ void AddEventView::reset() {
     startEdit->setDateTime(QDateTime::currentDateTime());
     endEdit->setDateTime(QDateTime::currentDateTime());
     deadlineEndEdit->setDateTime(QDateTime::currentDateTime());
+    remindAtEdit->setDateTime(QDateTime::currentDateTime());
     typeSelector->setCurrentIndex(0);
 }
 

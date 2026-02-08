@@ -50,6 +50,10 @@ private:
     QWidget* deadlineForm;
     QDateTimeEdit* deadlineEndEdit;
 
+    // REMINDER 
+    QWidget* reminderForm;
+    QDateTimeEdit* remindAtEdit;
+
     QPushButton* saveButton;
     QPushButton* cancelButton;
 };

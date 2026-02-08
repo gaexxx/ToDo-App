@@ -5,6 +5,7 @@ namespace Todo {
 
 class Event;
 class Deadline;
+class Reminder;
 
 class ActivityVisitor {
 public:
@@ -12,6 +13,7 @@ public:
 
     virtual void visit(const Event&) = 0;
     virtual void visit(const Deadline&) = 0;
+    virtual void visit(const Reminder&) = 0;
 };
 
 }

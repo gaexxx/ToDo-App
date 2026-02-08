@@ -19,8 +19,6 @@ Sidebar::Sidebar(QWidget* parent) : QWidget(parent) {
         "Domani",
         "Questa settimana",
         "Tutti",
-        "Task completati",
-        "Cestino"
     });
 
     layout->addWidget(search);

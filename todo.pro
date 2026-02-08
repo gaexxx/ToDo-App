@@ -6,6 +6,7 @@ HEADERS += \
     Activity.h \
     Event.h \
     Deadline.h \
+    Reminder.h \
     ActivityVisitor.h \
     JsonStorage.h \
     ActivityFactory.h \
@@ -25,6 +26,7 @@ SOURCES += \
     Activity.cpp \
     Event.cpp \
     Deadline.cpp \
+    Reminder.cpp \
     JsonStorage.cpp \
     ActivityFactory.cpp \
     View/MainWindow.cpp \

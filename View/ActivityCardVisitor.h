@@ -13,6 +13,7 @@ public:
 
     void visit(const Todo::Event& e) override;
     void visit(const Todo::Deadline& d) override;
+    void visit(const Todo::Reminder& r) override;
 };
 
 }

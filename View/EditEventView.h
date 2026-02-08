@@ -12,6 +12,7 @@
 #include "../Activity.h"
 #include "../Event.h"
 #include "../Deadline.h"
+#include "../Reminder.h"
 
 namespace View {
 
@@ -46,6 +47,10 @@ private:
     // DEADLINE
     QWidget* deadlineForm;
     QDateTimeEdit* deadlineEndEdit;
+
+    // REMINDER
+    QWidget* reminderForm;
+    QDateTimeEdit* remindAtEdit;
 };
 
 } 

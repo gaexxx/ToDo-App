@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QStackedWidget>
+#include <QTimer>
 
 #include <vector>
 #include <memory>
@@ -35,6 +36,7 @@ private slots:
     void removeVisibleActivities();
     void onImportActivities();
     void onExportVisibleActivities(const std::vector<Todo::Activity*>& activites);
+    void checkReminders();
 
 private:
     QWidget* central;
@@ -46,6 +48,7 @@ private:
     AddEventView* addEventView;
     EditEventView* editEventView;
     const Todo::Activity* lastInfoActivity;
+    QTimer* reminderTimer;
 
     // MODEL
     std::vector<std::unique_ptr<Todo::Activity>> activities;

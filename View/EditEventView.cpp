@@ -55,7 +55,18 @@ EditEventView::EditEventView(Todo::Activity* activity, QWidget* parent)
 
     mainLayout->addWidget(formStack);
 
-    // BOTTONI
+    // REMINDER 
+    reminderForm = new QWidget(this);
+    auto* reminderLayout = new QFormLayout(reminderForm);
+
+    remindAtEdit = new QDateTimeEdit(QDateTime::currentDateTime(), this);
+    remindAtEdit->setCalendarPopup(true);
+
+    reminderLayout->addRow("Data/ora", remindAtEdit);
+
+    formStack->addWidget(reminderForm);
+
+    // PULSANTI
     auto* buttons = new QHBoxLayout;
     auto* saveBtn = new QPushButton("Salva modifiche", this);
     auto* cancelBtn = new QPushButton("Annulla", this);
@@ -78,6 +89,10 @@ EditEventView::EditEventView(Todo::Activity* activity, QWidget* parent)
         deadlineEndEdit->setDateTime(
             Todo::toQDateTime(d->getDue()));
         formStack->setCurrentIndex(1);
+    } else if (auto* r = dynamic_cast<Todo::Reminder*>(activity)) {
+        remindAtEdit->setDateTime(
+            Todo::toQDateTime(r->getRemindAt()));
+        formStack->setCurrentIndex(2);
     }
 
     // CONNECT
@@ -111,6 +126,9 @@ void EditEventView::onSaveClicked() {
     }
     else if (auto* d = dynamic_cast<Todo::Deadline*>(activity)) {
         d->setDue(Todo::fromQDateTime(deadlineEndEdit->dateTime()));
+    } 
+    else if (auto* r = dynamic_cast<Todo::Reminder*>(activity)) {
+        r->setRemindAt(Todo::fromQDateTime(remindAtEdit->dateTime()));
     }
 
     emit activityUpdated(activity);

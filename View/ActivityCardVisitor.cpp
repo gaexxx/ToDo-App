@@ -1,6 +1,7 @@
 #include "ActivityCardVisitor.h"
 #include "Event.h"
 #include "Deadline.h"
+#include "Reminder.h"
 #include "TimeUtils.h"
 
 #include <QDateTime>
@@ -48,5 +49,19 @@ void ActivityCardVisitor::visit(const Todo::Deadline& d) {
         d.isCompleted() ? "Completata" : "Da fare"
     );
 }
+
+void ActivityCardVisitor::visit(const Todo::Reminder& r) {
+    auto remindAt = QDateTime::fromSecsSinceEpoch(
+        std::chrono::duration_cast<std::chrono::seconds>(
+            r.getRemindAt().time_since_epoch()
+        ).count()
+    );
+
+    detailsLines.append(
+        QString("Promemoria per: %1")
+            .arg(remindAt.toString("dd/MM/yyyy hh:mm"))
+    );
+}
+
 
 }

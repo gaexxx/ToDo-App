@@ -103,6 +103,12 @@ MainWindow::MainWindow(QWidget* parent)
         this,
         &MainWindow::onExportVisibleActivities
     );
+
+    // TIMER PER I REMINDER
+    reminderTimer = new QTimer(this);
+    connect(reminderTimer, &QTimer::timeout,
+            this, &MainWindow::checkReminders);
+    reminderTimer->start(1000); // ogni secondo
 }
 
 // helper per refresh
@@ -176,6 +182,8 @@ void MainWindow::onEditRequested(const Todo::Activity* activity) {
             [this, returnView, returnActivity]() {
 
                 refreshActivityList();
+                Todo::JsonStorage storage;
+                storage.save(storagePath(), activities);
 
                 // torna alla vista di origine
                 if (returnView == infoView && returnActivity) {
@@ -342,6 +350,21 @@ void MainWindow::onExportVisibleActivities(
     storage.save(fileName, activities);
 }
 
+// popup promemoria
+void MainWindow::checkReminders() {
+    auto now = Todo::Clock::now();
 
+    for (const auto& act : activities) {
+        auto* r = dynamic_cast<Todo::Reminder*>(act.get());
+        if (r && r->checkAndTrigger(now)) {
+            QMessageBox::information(
+                this,
+                "Promemoria",
+                r->getTitle() + "\n\n" + r->getDescription(),
+                QMessageBox::Ok
+            );
+        }
+    }
+}
 
 }
