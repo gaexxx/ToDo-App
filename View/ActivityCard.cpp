@@ -100,8 +100,4 @@ void ActivityCard::mousePressEvent(QMouseEvent* event)
     QFrame::mousePressEvent(event);
 }
 
-const Todo::Activity* ActivityCard::getActivity() const {
-    return activity;
-}
-
 }

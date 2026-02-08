@@ -1,6 +1,5 @@
 #include "ActivityList.h"
 #include "ActivityCard.h"
-#include "../JsonStorage.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -44,7 +43,7 @@ ActivityList::ActivityList(QWidget* parent)
             this, &ActivityList::removeVisibleActivitiesRequested);
 
     connect(impBtn, &QPushButton::clicked,
-        this, &ActivityList::importActivitiesRequested);
+            this, &ActivityList::importActivitiesRequested);
 
     connect(expBtn, &QPushButton::clicked,
             this, &ActivityList::onExportClicked);

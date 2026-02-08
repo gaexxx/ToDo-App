@@ -53,7 +53,7 @@ MainWindow::MainWindow(QWidget* parent)
     connect(activityList, &ActivityList::addActivityRequested,
             this, &MainWindow::showAddEventView);
 
-    // selezione di un'attività dalla lista
+    // dettaglio di un'attività 
     connect(activityList, &ActivityList::activitySelected,
             this, [this](const Todo::Activity* activity) {
                 infoView->showActivity(activity);
@@ -86,8 +86,7 @@ MainWindow::MainWindow(QWidget* parent)
     // rimozione di tutte le attivita' visibili    
     connect(activityList,
         &View::ActivityList::removeVisibleActivitiesRequested,
-        this,
-        &View::MainWindow::removeVisibleActivities);
+        this, &View::MainWindow::removeVisibleActivities);
 
     // modifica attivita'    
     connect(activityList, &ActivityList::editRequested,
@@ -106,7 +105,7 @@ MainWindow::MainWindow(QWidget* parent)
     );
 }
 
-// helpers 
+// helper per refresh
 void MainWindow::refreshActivityList()
 {
     std::vector<Todo::Activity*> raw;
@@ -136,6 +135,7 @@ void MainWindow::showAddEventView() {
     stackedWidget->setCurrentWidget(addEventView);
 }
 
+// alla creazione di un'attivita'
 void MainWindow::onActivityCreated(Todo::Activity* activity) {
     
     activities.emplace_back(activity);    // ownership acquisita
@@ -147,6 +147,7 @@ void MainWindow::onActivityCreated(Todo::Activity* activity) {
     stackedWidget->setCurrentWidget(activityList); // ritorna alla lista
 }
 
+// all'annullamento della creazione di un'attivita'
 void MainWindow::onAddCanceled() {
     addEventView->reset();
     stackedWidget->setCurrentWidget(activityList);
@@ -214,19 +215,6 @@ void MainWindow::onEditCanceled()
     }
 }
 
-void MainWindow::onActivityUpdated()
-{
-    // aggiorna la UI
-    refreshActivityList();
-
-    // salva su JSON
-    Todo::JsonStorage storage;
-    storage.save(storagePath(), activities);
-
-    // torna alla vista principale
-    stackedWidget->setCurrentWidget(activityList);
-}
-
 // eliminazione singola attivita'
 void MainWindow::onDeleteActivity(const Todo::Activity* activity) {
     QMessageBox msg(this);
@@ -281,7 +269,6 @@ void MainWindow::removeVisibleActivities()
 
     if (msg.clickedButton() != yesBtn)
         return; // non fa la rimozione
-
 
     activities.erase(
         std::remove_if(activities.begin(), activities.end(),

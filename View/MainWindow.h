@@ -31,7 +31,6 @@ private slots:
     void onAddCanceled(); // annulla se non si salva l'attivita'
     void onEditRequested(const Todo::Activity* activity);
     void onEditCanceled();
-    void onActivityUpdated(); // alla modifica di un'attivita'
     void onDeleteActivity(const Todo::Activity* activity); // alla cancellazione
     void removeVisibleActivities();
     void onImportActivities();
