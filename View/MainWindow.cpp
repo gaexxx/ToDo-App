@@ -48,7 +48,6 @@ MainWindow::MainWindow(QWidget* parent)
     // LOAD 
     Todo::JsonStorage storage;
     activities = storage.load(storagePath());
-    refreshActivityList();
 
     // click su "Aggiungi attività"
     connect(activityList, &ActivityList::addActivityRequested,
@@ -138,6 +137,8 @@ MainWindow::MainWindow(QWidget* parent)
                 currentSearch = text;
                 refreshActivityList();
             });
+    
+    refreshActivityList();
 }
 
 // helper per refresh
