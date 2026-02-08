@@ -20,20 +20,20 @@ ActivityList::ActivityList(QWidget* parent)
     auto* header = new QLabel("Oggi - " + 
         QDateTime::currentDateTime().toString("dd/MM/yyyy"), 
         this);
-    header->setStyleSheet("font-weight: bold; font-size: 18px;");
+    header->setObjectName("data");
 
     auto* topButtWidget = new QWidget(this);
     auto* topButtLayout = new QHBoxLayout(topButtWidget);
 
-    auto* addBtn = new QPushButton("Aggiungi attività", this);
-    auto* delBtn = new QPushButton("Rimuovi attività", this);
-    auto* impBtn = new QPushButton("Importa attività", this);
-    auto* expBtn = new QPushButton("Esporta attività", this);
+    auto* addBtn = new QPushButton("Aggiungi", this);
+    auto* impBtn = new QPushButton("Importa", this);
+    auto* expBtn = new QPushButton("Esporta", this);
+    auto* delBtn = new QPushButton("Rimuovi tutto", this);
 
     topButtLayout->addWidget(addBtn);
-    topButtLayout->addWidget(delBtn);
     topButtLayout->addWidget(impBtn);
     topButtLayout->addWidget(expBtn);
+    topButtLayout->addWidget(delBtn);
     topButtLayout->addStretch();
 
     connect(addBtn, &QPushButton::clicked,

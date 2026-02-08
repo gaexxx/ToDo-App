@@ -1,0 +1,130 @@
+/* Sidebar */
+Sidebar,
+ActivityList {
+    background-color: #f4f4f4;
+}
+
+/* Search box */
+QLineEdit {
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    background-color: white;
+}
+
+/* Filters list */
+QListWidget {
+    background-color: transparent;
+    border: none;
+}
+
+QListWidget::item {
+    padding: 12px;
+    margin: 2px 0;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+QListWidget::item:selected {
+    background-color: #d0e4ff;
+    color: #003366;
+    font-weight: bold;
+}
+
+QListWidget::item:hover {
+    background-color: #e6e6e6;
+}
+
+/* Titolo attività */
+QLabel#activityTitle {
+    font-weight: bold;
+    font-size: 14px;
+    color: #000;
+}
+
+/* Descrizione attività */
+QLabel#activityDescription {
+    color: #555;
+    font-size: 13px;
+}
+
+/* Titolo dettaglio*/
+QLabel#detail_title {
+    font-weight: bold; font-size: 16px;
+}
+
+/* DetailsLines */
+QLabel#detailsLines {
+    color: #777; font-size: 12px;
+}
+
+/* Data */
+QLabel#data {
+    font-weight: bold; font-size: 18px;
+}
+
+/* Pulsante indietro */ 
+QPushButton#backBtn {
+    text-align: left; padding:1px 6px; font-weight: 600;
+}
+
+/* Pulsante elimina */
+QPushButton#delete {
+    color: #b00020; font-weight: 600;
+}
+
+/* Pulsanti generici */
+QPushButton {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 13px;
+    min-height: 32px;
+}
+
+
+QPushButton:hover {
+    background-color: #e6e6e6;
+}
+
+/* Mini pulsanti quadrati /*
+QPushButton#doneButton,
+QPushButton#editButton,
+QPushButton#deleteButton {
+    border: none;
+    border-radius: 30px;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 0;
+}
+
+/* DONE */
+QPushButton#doneButton {
+    background-color: #e6f4ea;
+    color: #2e7d32;
+}
+
+QPushButton#doneButton:hover {
+    background-color: #c8e6c9;
+}
+
+/* EDIT */
+QPushButton#editButton {
+    background-color: #e3f2fd;
+    color: #1565c0;
+}
+
+QPushButton#editButton:hover {
+    background-color: #bbdefb;
+}
+
+/* DELETE */
+QPushButton#deleteButton {
+    background-color: #fdecea;
+    color: #c62828;
+}
+
+QPushButton#deleteButton:hover {
+    background-color: #f9cfcf;
+}

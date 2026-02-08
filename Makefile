@@ -67,7 +67,8 @@ SOURCES       = main.cpp \
 		View/ActivityCard.cpp \
 		View/AddEventView.cpp \
 		View/EditEventView.cpp \
-		View/ActivityCardVisitor.cpp moc_MainWindow.cpp \
+		View/ActivityCardVisitor.cpp qrc_resources.cpp \
+		moc_MainWindow.cpp \
 		moc_Info.cpp \
 		moc_Sidebar.cpp \
 		moc_ActivityList.cpp \
@@ -90,6 +91,7 @@ OBJECTS       = main.o \
 		AddEventView.o \
 		EditEventView.o \
 		ActivityCardVisitor.o \
+		qrc_resources.o \
 		moc_MainWindow.o \
 		moc_Info.o \
 		moc_Sidebar.o \
@@ -270,6 +272,7 @@ Makefile: todo.pro /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++/qmake.conf /u
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/lex.prf \
 		todo.pro \
+		resources.qrc \
 		/usr/lib/x86_64-linux-gnu/libQt6Widgets.prl \
 		/usr/lib/x86_64-linux-gnu/libQt6Gui.prl \
 		/usr/lib/x86_64-linux-gnu/libQt6Core.prl
@@ -340,6 +343,7 @@ Makefile: todo.pro /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++/qmake.conf /u
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/yacc.prf:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/lex.prf:
 todo.pro:
+resources.qrc:
 /usr/lib/x86_64-linux-gnu/libQt6Widgets.prl:
 /usr/lib/x86_64-linux-gnu/libQt6Gui.prl:
 /usr/lib/x86_64-linux-gnu/libQt6Core.prl:
@@ -357,6 +361,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
+	$(COPY_FILE) --parents resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents Activity.h Event.h Deadline.h Reminder.h ActivityVisitor.h JsonStorage.h ActivityFactory.h TimeUtils.h View/MainWindow.h View/Info.h View/Sidebar.h View/ActivityList.h View/ActivityCard.h View/AddEventView.h View/EditEventView.h View/ActivityCardVisitor.h $(DISTDIR)/
 	$(COPY_FILE) --parents main.cpp Activity.cpp Event.cpp Deadline.cpp Reminder.cpp JsonStorage.cpp ActivityFactory.cpp TimeUtils.cpp View/MainWindow.cpp View/Info.cpp View/Sidebar.cpp View/ActivityList.cpp View/ActivityCard.cpp View/AddEventView.cpp View/EditEventView.cpp View/ActivityCardVisitor.cpp $(DISTDIR)/
@@ -383,8 +388,14 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_resources.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_resources.cpp
+qrc_resources.cpp: resources.qrc \
+		/usr/lib/qt6/libexec/rcc \
+		assets/stylesheet.qss
+	/usr/lib/qt6/libexec/rcc -name resources resources.qrc -o qrc_resources.cpp
+
 compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
@@ -472,7 +483,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean 
 
 ####### Compile
 
@@ -602,6 +613,9 @@ ActivityCardVisitor.o: View/ActivityCardVisitor.cpp View/ActivityCardVisitor.h \
 		Deadline.h \
 		Reminder.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ActivityCardVisitor.o View/ActivityCardVisitor.cpp
+
+qrc_resources.o: qrc_resources.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resources.o qrc_resources.cpp
 
 moc_MainWindow.o: moc_MainWindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_MainWindow.o moc_MainWindow.cpp

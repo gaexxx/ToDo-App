@@ -27,14 +27,14 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
     leftLayout->setSpacing(4);
 
     auto* title = new QLabel(activity->getTitle(), this);
-    title->setStyleSheet("font-weight: bold; font-size: 14px;");
+    title->setObjectName("activityTitle");
 
     QString text = activity->getDescription();
     if (text.size() > 100) text = text.left(100).trimmed() + "...";
 
     auto* description = new QLabel(text, this);
     description->setWordWrap(true);
-    description->setStyleSheet("color: #555;");
+    description->setObjectName("activityDescription");
 
     leftLayout->addWidget(title);
     leftLayout->addWidget(description);
@@ -45,7 +45,7 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
 
     for (const QString& line : visitor.detailsLines) {
         auto* lbl = new QLabel(line, this);
-        lbl->setStyleSheet("color: #777; font-size: 12px;");
+        lbl->setObjectName("detailsLines");
         leftLayout->addWidget(lbl);
     }
 
@@ -60,9 +60,9 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
     editBtn   = new QPushButton("✎", this);
     deleteBtn = new QPushButton("🗑", this);
 
-    doneBtn->setFixedSize(28, 28);
-    editBtn->setFixedSize(28, 28);
-    deleteBtn->setFixedSize(28, 28);
+    doneBtn->setObjectName("doneButton");
+    editBtn->setObjectName("editButton");
+    deleteBtn->setObjectName("deleteButton");
 
     connect(deleteBtn, &QPushButton::clicked, this, [this]() {
         emit deleteRequested(this->activity);

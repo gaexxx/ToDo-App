@@ -39,5 +39,6 @@ SOURCES += \
     View/EditEventView.cpp \
     View/ActivityCardVisitor.cpp
 
+RESOURCES += resources.qrc
 
 

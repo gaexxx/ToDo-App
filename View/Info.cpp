@@ -16,10 +16,10 @@ Info::Info(QWidget* parent)
 
     backBtn->setFixedHeight(32);
     backBtn->setCursor(Qt::PointingHandCursor);
-    backBtn->setStyleSheet("text-align: left; padding: 6px 10px; font-weight: 600;");
+    backBtn->setObjectName("backBtn");
     connect(backBtn, &QPushButton::clicked, this, &Info::backRequested);
 
-    title_label->setStyleSheet("font-weight: bold; font-size: 16px;");
+    title_label->setObjectName("detail_title");
     description_label->setWordWrap(true);
 
     description_label->setWordWrap(true);
@@ -48,9 +48,7 @@ Info::Info(QWidget* parent)
 
     // senza bordo
     scroll->setFrameShape(QFrame::NoFrame);
-    scroll->setStyleSheet(
-        "QScrollArea { border: none; }"
-    );
+    scroll->setStyleSheet("QScrollArea { border: none; }");
 
     // pulsanti in basso a destra 
     editBtn = new QPushButton("Modifica", this);
@@ -59,7 +57,7 @@ Info::Info(QWidget* parent)
     editBtn->setCursor(Qt::PointingHandCursor);
     deleteBtn->setCursor(Qt::PointingHandCursor);
 
-    deleteBtn->setStyleSheet("color: #b00020; font-weight: 600;");
+    deleteBtn->setObjectName("delete");
 
     editBtn->hide();
     deleteBtn->hide();
@@ -115,7 +113,7 @@ void Info::showActivity(const Todo::Activity* activity)
         auto* lbl = new QLabel(line, this);
         lbl->setWordWrap(true);
         lbl->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-        lbl->setStyleSheet("color: #555; font-size: 13px;");
+        lbl->setObjectName("detailsLines");
         scrollLayout->addWidget(lbl);
         detailLabels.push_back(lbl);
     }
