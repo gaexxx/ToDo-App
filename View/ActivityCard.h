@@ -20,7 +20,6 @@ signals:
     void clicked(const Todo::Activity* activity);
     void editRequested(const Todo::Activity* activity);     
     void deleteRequested(const Todo::Activity* activity);               // 🗑
-    // void completedToggled();              // ✓
 
 protected:
     void mousePressEvent(QMouseEvent*) override;
@@ -28,7 +27,6 @@ protected:
 private:
     const Todo::Activity* activity;
 
-    QPushButton* doneBtn;
     QPushButton* editBtn;
     QPushButton* deleteBtn;
 };

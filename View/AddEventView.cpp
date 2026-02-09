@@ -133,15 +133,13 @@ void AddEventView::onSaveClicked() {
             descriptionEdit->toPlainText(),          
             Todo::fromQDateTime(startEdit->dateTime()),
             Todo::fromQDateTime(endEdit->dateTime()),
-            locationEdit->text(),
-            false   
+            locationEdit->text()
         );
     } else if (typeSelector->currentIndex() == 1)  {
         activity = new Todo::Deadline(
             titleEdit->text(),
             descriptionEdit->toPlainText(),
-            Todo::fromQDateTime(deadlineEndEdit->dateTime()),
-            false
+            Todo::fromQDateTime(deadlineEndEdit->dateTime())
         );
     } else {
         activity = new Todo::Reminder(

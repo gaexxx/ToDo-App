@@ -12,8 +12,7 @@ public:
           QString description,
           TimePoint start,
           TimePoint end,
-          QString location,
-          bool isAccepted);
+          QString location);
 
     QJsonObject toJson() const override;
     static std::unique_ptr<Event> fromJson(const QJsonObject&);
@@ -22,13 +21,11 @@ public:
     const TimePoint& getStart() const;
     const TimePoint& getEnd() const;
     const QString& getLocation() const;
-    bool isAccepted() const;
 
     // setter
     void setStart(const TimePoint& s);
     void setEnd(const TimePoint& e);
     void setLocation(const QString& l);
-    void setAccepted(bool a);
 
     TimeInterval timeInterval() const; 
     TimePoint sortKey() const; 
@@ -40,7 +37,6 @@ private:
     TimePoint start;
     TimePoint end;
     QString location;
-    bool accepted;
 };
 
 } 

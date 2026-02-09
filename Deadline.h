@@ -10,19 +10,13 @@ class Deadline : public Activity {
 public:
     Deadline(QString title,
              QString description,
-             TimePoint due,
-             bool completed);
+             TimePoint due);
 
     QJsonObject toJson() const override;
     static std::unique_ptr<Deadline> fromJson(const QJsonObject& o);
 
-    // getter
     const TimePoint& getDue() const;
-    bool isCompleted() const;
-
-    // setter
     void setDue(const TimePoint& e);
-    void setCompleted(bool c);
 
     TimeInterval timeInterval() const;
     TimePoint sortKey() const;
@@ -32,7 +26,6 @@ public:
 
 private:
     TimePoint due;
-    bool completed;
 };
 
 } 

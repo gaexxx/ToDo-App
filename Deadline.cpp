@@ -13,18 +13,12 @@ const bool registered = ActivityFactory::registerType(
 );
 }
 
-Deadline::Deadline(QString title, QString description, TimePoint due, bool completed)
+Deadline::Deadline(QString title, QString description, TimePoint due)
     : Activity(std::move(title), std::move(description)),
-      due(due),
-      completed(completed) {}
+      due(due) {}
 
-// getter
 const TimePoint& Deadline::getDue() const { return due; }
-bool Deadline::isCompleted() const { return completed; }
-
-// setter
 void Deadline::setDue(const TimePoint& d) { due = d; }
-void Deadline::setCompleted(bool c) { completed = c; }
 
 // visitor
 void Deadline::accept(ActivityVisitor& v) const {
@@ -50,8 +44,7 @@ std::unique_ptr<Deadline> Deadline::fromJson(const QJsonObject& data) {
     return std::make_unique<Deadline>(
         t,
         d,
-        isoToTimePoint(data.value("due").toString()),
-        data.value("completed").toBool()
+        isoToTimePoint(data.value("due").toString())
     );
 }
 

@@ -15,24 +15,21 @@ const bool registered = ActivityFactory::registerType(
 
 
 Event::Event(QString title, QString description, TimePoint start,
-             TimePoint end, QString location, bool accepted)
+             TimePoint end, QString location)
     : Activity(std::move(title), std::move(description)),
       start(start),
       end(end),
-      location(std::move(location)),
-      accepted(accepted) {}
+      location(std::move(location)) {}
 
 // getter
 const TimePoint& Event::getStart() const { return start; }
 const TimePoint& Event::getEnd() const { return end; }
 const QString& Event::getLocation() const { return location; }
-bool Event::isAccepted() const { return accepted; }
 
 // setter
 void Event::setStart(const TimePoint& s) { start = s; }
 void Event::setEnd(const TimePoint& e) { end = e; }
 void Event::setLocation(const QString& l) { location = l; }
-void Event::setAccepted(bool a) { accepted = a; }
 
 // visitor
 void Event::accept(ActivityVisitor& v) const {
@@ -46,7 +43,6 @@ QJsonObject Event::toJson() const {
     data["start"] = timePointToIso(start);
     data["end"] = timePointToIso(end);
     data["location"] = location;
-    data["accepted"] = accepted;
 
     QJsonObject obj;
     obj["type"] = "event";
@@ -63,8 +59,7 @@ std::unique_ptr<Event> Event::fromJson(const QJsonObject& data) {
         d,
         isoToTimePoint(data.value("start").toString()),
         isoToTimePoint(data.value("end").toString()),
-        data.value("location").toString(),
-        data.value("accepted").toBool()
+        data.value("location").toString()
     );
 }
 

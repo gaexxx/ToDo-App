@@ -45,9 +45,6 @@ void ActivityCardVisitor::visit(const Todo::Deadline& d) {
             .arg(due.toString("dd/MM/yyyy hh:mm"))
     );
 
-    detailsLines.append(
-        d.isCompleted() ? "Completata" : "Da fare"
-    );
 }
 
 void ActivityCardVisitor::visit(const Todo::Reminder& r) {
