@@ -69,11 +69,6 @@ QPushButton#backBtn {
     text-align: left; padding:1px 6px; font-weight: 600;
 }
 
-/* Pulsante elimina */
-QPushButton#delete {
-    color: #b00020; font-weight: 600;
-}
-
 /* Pulsanti generici */
 QPushButton {
     border: 1px solid #ccc;
@@ -97,34 +92,4 @@ QPushButton#deleteButton {
     font-size: 30px;
     font-weight: bold;
     padding: 0;
-}
-
-/* DONE */
-QPushButton#doneButton {
-    background-color: #e6f4ea;
-    color: #2e7d32;
-}
-
-QPushButton#doneButton:hover {
-    background-color: #c8e6c9;
-}
-
-/* EDIT */
-QPushButton#editButton {
-    background-color: #e3f2fd;
-    color: #1565c0;
-}
-
-QPushButton#editButton:hover {
-    background-color: #bbdefb;
-}
-
-/* DELETE */
-QPushButton#deleteButton {
-    background-color: #fdecea;
-    color: #c62828;
-}
-
-QPushButton#deleteButton:hover {
-    background-color: #f9cfcf;
 }
