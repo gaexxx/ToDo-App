@@ -6,6 +6,7 @@
 #include <QHBoxLayout>
 #include <QStackedWidget>
 #include <QTimer>
+#include <QDate>
 
 #include <vector>
 #include <memory>
@@ -60,9 +61,11 @@ private:
         Week,
         All
     };
+    static QString formatHeader(FilterMode filter);
 
     FilterMode currentFilter = FilterMode::Today;
     QString currentSearch;
+
     
     // filtri
     std::vector<Todo::Activity*> applyDateFilter() const;

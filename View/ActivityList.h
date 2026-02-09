@@ -4,6 +4,7 @@
 #include <vector>
 #include <QWidget>
 #include <QVBoxLayout>
+#include <QLabel>
 #include "../Activity.h"
 #include "ActivityCard.h"
 
@@ -15,6 +16,9 @@ class ActivityList : public QWidget {
     Q_OBJECT
 public:
     explicit ActivityList(QWidget* parent = nullptr);
+
+    // imposta l'header
+    void setHeaderText(const QString& text);
 
     // imposta le attivita' visibili
     void setActivities(const std::vector<Todo::Activity*>& acts);
@@ -40,6 +44,7 @@ private:
     QVBoxLayout* mainLayout;
     QWidget* cardsContainer;
     QVBoxLayout* cardsLayout;
+    QLabel* header;   
     
 private slots:
     void deleteActivity(const Todo::Activity* activity);

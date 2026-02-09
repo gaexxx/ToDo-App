@@ -2,7 +2,6 @@
 #include "ActivityCard.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <QLabel>
 #include <QPushButton>
 #include <QScrollArea>
 #include <QDateTime>
@@ -17,9 +16,7 @@ ActivityList::ActivityList(QWidget* parent)
     cardsContainer(new QWidget(this)),
     cardsLayout(new QVBoxLayout(cardsContainer))  
 {
-    auto* header = new QLabel("Oggi - " + 
-        QDateTime::currentDateTime().toString("dd/MM/yyyy"), 
-        this);
+    header = new QLabel(this);
     header->setObjectName("data");
 
     auto* topButtWidget = new QWidget(this);
@@ -60,6 +57,10 @@ ActivityList::ActivityList(QWidget* parent)
     mainLayout->addWidget(header);
     mainLayout->addWidget(topButtWidget);
     mainLayout->addWidget(scroll, 1);
+}
+
+void ActivityList::setHeaderText(const QString& text) {
+    header->setText(text);
 }
 
 // restituisce le attivita' visibili

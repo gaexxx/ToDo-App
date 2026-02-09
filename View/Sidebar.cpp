@@ -22,7 +22,7 @@ Sidebar::Sidebar(QWidget* parent) : QWidget(parent) {
     filters->addItems({
         "Oggi",
         "Domani",
-        "Questa settimana",
+        "Settimana",
         "Tutti",
     });
     filters->setCurrentRow(0); // default: Oggi

@@ -141,9 +141,39 @@ MainWindow::MainWindow(QWidget* parent)
     refreshActivityList();
 }
 
+// In base a che filtro si usa l'header cambia
+QString MainWindow::formatHeader(FilterMode filter) {
+    QDate today = QDate::currentDate();
+
+    switch (filter) {
+    case FilterMode::Today:
+        return "Oggi - " + today.toString("dd/MM/yyyy");
+
+    case FilterMode::Tomorrow:
+        return "Domani - " + today.addDays(1).toString("dd/MM/yyyy");
+
+    case FilterMode::Week: {
+        QDate start = today;
+        QDate end   = today.addDays(7);
+        return start.toString("dd/MM/yyyy") +
+               " - " +
+               end.toString("dd/MM/yyyy");
+    }
+
+    case FilterMode::All:
+        return "Tutte le attività";
+    }
+
+    return "";
+}
+
+
 // helper per refresh
 void MainWindow::refreshActivityList()
 {
+    // aggiorna titolo
+    activityList->setHeaderText(formatHeader(currentFilter));
+
     if (stackedWidget)
         stackedWidget->setCurrentWidget(activityList);
 
