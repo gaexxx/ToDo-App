@@ -62,6 +62,10 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
     editBtn->setObjectName("editButton");
     deleteBtn->setObjectName("deleteButton");
 
+    // hover con info pulsante
+    editBtn->setToolTip("Modifica");
+    deleteBtn->setToolTip("Elimina");
+
     // icone SVG
     editBtn->setIcon(QIcon(":/assets/edit.svg"));
     deleteBtn->setIcon(QIcon(":/assets/delete.svg"));
