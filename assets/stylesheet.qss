@@ -83,13 +83,24 @@ QPushButton:hover {
     background-color: #e6e6e6;
 }
 
-/* Mini pulsanti quadrati /*
-QPushButton#doneButton,
+/* Mini pulsanti quadrati */
 QPushButton#editButton,
 QPushButton#deleteButton {
-    border: none;
-    border-radius: 30px;
-    font-size: 30px;
-    font-weight: bold;
     padding: 0;
+    min-width: 36px;
+    min-height: 36px;
+    border-radius: 18px;
+    border: none;
+    background: transparent;
+    color: #555;
+}
+
+QPushButton#editButton:hover {
+    background: #eef3ff;
+    color: #3b6cff;
+}
+
+QPushButton#deleteButton:hover {
+    background: #ffecec;
+    color: #d11a2a;
 }

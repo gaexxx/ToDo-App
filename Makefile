@@ -393,6 +393,8 @@ compiler_rcc_clean:
 	-$(DEL_FILE) qrc_resources.cpp
 qrc_resources.cpp: resources.qrc \
 		/usr/lib/qt6/libexec/rcc \
+		assets/edit.svg \
+		assets/delete.svg \
 		assets/stylesheet.qss
 	/usr/lib/qt6/libexec/rcc -name resources resources.qrc -o qrc_resources.cpp
 

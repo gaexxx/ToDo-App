@@ -1,4 +1,4 @@
-QT += widgets
+QT += core widgets
 TEMPLATE = app
 TARGET = todo
 

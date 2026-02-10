@@ -1,5 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
     <file>assets/stylesheet.qss</file>
+    <file>assets/edit.svg</file>
+    <file>assets/delete.svg</file>
 </qresource>
 </RCC>

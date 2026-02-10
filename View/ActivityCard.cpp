@@ -56,19 +56,23 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
     rightLayout->setAlignment(Qt::AlignTop);
     rightLayout->setSpacing(6);
 
-    editBtn   = new QPushButton("✎", this);
-    deleteBtn = new QPushButton("🗑", this);
+    editBtn   = new QPushButton(this);
+    deleteBtn = new QPushButton(this);
 
     editBtn->setObjectName("editButton");
     deleteBtn->setObjectName("deleteButton");
 
-    connect(deleteBtn, &QPushButton::clicked, this, [this]() {
-        emit deleteRequested(this->activity);
-    });
+    // icone SVG
+    editBtn->setIcon(QIcon(":/assets/edit.svg"));
+    deleteBtn->setIcon(QIcon(":/assets/delete.svg"));
+   
+    // dimensione icona
+    editBtn->setIconSize(QSize(20, 20));
+    deleteBtn->setIconSize(QSize(20, 20));
 
-    connect(editBtn, &QPushButton::clicked, this, [this]() {
-        emit editRequested(this->activity);
-    });
+    // pulsante solo icona
+    editBtn->setFixedSize(36, 36);
+    deleteBtn->setFixedSize(36, 36);
 
 
     rightLayout->addWidget(editBtn);
@@ -78,7 +82,14 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
     mainLayout->addWidget(leftWidget, 1);
     mainLayout->addWidget(rightWidget, 0);
 
-   
+
+    connect(deleteBtn, &QPushButton::clicked, this, [this]() {
+        emit deleteRequested(this->activity);
+    });
+
+    connect(editBtn, &QPushButton::clicked, this, [this]() {
+        emit editRequested(this->activity);
+    });
 }
 
 void ActivityCard::mousePressEvent(QMouseEvent* event)
