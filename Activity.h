@@ -37,12 +37,13 @@ public:
 
 protected:
     Activity(QString title, QString description);
-    QString title;
-    QString description;
-
+    
     // supporto JSON per campi comuni
     static void putCommon(QJsonObject& o, const Activity& a);
     static void readCommon(const QJsonObject& o, QString& title, QString& description);
+private:
+    QString title;
+    QString description;
 };
 
 } 

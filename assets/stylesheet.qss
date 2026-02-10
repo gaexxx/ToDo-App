@@ -91,16 +91,6 @@ QPushButton#deleteButton {
     min-height: 36px;
     border-radius: 18px;
     border: none;
-    background: transparent;
     color: #555;
 }
 
-QPushButton#editButton:hover {
-    background: #eef3ff;
-    color: #3b6cff;
-}
-
-QPushButton#deleteButton:hover {
-    background: #ffecec;
-    color: #d11a2a;
-}

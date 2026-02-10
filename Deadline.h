@@ -16,7 +16,7 @@ public:
     static std::unique_ptr<Deadline> fromJson(const QJsonObject& o);
 
     const TimePoint& getDue() const;
-    void setDue(const TimePoint& e);
+    void setDue(const TimePoint& d);
 
     TimeInterval timeInterval() const;
     TimePoint sortKey() const;
