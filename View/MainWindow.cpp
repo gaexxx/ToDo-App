@@ -389,7 +389,7 @@ void View::MainWindow::onImportActivities() {
         QMessageBox::critical(this, "Errore importazione", e.what());
     }
 
-    activityList->setActivities({});
+    refreshActivityList();
 }
 
 // EXPORT
