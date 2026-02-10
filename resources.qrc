@@ -3,5 +3,8 @@
     <file>assets/stylesheet.qss</file>
     <file>assets/edit.svg</file>
     <file>assets/delete.svg</file>
+    <file>assets/location.svg</file>
+    <file>assets/reminder.svg</file>
+    <file>assets/deadline.svg</file>
 </qresource>
 </RCC>

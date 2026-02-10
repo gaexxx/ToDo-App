@@ -28,7 +28,9 @@ void ActivityCardVisitor::visit(const Todo::Event& e) {
     );
 
     detailsLines.append(
-        QString("Icona luogo %1")
+        QString( "<img src=':/assets/location.svg' "
+            "width='16' height='16' "
+            "style='vertical-align: baseline;'/> %1")
             .arg(e.getLocation())
     );
 }
@@ -41,7 +43,9 @@ void ActivityCardVisitor::visit(const Todo::Deadline& d) {
     );
 
     detailsLines.append(
-        QString("Scadenza: %1")
+        QString( "<img src=':/assets/deadline.svg' "
+            "width='16' height='16' "
+            "style='vertical-align: baseline;'/> Scadenza: %1")
             .arg(due.toString("dd/MM/yyyy hh:mm"))
     );
 
@@ -55,7 +59,10 @@ void ActivityCardVisitor::visit(const Todo::Reminder& r) {
     );
 
     detailsLines.append(
-        QString("Promemoria per: %1")
+        QString(
+            "<img src=':/assets/reminder.svg' "
+            "width='16' height='16' "
+            "style='vertical-align: baseline;'/>  Promemoria: %1")
             .arg(remindAt.toString("dd/MM/yyyy hh:mm"))
     );
 }
