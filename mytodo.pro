@@ -1,6 +1,6 @@
 QT += core widgets
 TEMPLATE = app
-TARGET = todo
+TARGET = My-ToDo
 
 HEADERS += \
     Activity.h \
