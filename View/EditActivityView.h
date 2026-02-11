@@ -1,5 +1,5 @@
-#ifndef VIEW_EDITEVENTVIEW_H
-#define VIEW_EDITEVENTVIEW_H
+#ifndef VIEW_EDITACTIVITYVIEW_H
+#define VIEW_EDITACTIVITYVIEW_H
 
 #include <QWidget>
 #include <QLineEdit>
@@ -16,11 +16,11 @@
 
 namespace View {
 
-class EditEventView : public QWidget {
+class EditActivityView : public QWidget {
     Q_OBJECT
 
 public:
-    explicit EditEventView(Todo::Activity* activity, QWidget* parent = nullptr);
+    explicit EditActivityView(Todo::Activity* activity, QWidget* parent = nullptr);
 
 signals:
     void activityUpdated(Todo::Activity* activity);

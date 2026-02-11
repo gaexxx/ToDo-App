@@ -16,8 +16,8 @@ HEADERS += \
     View/Sidebar.h \
     View/ActivityList.h \
     View/ActivityCard.h \
-    View/AddEventView.h \
-    View/EditEventView.h \
+    View/AddActivityView.h \
+    View/EditActivityView.h \
     View/ActivityCardVisitor.h 
 
 
@@ -35,8 +35,8 @@ SOURCES += \
     View/Sidebar.cpp \
     View/ActivityList.cpp \
     View/ActivityCard.cpp \
-    View/AddEventView.cpp \
-    View/EditEventView.cpp \
+    View/AddActivityView.cpp \
+    View/EditActivityView.cpp \
     View/ActivityCardVisitor.cpp
 
 RESOURCES += resources.qrc

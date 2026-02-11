@@ -24,8 +24,8 @@ static QString storagePath()
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent),
-      addEventView(nullptr),
-      editEventView(nullptr),
+      addActivityView(nullptr),
+      editActivityView(nullptr),
       lastInfoActivity(nullptr)
 {
     central = new QWidget(this);
@@ -51,7 +51,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     // click su "Aggiungi attività"
     connect(activityList, &ActivityList::addActivityRequested,
-            this, &MainWindow::showAddEventView);
+            this, &MainWindow::showAddActivityView);
 
     // dettaglio di un'attività 
     connect(activityList, &ActivityList::activitySelected,
@@ -185,21 +185,21 @@ void MainWindow::refreshActivityList()
 }
 
 // Add view
-void MainWindow::showAddEventView() {
-    if (!addEventView) {
-        addEventView = new AddEventView(central);
-        stackedWidget->addWidget(addEventView);
+void MainWindow::showAddActivityView() {
+    if (!addActivityView) {
+        addActivityView = new AddActivityView(central);
+        stackedWidget->addWidget(addActivityView);
 
         // aggiunge attivita'
-        connect(addEventView, &AddEventView::activityCreated,
+        connect(addActivityView, &AddActivityView::activityCreated,
                 this, &MainWindow::onActivityCreated);
         
         // annulla aggiunta attivita'
-        connect(addEventView, &AddEventView::canceled,
+        connect(addActivityView, &AddActivityView::canceled,
                 this, &MainWindow::onAddCanceled);
     }
 
-    stackedWidget->setCurrentWidget(addEventView);
+    stackedWidget->setCurrentWidget(addActivityView);
 }
 
 // alla creazione di un'attivita'
@@ -210,13 +210,13 @@ void MainWindow::onActivityCreated(Todo::Activity* activity) {
     Todo::JsonStorage storage;
     storage.save(storagePath(), activities);
 
-    addEventView->reset(); // reset vista di aggiunta
+    addActivityView->reset(); // reset vista di aggiunta
     stackedWidget->setCurrentWidget(activityList); // ritorna alla lista
 }
 
 // all'annullamento della creazione di un'attivita'
 void MainWindow::onAddCanceled() {
-    addEventView->reset();
+    addActivityView->reset();
     stackedWidget->setCurrentWidget(activityList);
 }
 
@@ -230,15 +230,15 @@ void MainWindow::onEditRequested(const Todo::Activity* activity) {
 
     auto* editable = const_cast<Todo::Activity*>(activity);
 
-    if (editEventView) {
-        stackedWidget->removeWidget(editEventView);
-        delete editEventView;
+    if (editActivityView) {
+        stackedWidget->removeWidget(editActivityView);
+        delete editActivityView;
     }
 
-    editEventView = new View::EditEventView(editable, this);
+    editActivityView = new View::EditActivityView(editable, this);
 
     // salva modifica
-    connect(editEventView, &View::EditEventView::activityUpdated,
+    connect(editActivityView, &View::EditActivityView::activityUpdated,
             this,
             [this, returnView, returnActivity]() {
 
@@ -256,7 +256,7 @@ void MainWindow::onEditRequested(const Todo::Activity* activity) {
             });
 
     // annulla modifica
-    connect(editEventView, &View::EditEventView::editCanceled,
+    connect(editActivityView, &View::EditActivityView::editCanceled,
             this,
             [this, returnView, returnActivity]() {
                 // se si annulla la modifica nel dettaglio si
@@ -269,8 +269,8 @@ void MainWindow::onEditRequested(const Todo::Activity* activity) {
                 }
             });
 
-    stackedWidget->addWidget(editEventView);
-    stackedWidget->setCurrentWidget(editEventView);
+    stackedWidget->addWidget(editActivityView);
+    stackedWidget->setCurrentWidget(editActivityView);
 }
 
 // all'annullamento della modifica

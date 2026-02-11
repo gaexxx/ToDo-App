@@ -1,4 +1,4 @@
-#include "EditEventView.h"
+#include "EditActivityView.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -8,7 +8,7 @@
 
 namespace View {
 
-EditEventView::EditEventView(Todo::Activity* activity, QWidget* parent)
+EditActivityView::EditActivityView(Todo::Activity* activity, QWidget* parent)
     : QWidget(parent), activity(activity)
 {
     auto* mainLayout = new QVBoxLayout(this);
@@ -97,14 +97,14 @@ EditEventView::EditEventView(Todo::Activity* activity, QWidget* parent)
 
     // CONNECT
     connect(saveBtn, &QPushButton::clicked,
-            this, &EditEventView::onSaveClicked);
+            this, &EditActivityView::onSaveClicked);
 
     connect(cancelBtn, &QPushButton::clicked,
-            this, &EditEventView::editCanceled);
+            this, &EditActivityView::editCanceled);
 }
 
 
-void EditEventView::onSaveClicked() {
+void EditActivityView::onSaveClicked() {
 
      // campo title obbligatorio
     if (titleEdit->text().trimmed().isEmpty()) {
@@ -142,7 +142,7 @@ void EditEventView::onSaveClicked() {
     emit activityUpdated(activity);
 }
 
-void EditEventView::onCancelClicked() {
+void EditActivityView::onCancelClicked() {
     emit editCanceled();
 }
 

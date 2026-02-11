@@ -1,4 +1,4 @@
-#include "AddEventView.h"
+#include "AddActivityView.h"
 
 #include <QVBoxLayout>
 #include <QFormLayout>
@@ -12,7 +12,7 @@
 
 namespace View {
 
-AddEventView::AddEventView(QWidget* parent)
+AddActivityView::AddActivityView(QWidget* parent)
     : QWidget(parent)
 {
     auto* mainLayout = new QVBoxLayout(this);
@@ -92,16 +92,16 @@ AddEventView::AddEventView(QWidget* parent)
 
     // CONNECT 
     connect(typeSelector, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &AddEventView::onTypeChanged);
+            this, &AddActivityView::onTypeChanged);
 
     connect(saveButton, &QPushButton::clicked,
-            this, &AddEventView::onSaveClicked);
+            this, &AddActivityView::onSaveClicked);
 
     connect(cancelButton, &QPushButton::clicked,
-        this, &AddEventView::canceled);
+        this, &AddActivityView::canceled);
 }
 
-void AddEventView::onTypeChanged(int index) {
+void AddActivityView::onTypeChanged(int index) {
     titleEdit->clear();
     descriptionEdit->clear();
     startEdit->setDateTime(QDateTime::currentDateTime());
@@ -112,7 +112,7 @@ void AddEventView::onTypeChanged(int index) {
     formStack->setCurrentIndex(index);
 }
 
-void AddEventView::onSaveClicked() {
+void AddActivityView::onSaveClicked() {
 
     // campo title obbligatorio
     if (titleEdit->text().trimmed().isEmpty()) {
@@ -160,7 +160,7 @@ void AddEventView::onSaveClicked() {
     emit activityCreated(activity);
 }
 
-void AddEventView::reset() {
+void AddActivityView::reset() {
     titleEdit->clear();
     descriptionEdit->clear();
     locationEdit->clear();

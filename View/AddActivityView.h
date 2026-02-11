@@ -1,5 +1,5 @@
-#ifndef VIEW_ADDEVENTVIEW_H
-#define VIEW_ADDEVENTVIEW_H
+#ifndef VIEW_ADDACTIVITYVIEW_H
+#define VIEW_ADDACTIVITYVIEW_H
 
 #include <QWidget>
 #include <QComboBox>
@@ -13,11 +13,11 @@
 
 namespace View {
 
-class AddEventView : public QWidget {
+class AddActivityView : public QWidget {
     Q_OBJECT
 
 public:
-    explicit AddEventView(QWidget* parent = nullptr);
+    explicit AddActivityView(QWidget* parent = nullptr);
     void reset(); // resetta i campi dopo aver aggiunto l'attivita'
 
 

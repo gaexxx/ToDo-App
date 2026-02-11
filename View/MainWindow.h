@@ -13,8 +13,8 @@
 
 #include "Sidebar.h"
 #include "ActivityList.h"
-#include "AddEventView.h"
-#include "EditEventView.h"
+#include "AddActivityView.h"
+#include "EditActivityView.h"
 #include "Info.h"
 #include "../Activity.h"
 
@@ -28,7 +28,7 @@ public:
     explicit MainWindow(QWidget* parent = nullptr);
 
 private slots:
-    void showAddEventView();
+    void showAddActivityView();
     void onActivityCreated(Todo::Activity* activity);
     void onAddCanceled(); // annulla se non si salva l'attivita'
     void onEditRequested(const Todo::Activity* activity);
@@ -36,7 +36,7 @@ private slots:
     void onDeleteActivity(const Todo::Activity* activity); // alla cancellazione
     void removeVisibleActivities();
     void onImportActivities();
-    void onExportVisibleActivities(const std::vector<Todo::Activity*>& activites);
+    void onExportVisibleActivities(const std::vector<Todo::Activity*>& activities);
     void checkReminders();
 
 private:
@@ -46,8 +46,8 @@ private:
     ActivityList* activityList;
     Info* infoView;
     QStackedWidget* stackedWidget;
-    AddEventView* addEventView;
-    EditEventView* editEventView;
+    AddActivityView* addActivityView;
+    EditActivityView* editActivityView;
     const Todo::Activity* lastInfoActivity;
     QTimer* reminderTimer;
 
