@@ -102,6 +102,13 @@ AddEventView::AddEventView(QWidget* parent)
 }
 
 void AddEventView::onTypeChanged(int index) {
+    titleEdit->clear();
+    descriptionEdit->clear();
+    startEdit->setDateTime(QDateTime::currentDateTime());
+    endEdit->setDateTime(QDateTime::currentDateTime());
+    deadlineEndEdit->setDateTime(QDateTime::currentDateTime());
+    remindAtEdit->setDateTime(QDateTime::currentDateTime());
+
     formStack->setCurrentIndex(index);
 }
 
@@ -128,6 +135,7 @@ void AddEventView::onSaveClicked() {
     Todo::Activity* activity = nullptr;
 
     if (typeSelector->currentIndex() == 0) {
+
         activity = new Todo::Event(
             titleEdit->text(),                       
             descriptionEdit->toPlainText(),          

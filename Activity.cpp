@@ -46,6 +46,7 @@ void Activity::readCommon(const QJsonObject& obj, QString& title, QString& descr
     description = obj.value("description").toString();
 }
 
+// per la funzionalita' cerca
 bool Activity::matches(const QString& text) const {
     if (text.isEmpty())
         return true;

@@ -35,7 +35,7 @@ JsonStorage::load(const QString& path) const
         if (!v.isObject())
             continue;
 
-        // delega totale alla factory
+        // delega alla factory
         auto activity = ActivityFactory::create(v.toObject());
         if (activity)
             result.push_back(std::move(activity));
@@ -43,6 +43,36 @@ JsonStorage::load(const QString& path) const
 
     return result;
 }
+
+//IMPORT
+std::vector<std::unique_ptr<Activity>>
+JsonStorage::loadFromFile(const QString& path) const {
+
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly))
+        throw std::runtime_error("Impossibile aprire il file JSON");
+
+    QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+    file.close();
+
+    if (!doc.isArray())
+        throw std::runtime_error("Formato JSON non valido");
+
+    QJsonArray array = doc.array();
+    std::vector<std::unique_ptr<Activity>> activities;
+
+    for (const QJsonValue& v : array) {
+        if (!v.isObject())
+            continue;
+
+        auto act = ActivityFactory::create(v.toObject());
+        if (act)
+            activities.push_back(std::move(act));
+    }
+
+    return activities;
+}
+
 
 // SAVE 
 void JsonStorage::save(const QString& path,
@@ -86,34 +116,6 @@ void JsonStorage::save(const QString& path,
     file.close();
 }
 
-//IMPORT
-std::vector<std::unique_ptr<Activity>>
-JsonStorage::loadFromFile(const QString& path) const {
-
-    QFile file(path);
-    if (!file.open(QIODevice::ReadOnly))
-        throw std::runtime_error("Impossibile aprire il file JSON");
-
-    QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
-    file.close();
-
-    if (!doc.isArray())
-        throw std::runtime_error("Formato JSON non valido");
-
-    QJsonArray array = doc.array();
-    std::vector<std::unique_ptr<Activity>> activities;
-
-    for (const QJsonValue& v : array) {
-        if (!v.isObject())
-            continue;
-
-        auto act = ActivityFactory::create(v.toObject());
-        if (act)
-            activities.push_back(std::move(act));
-    }
-
-    return activities;
-}
 
 
 
