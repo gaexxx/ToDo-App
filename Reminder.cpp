@@ -14,9 +14,11 @@ const bool registered = ActivityFactory::registerType(
 }
 
 
-Reminder::Reminder(QString title, QString description, TimePoint remindAt)
-    : Activity(std::move(title), std::move(description)),
-      remindAt(remindAt) {}
+Reminder::Reminder(QString title, QString description, TimePoint remindAt, bool triggered)
+    : Activity(std::move(title), 
+    std::move(description)),
+    remindAt(remindAt),
+    triggered(triggered) {}
 
 const TimePoint& Reminder::getRemindAt() const { return remindAt; }
 
@@ -27,6 +29,9 @@ void Reminder::setRemindAt(const TimePoint& t) {
         triggered = false; // puo' scattare solo quando e' nel futuro
     }
 }
+
+bool Reminder::isTriggered() const { return triggered;}
+void Reminder::setTriggered(bool value) { triggered = value;}
 
 bool Reminder::checkAndTrigger(const TimePoint& now) {
     if (!triggered && now >= remindAt) {
@@ -46,6 +51,7 @@ QJsonObject Reminder::toJson() const {
     QJsonObject data;
     putCommon(data, *this);
     data["remindAt"] = timePointToIso(remindAt);
+    data["triggered"] = triggered;
 
     QJsonObject obj;
     obj["type"] = "reminder";
@@ -60,7 +66,8 @@ std::unique_ptr<Reminder> Reminder::fromJson(const QJsonObject& data) {
     return std::make_unique<Reminder>(
         t,
         d,
-        isoToTimePoint(data.value("remindAt").toString())
+        isoToTimePoint(data.value("remindAt").toString()),
+        data.value("triggered").toBool()
     );
 }
 

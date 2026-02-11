@@ -10,16 +10,19 @@ class Reminder : public Activity {
 public:
     Reminder(QString title,
         QString description,
-        TimePoint remindAt);
+        TimePoint remindAt,
+        bool triggered = false);
 
     QJsonObject toJson() const override;
     static std::unique_ptr<Reminder> fromJson(const QJsonObject&);
 
-    bool checkAndTrigger(const TimePoint& now);
-
+    bool isTriggered() const;
+    void setTriggered(bool value);
     const TimePoint& getRemindAt() const;
     void setRemindAt(const TimePoint& t);
-
+    
+    bool checkAndTrigger(const TimePoint& now);
+    
     TimeInterval timeInterval() const;
     TimePoint sortKey() const; 
 
@@ -28,7 +31,7 @@ public:
 
 private:
     TimePoint remindAt;
-    bool triggered = false;
+    bool triggered;
 };
 
 } 

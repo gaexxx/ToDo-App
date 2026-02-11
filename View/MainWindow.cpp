@@ -416,10 +416,13 @@ void MainWindow::onExportVisibleActivities(
 // popup promemoria
 void MainWindow::checkReminders() {
     auto now = Todo::Clock::now();
+    bool changed = false;
 
     for (const auto& act : activities) {
         auto* r = dynamic_cast<Todo::Reminder*>(act.get());
         if (r && r->checkAndTrigger(now)) {
+            changed = true;
+
             QMessageBox::information(
                 this,
                 "Promemoria",
@@ -427,6 +430,11 @@ void MainWindow::checkReminders() {
                 QMessageBox::Ok
             );
         }
+    }
+
+    if (changed) {
+        Todo::JsonStorage storage;
+        storage.save(storagePath(), activities);
     }
 }
 
