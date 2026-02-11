@@ -1,0 +1,88 @@
+[
+    {
+        "data": {
+            "description": "Remake di Eyes wide shut",
+            "end": "2026-02-16T22:00:00.841",
+            "location": "Brescia",
+            "start": "2026-02-16T20:00:00.841",
+            "title": "Serata cinema"
+        },
+        "type": "event"
+    },
+    {
+        "data": {
+            "description": "Non ci sono parcheggi in zona, vai a piedi",
+            "end": "2026-02-18T18:30:00.833",
+            "location": "Corso Milano",
+            "start": "2026-02-18T18:00:00.832",
+            "title": "Aperitivo con colleghi"
+        },
+        "type": "event"
+    },
+    {
+        "data": {
+            "description": "Abbonamento trimestrale",
+            "due": "2026-02-18T22:35:55.861",
+            "title": "Rinnovo palestra"
+        },
+        "type": "deadline"
+    },
+    {
+        "data": {
+            "description": "Incontro conoscitivo azienda",
+            "end": "2026-02-20T17:00:00.945",
+            "location": "Azienda spa",
+            "start": "2026-02-20T15:00:00.944",
+            "title": "Colloquio stage"
+        },
+        "type": "event"
+    },
+    {
+        "data": {
+            "description": "porta lo snorkel",
+            "end": "2026-02-22T15:00:00.907",
+            "location": "Malcesine",
+            "start": "2026-02-21T13:00:00.907",
+            "title": "Weekend al lago"
+        },
+        "type": "event"
+    },
+    {
+        "data": {
+            "description": "dai che questa volta vinciamo",
+            "end": "2026-02-22T22:00:00.380",
+            "location": "Campo di Padova",
+            "start": "2026-02-22T20:00:00.380",
+            "title": "Partita calcetto"
+        },
+        "type": "event"
+    },
+    {
+        "data": {
+            "description": "Controllo annuale",
+            "end": "2026-02-23T13:00:00.794",
+            "location": "Centro medico di Biancavilla",
+            "start": "2026-02-23T12:00:00.794",
+            "title": "Visita medica"
+        },
+        "type": "event"
+    },
+    {
+        "data": {
+            "description": "Controllo di routine",
+            "end": "2026-02-24T15:00:00.176",
+            "location": "Studio Zambelli",
+            "start": "2026-02-24T14:00:00.176",
+            "title": "Dentista"
+        },
+        "type": "event"
+    },
+    {
+        "data": {
+            "description": "scadenza mensile",
+            "due": "2026-02-24T22:29:22.434",
+            "title": "Rinnovo abbonamento mezzi"
+        },
+        "type": "deadline"
+    }
+]

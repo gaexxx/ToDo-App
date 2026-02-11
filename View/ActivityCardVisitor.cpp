@@ -22,13 +22,15 @@ void ActivityCardVisitor::visit(const Todo::Event& e) {
             .arg(start.toString("dd/MM/yyyy hh:mm"))
             .arg(end.toString("dd/MM/yyyy hh:mm"))
     );
-
+    
+    if (!e.getLocation().trimmed().isEmpty()) {
     detailsLines.append(
-        QString( "<img src=':/assets/location.svg' "
-            "width='24' height='24' "
-            "style='vertical-align: baseline;'/> %1")
+        QString("<img src=':/assets/location.svg' "
+                "width='24' height='24' "
+                "style='vertical-align: baseline;'/> %1")
             .arg(e.getLocation())
-    );
+        );
+    }
 }
 
 void ActivityCardVisitor::visit(const Todo::Deadline& d) {

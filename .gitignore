@@ -1,6 +1,5 @@
 *.o
 moc*
-dataset/
 qrc_resources.cpp
 .qmake.stash
 Makefile

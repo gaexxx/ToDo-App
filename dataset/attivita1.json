@@ -1,0 +1,74 @@
+[
+    {
+        "data": {
+            "description": "A purely peer-to-peer version of electronic cash would allow online payments to be sent directly from one party to another without going through a financial institution. Digital signatures provide part of the solution, but the main benefits are lost if a trusted third party is still required to prevent double-spending.\nWe propose a solution to the double-spending problem using a peer-to-peer network. The network timestamps transactions by hashing them into an ongoing chain of hash-based proof-of-work, forming a record that cannot be changed without redoing the proof-of-work. The longest chain not only serves as proof of the sequence of events witnessed, but proof that it came from the largest pool of CPU power. As long as a majority of CPU power is controlled by nodes that are not cooperating to attack the network, they'll generate the longest chain and outpace attackers. The network itself requires minimal structure. Messages are broadcast on a best effort basis, and nodes can leave and rejoin the network at will, accepting the longest proof-of-work chain as proof of what happened while they were gone.\n",
+            "end": "2026-02-28T17:01:54.747",
+            "location": "Yokohama",
+            "start": "2026-02-11T17:01:54.686",
+            "title": "Conferenza Bitcoin"
+        },
+        "type": "event"
+    },
+    {
+        "data": {
+            "description": "Registrazione su Uniweb",
+            "due": "2026-02-15T22:10:12.003",
+            "title": "Iscrizione appello reti di calcolatori febbraio"
+        },
+        "type": "deadline"
+    },
+    {
+        "data": {
+            "description": "Verificare che la compilazione funzioni in Docker",
+            "due": "2026-02-16T18:00:00.518",
+            "title": "Progetto PAO"
+        },
+        "type": "deadline"
+    },
+    {
+        "data": {
+            "description": "Lasciare riposare altri 20 minuti prima di stendere nella teglia.",
+            "remindAt": "2026-02-17T21:25:19.498",
+            "title": "Tirare fuori l'impasto dal frigo",
+            "triggered": false
+        },
+        "type": "reminder"
+    },
+    {
+        "data": {
+            "description": "Info esami a scelta",
+            "remindAt": "2026-02-17T22:15:53.191",
+            "title": "Chiamare segreteria",
+            "triggered": false
+        },
+        "type": "reminder"
+    },
+    {
+        "data": {
+            "description": "Seconda rata",
+            "due": "2026-02-18T22:15:02.461",
+            "title": "Pagamento tassa universitaria"
+        },
+        "type": "deadline"
+    },
+    {
+        "data": {
+            "description": "Discussione avanzamento progetto",
+            "end": "2026-02-19T16:00:00.118",
+            "location": "Sever discord",
+            "start": "2026-02-19T13:00:00.118",
+            "title": "Riunione progetto calcolo"
+        },
+        "type": "event"
+    },
+    {
+        "data": {
+            "description": "Porta le focaccine",
+            "end": "2026-02-20T12:00:00.244",
+            "location": "Tre Cime",
+            "start": "2026-02-20T06:00:00.244",
+            "title": "Montagna con Gianni"
+        },
+        "type": "event"
+    }
+]
