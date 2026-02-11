@@ -30,11 +30,11 @@ public:
 private slots:
     void showAddActivityView();
     void onActivityCreated(Todo::Activity* activity);
-    void onAddCanceled(); // annulla se non si salva l'attivita'
+    void onAddCanceled(); 
     void onEditRequested(const Todo::Activity* activity);
     void onEditCanceled();
-    void onDeleteActivity(const Todo::Activity* activity); // alla cancellazione
-    void removeVisibleActivities();
+    void onRemoveActivity(const Todo::Activity* activity);  
+    void onRemoveVisibleActivities();
     void onImportActivities();
     void onExportVisibleActivities(const std::vector<Todo::Activity*>& activities);
     void checkReminders();
@@ -42,14 +42,14 @@ private slots:
 private:
     QWidget* central;
     QHBoxLayout* mainLayout;
+    QStackedWidget* stackedWidget;
+    QTimer* reminderTimer;
     Sidebar* sidebar;
     ActivityList* activityList;
     Info* infoView;
-    QStackedWidget* stackedWidget;
     AddActivityView* addActivityView;
     EditActivityView* editActivityView;
     const Todo::Activity* lastInfoActivity;
-    QTimer* reminderTimer;
 
     // MODEL
     std::vector<std::unique_ptr<Todo::Activity>> activities;

@@ -72,21 +72,21 @@ MainWindow::MainWindow(QWidget* parent)
 
     // elimina nel dettaglio dell attivita'        
     connect(infoView, &Info::deleteRequested,
-        this, &MainWindow::onDeleteActivity);
+        this, &MainWindow::onRemoveActivity);
 
 
     // richiesta rimozione singola        
     connect(activityList, &ActivityList::deleteRequested,
-        this, &MainWindow::onDeleteActivity);
+        this, &MainWindow::onRemoveActivity);
 
     // rimozione singola        
     connect(activityList, &ActivityList::activityDeleted,
-        this, &MainWindow::onDeleteActivity);
+        this, &MainWindow::onRemoveActivity);
 
     // rimozione di tutte le attivita' visibili    
     connect(activityList,
         &View::ActivityList::removeVisibleActivitiesRequested,
-        this, &View::MainWindow::removeVisibleActivities);
+        this, &View::MainWindow::onRemoveVisibleActivities);
 
     // modifica attivita'    
     connect(activityList, &ActivityList::editRequested,
@@ -285,7 +285,7 @@ void MainWindow::onEditCanceled()
 }
 
 // eliminazione singola attivita'
-void MainWindow::onDeleteActivity(const Todo::Activity* activity) {
+void MainWindow::onRemoveActivity(const Todo::Activity* activity) {
     QMessageBox msg(this);
     msg.setWindowTitle("Conferma eliminazione");
     msg.setText("Vuoi davvero eliminare questa attività?");
@@ -319,7 +319,7 @@ void MainWindow::onDeleteActivity(const Todo::Activity* activity) {
 }
 
 // eliminazione di tutte e sole le attivita' visibili
-void MainWindow::removeVisibleActivities()
+void MainWindow::onRemoveVisibleActivities()
 {
 
     const auto& visible = activityList->getVisibleActivities();
