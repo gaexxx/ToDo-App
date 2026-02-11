@@ -20,7 +20,6 @@ public:
     explicit AddActivityView(QWidget* parent = nullptr);
     void reset(); // resetta i campi dopo aver aggiunto l'attivita'
 
-
 signals:
     void activityCreated(Todo::Activity* activity);
     void canceled(); 
@@ -53,7 +52,6 @@ private:
     // REMINDER 
     QWidget* reminderForm;
     QDateTimeEdit* remindAtEdit;
-
     QPushButton* saveButton;
     QPushButton* cancelButton;
 };

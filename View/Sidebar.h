@@ -6,7 +6,6 @@
 
 namespace View {
 
-
 class Sidebar : public QWidget {
     Q_OBJECT
 public:

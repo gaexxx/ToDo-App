@@ -7,7 +7,6 @@
 
 namespace View {
 
-
 Sidebar::Sidebar(QWidget* parent) : QWidget(parent) {
     auto* layout = new QVBoxLayout(this);
     layout->setContentsMargins(8, 8, 8, 8);
@@ -44,7 +43,7 @@ Sidebar::Sidebar(QWidget* parent) : QWidget(parent) {
                 case 1: emit tomorrowSelected(); break;
                 case 2: emit weekSelected();     break;
                 case 3: emit allSelected();      break;
-                    }
+                }
             });
 }
 }

@@ -13,7 +13,6 @@ const bool registered = ActivityFactory::registerType(
 );
 }
 
-
 Reminder::Reminder(QString title, QString description, TimePoint remindAt, bool triggered)
     : Activity(std::move(title), 
     std::move(description)),
@@ -21,12 +20,11 @@ Reminder::Reminder(QString title, QString description, TimePoint remindAt, bool 
     triggered(triggered) {}
 
 const TimePoint& Reminder::getRemindAt() const { return remindAt; }
-
 void Reminder::setRemindAt(const TimePoint& t) {
     remindAt = t;
 
     if (t > Clock::now()) { 
-        triggered = false; // puo' scattare solo quando e' nel futuro
+        triggered = false; 
     }
 }
 

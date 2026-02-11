@@ -10,15 +10,11 @@ namespace View {
 
 void ActivityCardVisitor::visit(const Todo::Event& e) {
     auto start = QDateTime::fromSecsSinceEpoch(
-        std::chrono::duration_cast<std::chrono::seconds>(
-            e.getStart().time_since_epoch()
-        ).count()
+        std::chrono::duration_cast<std::chrono::seconds>(e.getStart().time_since_epoch()).count()
     );
 
     auto end = QDateTime::fromSecsSinceEpoch(
-        std::chrono::duration_cast<std::chrono::seconds>(
-            e.getEnd().time_since_epoch()
-        ).count()
+        std::chrono::duration_cast<std::chrono::seconds>(e.getEnd().time_since_epoch()).count()
     );
 
     detailsLines.append(
@@ -37,9 +33,7 @@ void ActivityCardVisitor::visit(const Todo::Event& e) {
 
 void ActivityCardVisitor::visit(const Todo::Deadline& d) {
     auto due = QDateTime::fromSecsSinceEpoch(
-        std::chrono::duration_cast<std::chrono::seconds>(
-            d.getDue().time_since_epoch()
-        ).count()
+        std::chrono::duration_cast<std::chrono::seconds>(d.getDue().time_since_epoch()).count()
     );
 
     detailsLines.append(
@@ -53,9 +47,7 @@ void ActivityCardVisitor::visit(const Todo::Deadline& d) {
 
 void ActivityCardVisitor::visit(const Todo::Reminder& r) {
     auto remindAt = QDateTime::fromSecsSinceEpoch(
-        std::chrono::duration_cast<std::chrono::seconds>(
-            r.getRemindAt().time_since_epoch()
-        ).count()
+        std::chrono::duration_cast<std::chrono::seconds>(r.getRemindAt().time_since_epoch()).count()
     );
 
     detailsLines.append(

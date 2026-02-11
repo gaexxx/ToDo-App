@@ -13,7 +13,6 @@ const bool registered = ActivityFactory::registerType(
 );
 }
 
-
 Event::Event(QString title, QString description, TimePoint start,
              TimePoint end, QString location)
     : Activity(std::move(title), std::move(description)),

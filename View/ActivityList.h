@@ -27,14 +27,14 @@ public:
     const std::vector<Todo::Activity*>& getVisibleActivities() const;
 
     signals:
-    void addActivityRequested();  // per scheda aggiungi attivita'
-    void activitySelected(const Todo::Activity*);
+    void addActivityRequested();                          
+    void activitySelected(const Todo::Activity*);         
     void editRequested(const Todo::Activity* activity);   // richiede modifica
-    void deleteRequested(const Todo::Activity* activity); // richiede rimozione
-    void activityDeleted(const Todo::Activity* activity); // rimozione
-    void removeVisibleActivitiesRequested(); // rimuove tutte le attivita' visibili
-    void importActivitiesRequested(); // richiede import attivita'
-    void exportVisibleActivitiesRequested( // export attivita' visibili
+    void deleteRequested(const Todo::Activity* activity); // richiede rimozione singola
+    void activityDeleted(const Todo::Activity* activity); // rimozione singola
+    void removeVisibleActivitiesRequested();              // rimuove tutte le attivita' visibili
+    void importActivitiesRequested();                     // import attivita'
+    void exportVisibleActivitiesRequested(                // export attivita' visibili
         const std::vector<Todo::Activity*>& activities
     );
 

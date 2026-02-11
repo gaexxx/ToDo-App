@@ -91,14 +91,9 @@ AddActivityView::AddActivityView(QWidget* parent)
     mainLayout->addLayout(buttonsLayout);
 
     // CONNECT 
-    connect(typeSelector, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &AddActivityView::onTypeChanged);
-
-    connect(saveButton, &QPushButton::clicked,
-            this, &AddActivityView::onSaveClicked);
-
-    connect(cancelButton, &QPushButton::clicked,
-        this, &AddActivityView::canceled);
+    connect(typeSelector, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &AddActivityView::onTypeChanged);
+    connect(saveButton, &QPushButton::clicked, this, &AddActivityView::onSaveClicked);
+    connect(cancelButton, &QPushButton::clicked, this, &AddActivityView::canceled);
 }
 
 void AddActivityView::onTypeChanged(int index) {

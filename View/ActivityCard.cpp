@@ -49,7 +49,6 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
         leftLayout->addWidget(lbl);
     }
 
-
     // DESTRA: AZIONI
     auto* rightWidget = new QWidget(this);
     auto* rightLayout = new QHBoxLayout(rightWidget);
@@ -78,14 +77,12 @@ ActivityCard::ActivityCard(const Todo::Activity* activity, QWidget* parent)
     editBtn->setFixedSize(36, 36);
     deleteBtn->setFixedSize(36, 36);
 
-
     rightLayout->addWidget(editBtn);
     rightLayout->addWidget(deleteBtn);
 
     // COMPOSIZIONE
     mainLayout->addWidget(leftWidget, 1);
     mainLayout->addWidget(rightWidget, 0);
-
 
     connect(deleteBtn, &QPushButton::clicked, this, [this]() {
         emit deleteRequested(this->activity);

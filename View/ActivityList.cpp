@@ -33,17 +33,10 @@ ActivityList::ActivityList(QWidget* parent)
     topButtLayout->addWidget(delBtn);
     topButtLayout->addStretch();
 
-    connect(addBtn, &QPushButton::clicked,
-        this, &ActivityList::addActivityRequested);
-    
-    connect(delBtn, &QPushButton::clicked,
-            this, &ActivityList::removeVisibleActivitiesRequested);
-
-    connect(impBtn, &QPushButton::clicked,
-            this, &ActivityList::importActivitiesRequested);
-
-    connect(expBtn, &QPushButton::clicked,
-            this, &ActivityList::onExportClicked);
+    connect(addBtn, &QPushButton::clicked, this, &ActivityList::addActivityRequested);
+    connect(delBtn, &QPushButton::clicked, this, &ActivityList::removeVisibleActivitiesRequested);
+    connect(impBtn, &QPushButton::clicked, this, &ActivityList::importActivitiesRequested);
+    connect(expBtn, &QPushButton::clicked, this, &ActivityList::onExportClicked);
 
      // Layout delle card
     cardsLayout->setAlignment(Qt::AlignTop);
@@ -64,8 +57,7 @@ void ActivityList::setHeaderText(const QString& text) {
 }
 
 // restituisce le attivita' visibili
-const std::vector<Todo::Activity*>& ActivityList::getVisibleActivities() const
-{
+const std::vector<Todo::Activity*>& ActivityList::getVisibleActivities() const{
     return activities;
 }
 
@@ -82,17 +74,9 @@ void ActivityList::setActivities(const std::vector<Todo::Activity*>& acts) {
         cardsLayout->addWidget(card);
         cards.push_back(card);
 
-        // selezione dettaglio attivita'
-        connect(card, &ActivityCard::clicked,
-                this, &ActivityList::activitySelected);
-
-        // modifica singola
-        connect(card, &ActivityCard::editRequested,
-                this, &ActivityList::editRequested);
-
-        // rimozione singola        
-        connect(card, &ActivityCard::deleteRequested,
-                this, &ActivityList::deleteActivity);
+        connect(card, &ActivityCard::clicked, this, &ActivityList::activitySelected);        // selezione dettaglio attivita'
+        connect(card, &ActivityCard::editRequested, this, &ActivityList::editRequested);     // modifica singola
+        connect(card, &ActivityCard::deleteRequested, this, &ActivityList::deleteActivity);  // rimozione singola        
     }
 }
 

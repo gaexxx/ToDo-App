@@ -39,10 +39,7 @@ TimePoint addDays(const TimePoint& tp, int days);
 TimePoint startOfDay(const TimePoint& tp);
 TimePoint endOfDay(const TimePoint& tp);
 
-bool intersects(const TimeInterval& a,
-                const TimeInterval& b);
-
-
+bool intersects(const TimeInterval& a, const TimeInterval& b);
 
 } 
 

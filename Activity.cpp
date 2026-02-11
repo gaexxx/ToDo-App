@@ -11,23 +11,11 @@ Activity::Activity(QString title, QString description)
 
 Activity::~Activity() = default;
 
-// getter 
-const QString& Activity::getTitle() const {
-    return title;
-}
+const QString& Activity::getTitle() const { return title; }
+const QString& Activity::getDescription() const { return description; }
 
-const QString& Activity::getDescription() const {
-    return description;
-}
-
-// setter 
-void Activity::setTitle(const QString& t) {
-    title = t;
-}
-
-void Activity::setDescription(const QString& d) {
-    description = d;
-}
+void Activity::setTitle(const QString& t) {title = t;}
+void Activity::setDescription(const QString& d) {description = d;}
 
 //  JSON helpers 
 void Activity::putCommon(QJsonObject& obj, const Activity& a) {
@@ -53,7 +41,6 @@ bool Activity::matches(const QString& text) const {
 
     const QString q = text.toLower();
 
-    return title.toLower().contains(q)
-        || description.toLower().contains(q);
+    return title.toLower().contains(q) || description.toLower().contains(q);
 }
 } 

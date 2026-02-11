@@ -86,21 +86,16 @@ EditActivityView::EditActivityView(Todo::Activity* activity, QWidget* parent)
         locationEdit->setText(e->getLocation());
         formStack->setCurrentIndex(0);
     } else if (auto* d = dynamic_cast<Todo::Deadline*>(activity)) {
-        deadlineEndEdit->setDateTime(
-            Todo::toQDateTime(d->getDue()));
+        deadlineEndEdit->setDateTime(Todo::toQDateTime(d->getDue()));
         formStack->setCurrentIndex(1);
     } else if (auto* r = dynamic_cast<Todo::Reminder*>(activity)) {
-        remindAtEdit->setDateTime(
-            Todo::toQDateTime(r->getRemindAt()));
+        remindAtEdit->setDateTime(Todo::toQDateTime(r->getRemindAt()));
         formStack->setCurrentIndex(2);
     }
 
     // CONNECT
-    connect(saveBtn, &QPushButton::clicked,
-            this, &EditActivityView::onSaveClicked);
-
-    connect(cancelBtn, &QPushButton::clicked,
-            this, &EditActivityView::editCanceled);
+    connect(saveBtn, &QPushButton::clicked, this, &EditActivityView::onSaveClicked);
+    connect(cancelBtn, &QPushButton::clicked, this, &EditActivityView::editCanceled);
 }
 
 

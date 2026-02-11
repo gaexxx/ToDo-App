@@ -26,7 +26,6 @@ public:
     QPushButton* editBtn;
     QPushButton* deleteBtn;
 
-
 signals:
     void backRequested();
     void editRequested(const Todo::Activity* activity);

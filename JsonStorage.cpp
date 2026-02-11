@@ -11,8 +11,7 @@
 namespace Todo {
 
 // LOAD 
-std::vector<std::unique_ptr<Activity>>
-JsonStorage::load(const QString& path) const
+std::vector<std::unique_ptr<Activity>> JsonStorage::load(const QString& path) const
 {
     std::vector<std::unique_ptr<Activity>> result;
 
@@ -45,8 +44,7 @@ JsonStorage::load(const QString& path) const
 }
 
 //IMPORT
-std::vector<std::unique_ptr<Activity>>
-JsonStorage::loadFromFile(const QString& path) const {
+std::vector<std::unique_ptr<Activity>> JsonStorage::loadFromFile(const QString& path) const {
 
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly))
@@ -75,8 +73,7 @@ JsonStorage::loadFromFile(const QString& path) const {
 
 
 // SAVE 
-void JsonStorage::save(const QString& path,
-                       const std::vector<std::unique_ptr<Activity>>& activities) const
+void JsonStorage::save(const QString& path, const std::vector<std::unique_ptr<Activity>>& activities) const
 {
     QJsonArray array;
 
@@ -96,8 +93,7 @@ void JsonStorage::save(const QString& path,
 }
 
 // SAVE (non owning, per export)
-void JsonStorage::save(const QString& path,
-                       const std::vector<Activity*>& activities) const
+void JsonStorage::save(const QString& path, const std::vector<Activity*>& activities) const
 {
     QJsonArray array;
 
@@ -115,9 +111,5 @@ void JsonStorage::save(const QString& path,
     file.write(doc.toJson(QJsonDocument::Indented));
     file.close();
 }
-
-
-
-
 
 } 

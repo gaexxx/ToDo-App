@@ -80,7 +80,6 @@ Info::Info(QWidget* parent)
 
 }
 
-
 void Info::showActivity(const Todo::Activity* activity)
 {
     this->activity = activity;

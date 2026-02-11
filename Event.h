@@ -14,9 +14,6 @@ public:
           TimePoint end,
           QString location);
 
-    QJsonObject toJson() const override;
-    static std::unique_ptr<Event> fromJson(const QJsonObject&);
-
     // getter
     const TimePoint& getStart() const;
     const TimePoint& getEnd() const;
@@ -26,6 +23,9 @@ public:
     void setStart(const TimePoint& s);
     void setEnd(const TimePoint& e);
     void setLocation(const QString& l);
+
+    QJsonObject toJson() const override;
+    static std::unique_ptr<Event> fromJson(const QJsonObject&);
 
     TimeInterval timeInterval() const; 
     TimePoint sortKey() const; 

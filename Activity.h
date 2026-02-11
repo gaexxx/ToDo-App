@@ -13,9 +13,6 @@ class Activity {
 public:
     virtual ~Activity();
 
-    // persistenza dati
-    virtual QJsonObject toJson() const = 0;
-
     // getter
     const QString& getTitle() const;
     const QString& getDescription() const;
@@ -23,6 +20,9 @@ public:
     // setter
     void setTitle(const QString& t);
     void setDescription(const QString& d);
+
+    // persistenza dati
+    virtual QJsonObject toJson() const = 0;
 
     // intervallo occupato dall'attività
     virtual TimeInterval timeInterval() const = 0;

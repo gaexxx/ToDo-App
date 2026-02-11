@@ -14,9 +14,7 @@ namespace View {
 // percorso JSON
 static QString storagePath()
 {
-    QString dir = QStandardPaths::writableLocation(
-        QStandardPaths::AppDataLocation
-    );
+    QString dir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
 
     QDir().mkpath(dir);
     return dir + "/activities.json";
@@ -49,9 +47,7 @@ MainWindow::MainWindow(QWidget* parent)
     Todo::JsonStorage storage;
     activities = storage.load(storagePath());
 
-    // click su "Aggiungi attività"
-    connect(activityList, &ActivityList::addActivityRequested,
-            this, &MainWindow::showAddActivityView);
+    connect(activityList, &ActivityList::addActivityRequested, this, &MainWindow::showAddActivityView); // click su "Aggiungi attività"
 
     // dettaglio di un'attività 
     connect(activityList, &ActivityList::activitySelected,
@@ -66,48 +62,18 @@ MainWindow::MainWindow(QWidget* parent)
                 stackedWidget->setCurrentWidget(activityList);
             });
 
-    // modifica nel dettaglio dell attivita'        
-    connect(infoView, &Info::editRequested,
-        this, &MainWindow::onEditRequested);
-
-    // elimina nel dettaglio dell attivita'        
-    connect(infoView, &Info::deleteRequested,
-        this, &MainWindow::onRemoveActivity);
-
-
-    // richiesta rimozione singola        
-    connect(activityList, &ActivityList::deleteRequested,
-        this, &MainWindow::onRemoveActivity);
-
-    // rimozione singola        
-    connect(activityList, &ActivityList::activityDeleted,
-        this, &MainWindow::onRemoveActivity);
-
-    // rimozione di tutte le attivita' visibili    
-    connect(activityList,
-        &View::ActivityList::removeVisibleActivitiesRequested,
-        this, &View::MainWindow::onRemoveVisibleActivities);
-
-    // modifica attivita'    
-    connect(activityList, &ActivityList::editRequested,
-        this, &MainWindow::onEditRequested);
-
-    // import attivita'
-    connect(activityList, &ActivityList::importActivitiesRequested,
-        this, &MainWindow::onImportActivities);
-
-    // export attivita' visibili
-    connect(
-        activityList,
-        &View::ActivityList::exportVisibleActivitiesRequested,
-        this,
-        &MainWindow::onExportVisibleActivities
-    );
+    connect(infoView, &Info::editRequested, this, &MainWindow::onEditRequested);  // modifica nel dettaglio dell attivita'   
+    connect(infoView, &Info::deleteRequested, this, &MainWindow::onRemoveActivity);  // elimina nel dettaglio dell attivita' 
+    connect(activityList, &ActivityList::deleteRequested, this, &MainWindow::onRemoveActivity); // richiesta rimozione singola
+    connect(activityList, &ActivityList::activityDeleted, this, &MainWindow::onRemoveActivity);  // rimozione singola 
+    connect(activityList, &View::ActivityList::removeVisibleActivitiesRequested, this, &View::MainWindow::onRemoveVisibleActivities); // rimozione di tutte le attivita' visibili    
+    connect(activityList, &ActivityList::editRequested, this, &MainWindow::onEditRequested); // modifica attivita'   
+    connect(activityList, &ActivityList::importActivitiesRequested, this, &MainWindow::onImportActivities); // import attivita'
+    connect(activityList, &View::ActivityList::exportVisibleActivitiesRequested, this, &MainWindow::onExportVisibleActivities); // export attivita' visibili
 
     // TIMER PER I REMINDER
     reminderTimer = new QTimer(this);
-    connect(reminderTimer, &QTimer::timeout,
-            this, &MainWindow::checkReminders);
+    connect(reminderTimer, &QTimer::timeout, this, &MainWindow::checkReminders);
     reminderTimer->start(1000); // ogni secondo
 
     // FILTRI SIDEBAR
@@ -190,13 +156,8 @@ void MainWindow::showAddActivityView() {
         addActivityView = new AddActivityView(central);
         stackedWidget->addWidget(addActivityView);
 
-        // aggiunge attivita'
-        connect(addActivityView, &AddActivityView::activityCreated,
-                this, &MainWindow::onActivityCreated);
-        
-        // annulla aggiunta attivita'
-        connect(addActivityView, &AddActivityView::canceled,
-                this, &MainWindow::onAddCanceled);
+        connect(addActivityView, &AddActivityView::activityCreated, this, &MainWindow::onActivityCreated);// aggiunge attivita'
+        connect(addActivityView, &AddActivityView::canceled, this, &MainWindow::onAddCanceled); // annulla aggiunta attivita'
     }
 
     stackedWidget->setCurrentWidget(addActivityView);
@@ -321,7 +282,6 @@ void MainWindow::onRemoveActivity(const Todo::Activity* activity) {
 // eliminazione di tutte e sole le attivita' visibili
 void MainWindow::onRemoveVisibleActivities()
 {
-
     const auto& visible = activityList->getVisibleActivities();
 
     if (visible.empty())
@@ -495,7 +455,5 @@ std::vector<Todo::Activity*> MainWindow::applySearch() const {
     );
     return result;
 }
-
-
 
 }
