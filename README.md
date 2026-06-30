@@ -8,14 +8,11 @@ Per compilare nel container Docker:
 # Solo una volta
 xhost +local:docker
 
-docker run -it --rm \
-  -v "$(pwd)":/app -w /app \
-  -u $(id -u):$(id -g) \
-  -e DISPLAY=$DISPLAY \
-  -e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR \
-  -v $XDG_RUNTIME_DIR:$XDG_RUNTIME_DIR \
-  -v /tmp/.X11-unix:/tmp/.X11-unix \
-  unipd-oop/qt-env:2025 bash
+docker run --rm -it \
+  -e DISPLAY="$DISPLAY" \
+  -e QT_X11_NO_MITSHM=1 \
+  -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+  mytodo
   ```
 
 `/usr/lib/qt6/bin/qmake`  

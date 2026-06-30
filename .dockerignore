@@ -1,0 +1,53 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Build directories
+build/
+build-*/
+debug/
+release/
+Debug/
+Release/
+
+# C/C++ compiled files
+*.o
+*.obj
+*.a
+*.so
+*.dll
+*.exe
+*.out
+
+# Qt generated files
+Makefile
+.qmake.stash
+moc_*
+qrc_*
+ui_*
+
+# Qt Creator / IDE files
+*.pro.user
+*.pro.user.*
+*.user
+.vscode/
+.idea/
+*.autosave
+
+# CMake generated files, if present
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs / temporary files
+*.log
+*.tmp
+*.bak
