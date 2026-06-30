@@ -29,6 +29,8 @@ jobs:
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{ env.QT_VERSION }}
+          host: windows
+          target: desktop
           arch: win64_msvc2022_64
           cache: true
 
@@ -73,14 +75,18 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential libgl1-mesa-dev libfuse2 patchelf
+          sudo apt-get install -y build-essential libgl1-mesa-dev libfuse2 patchelf p7zip-full
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{ env.QT_VERSION }}
-          arch: gcc_64
+          host: linux
+          target: desktop
+          arch: linux_gcc_64
+          archives: qtbase qtsvg
           cache: true
+          extra: --external 7z
 
       - name: Build application
         run: |
@@ -97,16 +103,18 @@ jobs:
 
           curl -L -o linuxdeploy-x86_64.AppImage \
             https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+
           curl -L -o linuxdeploy-plugin-qt-x86_64.AppImage \
             https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
+
           curl -L -o linuxdeploy-plugin-appimage-x86_64.AppImage \
             https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/continuous/linuxdeploy-plugin-appimage-x86_64.AppImage
-          chmod +x linuxdeploy-x86_64.AppImage linuxdeploy-plugin-qt-x86_64.AppImage linuxdeploy-plugin-appimage-x86_64.AppImage
 
-          QT_BIN="$(dirname "$(command -v qmake)")"
-          QT_ROOT="$(cd "$QT_BIN/.." && pwd)"
-          export QMAKE="$QT_BIN/qmake"
-          export LD_LIBRARY_PATH="$QT_ROOT/lib:${LD_LIBRARY_PATH:-}"
+          chmod +x linuxdeploy-x86_64.AppImage
+          chmod +x linuxdeploy-plugin-qt-x86_64.AppImage
+          chmod +x linuxdeploy-plugin-appimage-x86_64.AppImage
+
+          export QMAKE="$(command -v qmake)"
           export EXTRA_QT_MODULES="svg;"
 
           ./linuxdeploy-x86_64.AppImage \
