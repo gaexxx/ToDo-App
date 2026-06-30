@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=My-ToDo
+Comment=Desktop to-do manager built with Qt
+Exec=My-ToDo
+Icon=My-ToDo
+Terminal=false
+Categories=Utility;Office;
