@@ -84,12 +84,17 @@ jobs:
           host: linux
           target: desktop
           arch: linux_gcc_64
-          archives: qtbase qtsvg
+          archives: qtbase qtsvg icu
           cache: true
           extra: --external 7z
 
       - name: Build application
         run: |
+          QT_BIN_DIR="$(dirname "$(command -v qmake)")"
+          QT_ROOT_DIR="$(cd "$QT_BIN_DIR/.." && pwd)"
+
+          export LD_LIBRARY_PATH="$QT_ROOT_DIR/lib:${LD_LIBRARY_PATH:-}"
+
           mkdir -p build
           cd build
           qmake ../mytodo.pro CONFIG+=release
@@ -97,6 +102,13 @@ jobs:
 
       - name: Create AppImage
         run: |
+          QT_BIN_DIR="$(dirname "$(command -v qmake)")"
+          QT_ROOT_DIR="$(cd "$QT_BIN_DIR/.." && pwd)"
+
+          export QMAKE="$QT_BIN_DIR/qmake"
+          export LD_LIBRARY_PATH="$QT_ROOT_DIR/lib:${LD_LIBRARY_PATH:-}"
+          export EXTRA_QT_MODULES="svg;"
+
           mkdir -p AppDir/usr/bin
           cp "build/${APP_NAME}" "AppDir/usr/bin/${APP_NAME}"
           chmod +x "AppDir/usr/bin/${APP_NAME}"
@@ -113,9 +125,6 @@ jobs:
           chmod +x linuxdeploy-x86_64.AppImage
           chmod +x linuxdeploy-plugin-qt-x86_64.AppImage
           chmod +x linuxdeploy-plugin-appimage-x86_64.AppImage
-
-          export QMAKE="$(command -v qmake)"
-          export EXTRA_QT_MODULES="svg;"
 
           ./linuxdeploy-x86_64.AppImage \
             --appdir AppDir \
